@@ -1,7 +1,7 @@
 # A Lean 4 Formalization of *An Invitation to q-Series*
 
 A machine-checked formalization, in Lean 4 + Mathlib, of the chapter-main theorems of
-Heng Huat Chan's *An Invitation to q-Series: From Jacobi's Triple Product to Ramanujan's
+Hei-Chi Chan's *An Invitation to q-Series: From Jacobi's Triple Product to Ramanujan's
 "Most Beautiful Identity"* (World Scientific, 2011) — from the definition of a partition
 through Euler's pentagonal number theorem, the Jacobi triple product, the Rogers–Ramanujan
 identities and continued fraction, Ramanujan's partition congruences, up to the tenth-order
