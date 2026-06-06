@@ -42,14 +42,14 @@ Concretely:
   • `n ≥ 1`: the sum equals `0`, giving the recurrence above. -/
 theorem partitionCount_pentagonalSign_convolution_pos {n : ℕ} (hn : 1 ≤ n) :
     ∑ ij ∈ Finset.antidiagonal n,
-      (partitionCount ij.1 : ℤ) * QseriesFormalization.PartI.Ch05.pentagonalSign ij.2
+      (partitionCount ij.1 : ℤ) * QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ij.2
       = 0 := by
   have h_id : partitionGenFun ℤ * qPochInfPS ℤ = 1 :=
     partitionGenFun_mul_qPochInfPS ℤ
   have h_pg : ∀ k, (partitionGenFun ℤ).coeff k = (partitionCount k : ℤ) :=
     coeff_partitionGenFun
   have h_qp : ∀ m, (qPochInfPS ℤ).coeff m =
-      QseriesFormalization.PartI.Ch05.pentagonalSign m :=
+      QseriesFormalization.PartI.Ch04Franklin.pentagonalSign m :=
     fun m => coeff_qPochInfPS_int_eq_pentagonalSign m
   have hmul : (partitionGenFun ℤ * qPochInfPS ℤ).coeff n = 0 := by
     rw [h_id]

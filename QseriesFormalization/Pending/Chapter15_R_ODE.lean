@@ -160,7 +160,7 @@ def chan15CoreCoeffLHSZ (N : ℕ) : ℤ :=
   ∑ ij ∈ Finset.antidiagonal N,
     (chan15LHSCoeffInt ij.1 : ℤ) *
       (if 5 ∣ ij.2 then
-        QseriesFormalization.PartI.Ch05.pentagonalSign (ij.2 / 5)
+        QseriesFormalization.PartI.Ch04Franklin.pentagonalSign (ij.2 / 5)
       else 0)
 
 /-- Computable coefficient model for powers of `(q;q)_∞`, using Euler's
@@ -169,7 +169,7 @@ def qPochPowPentagonalCoeff : ℕ → ℕ → ℤ
   | 0 => fun n => if n = 0 then 1 else 0
   | e + 1 => fun n =>
       ∑ k ∈ Finset.range (n + 1), qPochPowPentagonalCoeff e k *
-        QseriesFormalization.PartI.Ch05.pentagonalSign (n - k)
+        QseriesFormalization.PartI.Ch04Franklin.pentagonalSign (n - k)
 
 theorem coeff_qPochInfPS_pow_pentagonal (e n : ℕ) :
     ((qPochInfPS ℤ) ^ e).coeff n = qPochPowPentagonalCoeff e n := by

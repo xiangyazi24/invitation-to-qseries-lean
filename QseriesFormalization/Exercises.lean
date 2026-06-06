@@ -4,7 +4,7 @@ import QseriesFormalization.Chapter02
 import QseriesFormalization.Chapter03
 import QseriesFormalization.Chapter04
 import QseriesFormalization.Chapter04_T43
-import QseriesFormalization.Chapter05
+import QseriesFormalization.Chapter04_FranklinPentagonal
 import QseriesFormalization.Chapter06
 import QseriesFormalization.Chapter07
 import QseriesFormalization.Chapter08
@@ -14,7 +14,7 @@ import QseriesFormalization.Chapter11
 import QseriesFormalization.Chapter12
 import QseriesFormalization.Chapter13
 import QseriesFormalization.Chapter14
-import QseriesFormalization.Chapter15
+import QseriesFormalization.QCalculus
 import QseriesFormalization.Chapter16
 import QseriesFormalization.Chapter17
 import QseriesFormalization.Chapter18
@@ -1017,1926 +1017,1926 @@ section Chapter5Exercises
 
 /-- Exercise (Chapter 5 style): the top-left Ferrers cell exists in `[3,2,1]`. -/
 theorem exercise5_ferrers_three_two_one_zero_zero :
-    PartI.Ch05.FerrersCell [3, 2, 1] 0 0 :=
-  PartI.Ch05.FerrersCell_three_two_one_zero_zero
+    PartI.Ch04Franklin.FerrersCell [3, 2, 1] 0 0 :=
+  PartI.Ch04Franklin.FerrersCell_three_two_one_zero_zero
 
 /-- Exercise (Chapter 5 style): row 2 of `[3,2,1]` has no column-1 cell. -/
 theorem exercise5_not_ferrers_three_two_one_two_one :
-    ¬ PartI.Ch05.FerrersCell [3, 2, 1] 2 1 :=
-  PartI.Ch05.not_FerrersCell_three_two_one_two_one
+    ¬ PartI.Ch04Franklin.FerrersCell [3, 2, 1] 2 1 :=
+  PartI.Ch04Franklin.not_FerrersCell_three_two_one_two_one
 
 /-- Exercise (Chapter 5 style): full Ferrers diagram membership is the cell predicate. -/
 theorem exercise5_mem_FerrersDiagramCells_iff (lam : List Nat) (r c : Nat) :
-    (r, c) ∈ PartI.Ch05.FerrersDiagramCells lam ↔ PartI.Ch05.FerrersCell lam r c :=
-  PartI.Ch05.mem_FerrersDiagramCells_iff
+    (r, c) ∈ PartI.Ch04Franklin.FerrersDiagramCells lam ↔ PartI.Ch04Franklin.FerrersCell lam r c :=
+  PartI.Ch04Franklin.mem_FerrersDiagramCells_iff
 
 /-- Exercise (Chapter 5 style): indexed row lengths sum to the partition weight. -/
 theorem exercise5_partitionWeight_eq_sum_getD (lam : List Nat) :
     (Finset.range lam.length).sum (fun r => lam.getD r 0) = partitionWeight lam :=
-  PartI.Ch05.partitionWeight_eq_sum_getD lam
+  PartI.Ch04Franklin.partitionWeight_eq_sum_getD lam
 
 /-- Exercise (Chapter 5 style): the Ferrers diagram has as many cells as the partition weight. -/
 theorem exercise5_FerrersDiagramCells_card (lam : List Nat) :
-    (PartI.Ch05.FerrersDiagramCells lam).card = partitionWeight lam :=
-  PartI.Ch05.FerrersDiagramCells_card lam
+    (PartI.Ch04Franklin.FerrersDiagramCells lam).card = partitionWeight lam :=
+  PartI.Ch04Franklin.FerrersDiagramCells_card lam
 
 theorem exercise5_IsStrictPartition_tail {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (n :: lam)) :
-    PartI.Ch05.IsStrictPartition lam :=
-  PartI.Ch05.IsStrictPartition.tail h
+    (h : PartI.Ch04Franklin.IsStrictPartition (n :: lam)) :
+    PartI.Ch04Franklin.IsStrictPartition lam :=
+  PartI.Ch04Franklin.IsStrictPartition.tail h
 
 theorem exercise5_IsStrictPartition_cons_of_forall_lt {n : Nat} {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hn : 0 < n)
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hn : 0 < n)
     (hgt : ∀ m, m ∈ lam → m < n) :
-    PartI.Ch05.IsStrictPartition (n :: lam) :=
-  PartI.Ch05.IsStrictPartition.cons_of_forall_lt hstrict hn hgt
+    PartI.Ch04Franklin.IsStrictPartition (n :: lam) :=
+  PartI.Ch04Franklin.IsStrictPartition.cons_of_forall_lt hstrict hn hgt
 
 theorem exercise5_IsStrictPartition_tail_lt_head {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (n :: lam)) {m : Nat} (hm : m ∈ lam) :
+    (h : PartI.Ch04Franklin.IsStrictPartition (n :: lam)) {m : Nat} (hm : m ∈ lam) :
     m < n :=
-  PartI.Ch05.IsStrictPartition.tail_lt_head h hm
+  PartI.Ch04Franklin.IsStrictPartition.tail_lt_head h hm
 
 theorem exercise5_IsStrictPartition_head_pos {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (n :: lam)) :
+    (h : PartI.Ch04Franklin.IsStrictPartition (n :: lam)) :
     0 < n :=
-  PartI.Ch05.IsStrictPartition.head_pos h
+  PartI.Ch04Franklin.IsStrictPartition.head_pos h
 
 theorem exercise5_IsStrictPartition_head_not_mem_tail {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (n :: lam)) :
+    (h : PartI.Ch04Franklin.IsStrictPartition (n :: lam)) :
     n ∉ lam :=
-  PartI.Ch05.IsStrictPartition.head_not_mem_tail h
+  PartI.Ch04Franklin.IsStrictPartition.head_not_mem_tail h
 
 theorem exercise5_IsStrictPartition_cons_iff {n : Nat} {lam : List Nat} :
-    PartI.Ch05.IsStrictPartition (n :: lam) ↔
-      PartI.Ch05.IsStrictPartition lam ∧ 0 < n ∧ ∀ m, m ∈ lam → m < n :=
-  PartI.Ch05.IsStrictPartition_cons_iff
+    PartI.Ch04Franklin.IsStrictPartition (n :: lam) ↔
+      PartI.Ch04Franklin.IsStrictPartition lam ∧ 0 < n ∧ ∀ m, m ∈ lam → m < n :=
+  PartI.Ch04Franklin.IsStrictPartition_cons_iff
 
 theorem exercise5_IsStrictPartition_append_of_forall_gt {lam mu : List Nat}
-    (hlam : PartI.Ch05.IsStrictPartition lam) (hmu : PartI.Ch05.IsStrictPartition mu)
+    (hlam : PartI.Ch04Franklin.IsStrictPartition lam) (hmu : PartI.Ch04Franklin.IsStrictPartition mu)
     (hgt : ∀ a, a ∈ lam → ∀ b, b ∈ mu → b < a) :
-    PartI.Ch05.IsStrictPartition (lam ++ mu) :=
-  PartI.Ch05.IsStrictPartition_append_of_forall_gt hlam hmu hgt
+    PartI.Ch04Franklin.IsStrictPartition (lam ++ mu) :=
+  PartI.Ch04Franklin.IsStrictPartition_append_of_forall_gt hlam hmu hgt
 
 theorem exercise5_IsStrictPartition_left_of_append {lam mu : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (lam ++ mu)) :
-    PartI.Ch05.IsStrictPartition lam :=
-  PartI.Ch05.IsStrictPartition_left_of_append h
+    (h : PartI.Ch04Franklin.IsStrictPartition (lam ++ mu)) :
+    PartI.Ch04Franklin.IsStrictPartition lam :=
+  PartI.Ch04Franklin.IsStrictPartition_left_of_append h
 
 theorem exercise5_IsStrictPartition_right_of_append {lam mu : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (lam ++ mu)) :
-    PartI.Ch05.IsStrictPartition mu :=
-  PartI.Ch05.IsStrictPartition_right_of_append h
+    (h : PartI.Ch04Franklin.IsStrictPartition (lam ++ mu)) :
+    PartI.Ch04Franklin.IsStrictPartition mu :=
+  PartI.Ch04Franklin.IsStrictPartition_right_of_append h
 
 theorem exercise5_IsStrictPartition_append_forall_gt {lam mu : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (lam ++ mu)) :
+    (h : PartI.Ch04Franklin.IsStrictPartition (lam ++ mu)) :
     ∀ a, a ∈ lam → ∀ b, b ∈ mu → b < a :=
-  PartI.Ch05.IsStrictPartition_append_forall_gt h
+  PartI.Ch04Franklin.IsStrictPartition_append_forall_gt h
 
 theorem exercise5_IsStrictPartition_append_iff {lam mu : List Nat} :
-    PartI.Ch05.IsStrictPartition (lam ++ mu) ↔
-      PartI.Ch05.IsStrictPartition lam ∧ PartI.Ch05.IsStrictPartition mu ∧
+    PartI.Ch04Franklin.IsStrictPartition (lam ++ mu) ↔
+      PartI.Ch04Franklin.IsStrictPartition lam ∧ PartI.Ch04Franklin.IsStrictPartition mu ∧
         ∀ a, a ∈ lam → ∀ b, b ∈ mu → b < a :=
-  PartI.Ch05.IsStrictPartition_append_iff
+  PartI.Ch04Franklin.IsStrictPartition_append_iff
 
 theorem exercise5_IsStrictPartition_dropLast {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) :
-    PartI.Ch05.IsStrictPartition lam.dropLast :=
-  PartI.Ch05.IsStrictPartition_dropLast hstrict
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) :
+    PartI.Ch04Franklin.IsStrictPartition lam.dropLast :=
+  PartI.Ch04Franklin.IsStrictPartition_dropLast hstrict
 
 theorem exercise5_partitionWeight_cons_part (n : Nat) (lam : List Nat) :
     partitionWeight (n :: lam) = n + partitionWeight lam :=
-  PartI.Ch05.partitionWeight_cons_part n lam
+  PartI.Ch04Franklin.partitionWeight_cons_part n lam
 
 theorem exercise5_partitionWeight_cons_sub_head (n : Nat) (lam : List Nat) :
     partitionWeight (n :: lam) - n = partitionWeight lam :=
-  PartI.Ch05.partitionWeight_cons_sub_head n lam
+  PartI.Ch04Franklin.partitionWeight_cons_sub_head n lam
 
 theorem exercise5_partitionWeight_tail_add_head (n : Nat) (lam : List Nat) :
     partitionWeight lam + n = partitionWeight (n :: lam) :=
-  PartI.Ch05.partitionWeight_tail_add_head n lam
+  PartI.Ch04Franklin.partitionWeight_tail_add_head n lam
 
 theorem exercise5_partitionWeight_append_parts (lam mu : List Nat) :
     partitionWeight (lam ++ mu) = partitionWeight lam + partitionWeight mu :=
-  PartI.Ch05.partitionWeight_append_parts lam mu
+  PartI.Ch04Franklin.partitionWeight_append_parts lam mu
 
 theorem exercise5_numberOfParts_nil :
-    PartI.Ch05.numberOfParts [] = 0 :=
-  PartI.Ch05.numberOfParts_nil
+    PartI.Ch04Franklin.numberOfParts [] = 0 :=
+  PartI.Ch04Franklin.numberOfParts_nil
 
 theorem exercise5_numberOfParts_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.numberOfParts (n :: lam) = PartI.Ch05.numberOfParts lam + 1 :=
-  PartI.Ch05.numberOfParts_cons n lam
+    PartI.Ch04Franklin.numberOfParts (n :: lam) = PartI.Ch04Franklin.numberOfParts lam + 1 :=
+  PartI.Ch04Franklin.numberOfParts_cons n lam
 
 theorem exercise5_numberOfParts_append (lam mu : List Nat) :
-    PartI.Ch05.numberOfParts (lam ++ mu) =
-      PartI.Ch05.numberOfParts lam + PartI.Ch05.numberOfParts mu :=
-  PartI.Ch05.numberOfParts_append lam mu
+    PartI.Ch04Franklin.numberOfParts (lam ++ mu) =
+      PartI.Ch04Franklin.numberOfParts lam + PartI.Ch04Franklin.numberOfParts mu :=
+  PartI.Ch04Franklin.numberOfParts_append lam mu
 
 theorem exercise5_numberOfParts_dropLast_of_ne_nil {lam : List Nat}
     (hne : lam ≠ []) :
-    PartI.Ch05.numberOfParts lam.dropLast =
-      PartI.Ch05.numberOfParts lam - 1 :=
-  PartI.Ch05.numberOfParts_dropLast_of_ne_nil hne
+    PartI.Ch04Franklin.numberOfParts lam.dropLast =
+      PartI.Ch04Franklin.numberOfParts lam - 1 :=
+  PartI.Ch04Franklin.numberOfParts_dropLast_of_ne_nil hne
 
 theorem exercise5_numberOfParts_dropLast_add_one_of_ne_nil {lam : List Nat}
     (hne : lam ≠ []) :
-    PartI.Ch05.numberOfParts lam.dropLast + 1 =
-      PartI.Ch05.numberOfParts lam :=
-  PartI.Ch05.numberOfParts_dropLast_add_one_of_ne_nil hne
+    PartI.Ch04Franklin.numberOfParts lam.dropLast + 1 =
+      PartI.Ch04Franklin.numberOfParts lam :=
+  PartI.Ch04Franklin.numberOfParts_dropLast_add_one_of_ne_nil hne
 
 theorem exercise5_lastPart_eq_getLast {lam : List Nat} (hne : lam ≠ []) :
-    lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 = lam.getLast hne :=
-  PartI.Ch05.lastPart_eq_getLast hne
+    lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 = lam.getLast hne :=
+  PartI.Ch04Franklin.lastPart_eq_getLast hne
 
 theorem exercise5_dropLast_getD_of_lt {lam : List Nat} {r : Nat}
     (hr : r < lam.dropLast.length) :
     lam.dropLast.getD r 0 = lam.getD r 0 :=
-  PartI.Ch05.dropLast_getD_of_lt hr
+  PartI.Ch04Franklin.dropLast_getD_of_lt hr
 
 theorem exercise5_numberOfParts_cons_sub_one (n : Nat) (lam : List Nat) :
-    PartI.Ch05.numberOfParts (n :: lam) - 1 = PartI.Ch05.numberOfParts lam :=
-  PartI.Ch05.numberOfParts_cons_sub_one n lam
+    PartI.Ch04Franklin.numberOfParts (n :: lam) - 1 = PartI.Ch04Franklin.numberOfParts lam :=
+  PartI.Ch04Franklin.numberOfParts_cons_sub_one n lam
 
 theorem exercise5_numberOfParts_tail_add_one (n : Nat) (lam : List Nat) :
-    PartI.Ch05.numberOfParts lam + 1 = PartI.Ch05.numberOfParts (n :: lam) :=
-  PartI.Ch05.numberOfParts_tail_add_one n lam
+    PartI.Ch04Franklin.numberOfParts lam + 1 = PartI.Ch04Franklin.numberOfParts (n :: lam) :=
+  PartI.Ch04Franklin.numberOfParts_tail_add_one n lam
 
 theorem exercise5_partParity_nil :
-    PartI.Ch05.partParity [] = 0 :=
-  PartI.Ch05.partParity_nil
+    PartI.Ch04Franklin.partParity [] = 0 :=
+  PartI.Ch04Franklin.partParity_nil
 
 theorem exercise5_partParity_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partParity (n :: lam) = (PartI.Ch05.partParity lam + 1) % 2 :=
-  PartI.Ch05.partParity_cons n lam
+    PartI.Ch04Franklin.partParity (n :: lam) = (PartI.Ch04Franklin.partParity lam + 1) % 2 :=
+  PartI.Ch04Franklin.partParity_cons n lam
 
 theorem exercise5_partParity_tail_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partParity lam = (PartI.Ch05.partParity (n :: lam) + 1) % 2 :=
-  PartI.Ch05.partParity_tail_cons n lam
+    PartI.Ch04Franklin.partParity lam = (PartI.Ch04Franklin.partParity (n :: lam) + 1) % 2 :=
+  PartI.Ch04Franklin.partParity_tail_cons n lam
 
 theorem exercise5_partParity_cons_cons (m n : Nat) (lam : List Nat) :
-    PartI.Ch05.partParity (m :: n :: lam) = PartI.Ch05.partParity lam :=
-  PartI.Ch05.partParity_cons_cons m n lam
+    PartI.Ch04Franklin.partParity (m :: n :: lam) = PartI.Ch04Franklin.partParity lam :=
+  PartI.Ch04Franklin.partParity_cons_cons m n lam
 
 theorem exercise5_partParity_append (lam mu : List Nat) :
-    PartI.Ch05.partParity (lam ++ mu) =
-      (PartI.Ch05.partParity lam + PartI.Ch05.partParity mu) % 2 :=
-  PartI.Ch05.partParity_append lam mu
+    PartI.Ch04Franklin.partParity (lam ++ mu) =
+      (PartI.Ch04Franklin.partParity lam + PartI.Ch04Franklin.partParity mu) % 2 :=
+  PartI.Ch04Franklin.partParity_append lam mu
 
 theorem exercise5_partParity_cons_of_zero {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.partParity lam = 0) :
-    PartI.Ch05.partParity (n :: lam) = 1 :=
-  PartI.Ch05.partParity_cons_of_zero h
+    (h : PartI.Ch04Franklin.partParity lam = 0) :
+    PartI.Ch04Franklin.partParity (n :: lam) = 1 :=
+  PartI.Ch04Franklin.partParity_cons_of_zero h
 
 theorem exercise5_partParity_cons_of_one {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.partParity lam = 1) :
-    PartI.Ch05.partParity (n :: lam) = 0 :=
-  PartI.Ch05.partParity_cons_of_one h
+    (h : PartI.Ch04Franklin.partParity lam = 1) :
+    PartI.Ch04Franklin.partParity (n :: lam) = 0 :=
+  PartI.Ch04Franklin.partParity_cons_of_one h
 
 theorem exercise5_partParity_tail_of_cons_zero {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.partParity (n :: lam) = 0) :
-    PartI.Ch05.partParity lam = 1 :=
-  PartI.Ch05.partParity_tail_of_cons_zero h
+    (h : PartI.Ch04Franklin.partParity (n :: lam) = 0) :
+    PartI.Ch04Franklin.partParity lam = 1 :=
+  PartI.Ch04Franklin.partParity_tail_of_cons_zero h
 
 theorem exercise5_partParity_tail_of_cons_one {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.partParity (n :: lam) = 1) :
-    PartI.Ch05.partParity lam = 0 :=
-  PartI.Ch05.partParity_tail_of_cons_one h
+    (h : PartI.Ch04Franklin.partParity (n :: lam) = 1) :
+    PartI.Ch04Franklin.partParity lam = 0 :=
+  PartI.Ch04Franklin.partParity_tail_of_cons_one h
 
 theorem exercise5_partParity_eq_zero_or_one (lam : List Nat) :
-    PartI.Ch05.partParity lam = 0 ∨ PartI.Ch05.partParity lam = 1 :=
-  PartI.Ch05.partParity_eq_zero_or_one lam
+    PartI.Ch04Franklin.partParity lam = 0 ∨ PartI.Ch04Franklin.partParity lam = 1 :=
+  PartI.Ch04Franklin.partParity_eq_zero_or_one lam
 
 theorem exercise5_partSign_nil :
-    PartI.Ch05.partSign [] = 1 :=
-  PartI.Ch05.partSign_nil
+    PartI.Ch04Franklin.partSign [] = 1 :=
+  PartI.Ch04Franklin.partSign_nil
 
 theorem exercise5_partSign_of_partParity_zero {lam : List Nat}
-    (h : PartI.Ch05.partParity lam = 0) :
-    PartI.Ch05.partSign lam = 1 :=
-  PartI.Ch05.partSign_of_partParity_zero h
+    (h : PartI.Ch04Franklin.partParity lam = 0) :
+    PartI.Ch04Franklin.partSign lam = 1 :=
+  PartI.Ch04Franklin.partSign_of_partParity_zero h
 
 theorem exercise5_partSign_of_partParity_one {lam : List Nat}
-    (h : PartI.Ch05.partParity lam = 1) :
-    PartI.Ch05.partSign lam = -1 :=
-  PartI.Ch05.partSign_of_partParity_one h
+    (h : PartI.Ch04Franklin.partParity lam = 1) :
+    PartI.Ch04Franklin.partSign lam = -1 :=
+  PartI.Ch04Franklin.partSign_of_partParity_one h
 
 theorem exercise5_partSign_eq_one_or_neg_one (lam : List Nat) :
-    PartI.Ch05.partSign lam = 1 ∨ PartI.Ch05.partSign lam = -1 :=
-  PartI.Ch05.partSign_eq_one_or_neg_one lam
+    PartI.Ch04Franklin.partSign lam = 1 ∨ PartI.Ch04Franklin.partSign lam = -1 :=
+  PartI.Ch04Franklin.partSign_eq_one_or_neg_one lam
 
 theorem exercise5_partSign_ne_zero (lam : List Nat) :
-    PartI.Ch05.partSign lam ≠ 0 :=
-  PartI.Ch05.partSign_ne_zero lam
+    PartI.Ch04Franklin.partSign lam ≠ 0 :=
+  PartI.Ch04Franklin.partSign_ne_zero lam
 
 theorem exercise5_partSign_mul_self (lam : List Nat) :
-    PartI.Ch05.partSign lam * PartI.Ch05.partSign lam = 1 :=
-  PartI.Ch05.partSign_mul_self lam
+    PartI.Ch04Franklin.partSign lam * PartI.Ch04Franklin.partSign lam = 1 :=
+  PartI.Ch04Franklin.partSign_mul_self lam
 
 theorem exercise5_partSign_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partSign (n :: lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.partSign_cons n lam
+    PartI.Ch04Franklin.partSign (n :: lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.partSign_cons n lam
 
 theorem exercise5_partSign_tail_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partSign lam = - PartI.Ch05.partSign (n :: lam) :=
-  PartI.Ch05.partSign_tail_cons n lam
+    PartI.Ch04Franklin.partSign lam = - PartI.Ch04Franklin.partSign (n :: lam) :=
+  PartI.Ch04Franklin.partSign_tail_cons n lam
 
 theorem exercise5_tail_weight_sign_of_cons (n : Nat) (lam : List Nat) :
     partitionWeight (n :: lam) - n = partitionWeight lam ∧
-      PartI.Ch05.partSign lam = - PartI.Ch05.partSign (n :: lam) :=
-  PartI.Ch05.tail_weight_sign_of_cons n lam
+      PartI.Ch04Franklin.partSign lam = - PartI.Ch04Franklin.partSign (n :: lam) :=
+  PartI.Ch04Franklin.tail_weight_sign_of_cons n lam
 
 theorem exercise5_removeFirstPart_nil :
-    PartI.Ch05.removeFirstPart [] = [] :=
-  PartI.Ch05.removeFirstPart_nil
+    PartI.Ch04Franklin.removeFirstPart [] = [] :=
+  PartI.Ch04Franklin.removeFirstPart_nil
 
 theorem exercise5_removeFirstPart_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.removeFirstPart (n :: lam) = lam :=
-  PartI.Ch05.removeFirstPart_cons n lam
+    PartI.Ch04Franklin.removeFirstPart (n :: lam) = lam :=
+  PartI.Ch04Franklin.removeFirstPart_cons n lam
 
 theorem exercise5_firstPart_nil :
-    PartI.Ch05.firstPart [] = 0 :=
-  PartI.Ch05.firstPart_nil
+    PartI.Ch04Franklin.firstPart [] = 0 :=
+  PartI.Ch04Franklin.firstPart_nil
 
 theorem exercise5_firstPart_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.firstPart (n :: lam) = n :=
-  PartI.Ch05.firstPart_cons n lam
+    PartI.Ch04Franklin.firstPart (n :: lam) = n :=
+  PartI.Ch04Franklin.firstPart_cons n lam
 
 theorem exercise5_IsStrictPartition_removeFirstPart_cons {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (n :: lam)) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.removeFirstPart (n :: lam)) :=
-  PartI.Ch05.IsStrictPartition_removeFirstPart_cons h
+    (h : PartI.Ch04Franklin.IsStrictPartition (n :: lam)) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.removeFirstPart (n :: lam)) :=
+  PartI.Ch04Franklin.IsStrictPartition_removeFirstPart_cons h
 
 theorem exercise5_firstPart_pos_of_IsStrictPartition_cons {n : Nat} {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition (n :: lam)) :
-    0 < PartI.Ch05.firstPart (n :: lam) :=
-  PartI.Ch05.firstPart_pos_of_IsStrictPartition_cons h
+    (h : PartI.Ch04Franklin.IsStrictPartition (n :: lam)) :
+    0 < PartI.Ch04Franklin.firstPart (n :: lam) :=
+  PartI.Ch04Franklin.firstPart_pos_of_IsStrictPartition_cons h
 
 theorem exercise5_firstPart_pos_of_IsStrictPartition_of_ne_nil {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hne : lam ≠ []) :
-    0 < PartI.Ch05.firstPart lam :=
-  PartI.Ch05.firstPart_pos_of_IsStrictPartition_of_ne_nil hstrict hne
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hne : lam ≠ []) :
+    0 < PartI.Ch04Franklin.firstPart lam :=
+  PartI.Ch04Franklin.firstPart_pos_of_IsStrictPartition_of_ne_nil hstrict hne
 
 theorem exercise5_IsStrictPartition_removeFirstPart {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition lam) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.removeFirstPart lam) :=
-  PartI.Ch05.IsStrictPartition_removeFirstPart h
+    (h : PartI.Ch04Franklin.IsStrictPartition lam) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.removeFirstPart lam) :=
+  PartI.Ch04Franklin.IsStrictPartition_removeFirstPart h
 
 theorem exercise5_numberOfParts_removeFirstPart_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.removeFirstPart (n :: lam)) + 1 =
-      PartI.Ch05.numberOfParts (n :: lam) :=
-  PartI.Ch05.numberOfParts_removeFirstPart_cons n lam
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.removeFirstPart (n :: lam)) + 1 =
+      PartI.Ch04Franklin.numberOfParts (n :: lam) :=
+  PartI.Ch04Franklin.numberOfParts_removeFirstPart_cons n lam
 
 theorem exercise5_partParity_removeFirstPart_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partParity (PartI.Ch05.removeFirstPart (n :: lam)) =
-      (PartI.Ch05.partParity (n :: lam) + 1) % 2 :=
-  PartI.Ch05.partParity_removeFirstPart_cons n lam
+    PartI.Ch04Franklin.partParity (PartI.Ch04Franklin.removeFirstPart (n :: lam)) =
+      (PartI.Ch04Franklin.partParity (n :: lam) + 1) % 2 :=
+  PartI.Ch04Franklin.partParity_removeFirstPart_cons n lam
 
 theorem exercise5_partSign_removeFirstPart_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.removeFirstPart (n :: lam)) =
-      - PartI.Ch05.partSign (n :: lam) :=
-  PartI.Ch05.partSign_removeFirstPart_cons n lam
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.removeFirstPart (n :: lam)) =
+      - PartI.Ch04Franklin.partSign (n :: lam) :=
+  PartI.Ch04Franklin.partSign_removeFirstPart_cons n lam
 
 theorem exercise5_removeFirstPart_weight_sign_cons (n : Nat) (lam : List Nat) :
     partitionWeight (n :: lam) - n =
-        partitionWeight (PartI.Ch05.removeFirstPart (n :: lam)) ∧
-      PartI.Ch05.partSign (PartI.Ch05.removeFirstPart (n :: lam)) =
-        - PartI.Ch05.partSign (n :: lam) :=
-  PartI.Ch05.removeFirstPart_weight_sign_cons n lam
+        partitionWeight (PartI.Ch04Franklin.removeFirstPart (n :: lam)) ∧
+      PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.removeFirstPart (n :: lam)) =
+        - PartI.Ch04Franklin.partSign (n :: lam) :=
+  PartI.Ch04Franklin.removeFirstPart_weight_sign_cons n lam
 
 theorem exercise5_prependPart_eq_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.prependPart n lam = n :: lam :=
-  PartI.Ch05.prependPart_eq_cons n lam
+    PartI.Ch04Franklin.prependPart n lam = n :: lam :=
+  PartI.Ch04Franklin.prependPart_eq_cons n lam
 
 theorem exercise5_firstPart_prependPart (n : Nat) (lam : List Nat) :
-    PartI.Ch05.firstPart (PartI.Ch05.prependPart n lam) = n :=
-  PartI.Ch05.firstPart_prependPart n lam
+    PartI.Ch04Franklin.firstPart (PartI.Ch04Franklin.prependPart n lam) = n :=
+  PartI.Ch04Franklin.firstPart_prependPart n lam
 
 theorem exercise5_removeFirstPart_prependPart (n : Nat) (lam : List Nat) :
-    PartI.Ch05.removeFirstPart (PartI.Ch05.prependPart n lam) = lam :=
-  PartI.Ch05.removeFirstPart_prependPart n lam
+    PartI.Ch04Franklin.removeFirstPart (PartI.Ch04Franklin.prependPart n lam) = lam :=
+  PartI.Ch04Franklin.removeFirstPart_prependPart n lam
 
 theorem exercise5_prependPart_removeFirstPart_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.prependPart n (PartI.Ch05.removeFirstPart (n :: lam)) = n :: lam :=
-  PartI.Ch05.prependPart_removeFirstPart_cons n lam
+    PartI.Ch04Franklin.prependPart n (PartI.Ch04Franklin.removeFirstPart (n :: lam)) = n :: lam :=
+  PartI.Ch04Franklin.prependPart_removeFirstPart_cons n lam
 
 theorem exercise5_prependPart_firstPart_removeFirstPart_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.prependPart (PartI.Ch05.firstPart (n :: lam))
-      (PartI.Ch05.removeFirstPart (n :: lam)) = n :: lam :=
-  PartI.Ch05.prependPart_firstPart_removeFirstPart_cons n lam
+    PartI.Ch04Franklin.prependPart (PartI.Ch04Franklin.firstPart (n :: lam))
+      (PartI.Ch04Franklin.removeFirstPart (n :: lam)) = n :: lam :=
+  PartI.Ch04Franklin.prependPart_firstPart_removeFirstPart_cons n lam
 
 theorem exercise5_prependPart_firstPart_removeFirstPart_of_ne_nil (lam : List Nat)
     (hne : lam ≠ []) :
-    PartI.Ch05.prependPart (PartI.Ch05.firstPart lam)
-      (PartI.Ch05.removeFirstPart lam) = lam :=
-  PartI.Ch05.prependPart_firstPart_removeFirstPart_of_ne_nil lam hne
+    PartI.Ch04Franklin.prependPart (PartI.Ch04Franklin.firstPart lam)
+      (PartI.Ch04Franklin.removeFirstPart lam) = lam :=
+  PartI.Ch04Franklin.prependPart_firstPart_removeFirstPart_of_ne_nil lam hne
 
 theorem exercise5_removeFirstPart_lt_firstPart_of_IsStrictPartition_cons
-    {n : Nat} {lam : List Nat} (h : PartI.Ch05.IsStrictPartition (n :: lam))
-    {m : Nat} (hm : m ∈ PartI.Ch05.removeFirstPart (n :: lam)) :
-    m < PartI.Ch05.firstPart (n :: lam) :=
-  PartI.Ch05.removeFirstPart_lt_firstPart_of_IsStrictPartition_cons h hm
+    {n : Nat} {lam : List Nat} (h : PartI.Ch04Franklin.IsStrictPartition (n :: lam))
+    {m : Nat} (hm : m ∈ PartI.Ch04Franklin.removeFirstPart (n :: lam)) :
+    m < PartI.Ch04Franklin.firstPart (n :: lam) :=
+  PartI.Ch04Franklin.removeFirstPart_lt_firstPart_of_IsStrictPartition_cons h hm
 
 theorem exercise5_removeFirstPart_lt_firstPart_of_IsStrictPartition {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition lam) {m : Nat}
-    (hm : m ∈ PartI.Ch05.removeFirstPart lam) :
-    m < PartI.Ch05.firstPart lam :=
-  PartI.Ch05.removeFirstPart_lt_firstPart_of_IsStrictPartition h hm
+    (h : PartI.Ch04Franklin.IsStrictPartition lam) {m : Nat}
+    (hm : m ∈ PartI.Ch04Franklin.removeFirstPart lam) :
+    m < PartI.Ch04Franklin.firstPart lam :=
+  PartI.Ch04Franklin.removeFirstPart_lt_firstPart_of_IsStrictPartition h hm
 
 theorem exercise5_partitionWeight_firstPart_add_removeFirstPart_cons (n : Nat) (lam : List Nat) :
     partitionWeight (n :: lam) =
-      PartI.Ch05.firstPart (n :: lam) +
-        partitionWeight (PartI.Ch05.removeFirstPart (n :: lam)) :=
-  PartI.Ch05.partitionWeight_firstPart_add_removeFirstPart_cons n lam
+      PartI.Ch04Franklin.firstPart (n :: lam) +
+        partitionWeight (PartI.Ch04Franklin.removeFirstPart (n :: lam)) :=
+  PartI.Ch04Franklin.partitionWeight_firstPart_add_removeFirstPart_cons n lam
 
 theorem exercise5_numberOfParts_removeFirstPart_add_one_cons (n : Nat) (lam : List Nat) :
-    PartI.Ch05.numberOfParts (n :: lam) =
-      PartI.Ch05.numberOfParts (PartI.Ch05.removeFirstPart (n :: lam)) + 1 :=
-  PartI.Ch05.numberOfParts_removeFirstPart_add_one_cons n lam
+    PartI.Ch04Franklin.numberOfParts (n :: lam) =
+      PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.removeFirstPart (n :: lam)) + 1 :=
+  PartI.Ch04Franklin.numberOfParts_removeFirstPart_add_one_cons n lam
 
 theorem exercise5_partSign_cons_eq_neg_removeFirstPart (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partSign (n :: lam) =
-      - PartI.Ch05.partSign (PartI.Ch05.removeFirstPart (n :: lam)) :=
-  PartI.Ch05.partSign_cons_eq_neg_removeFirstPart n lam
+    PartI.Ch04Franklin.partSign (n :: lam) =
+      - PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.removeFirstPart (n :: lam)) :=
+  PartI.Ch04Franklin.partSign_cons_eq_neg_removeFirstPart n lam
 
 theorem exercise5_IsStrictPartition_prependPart_of_forall_lt {n : Nat} {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hn : 0 < n)
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hn : 0 < n)
     (hgt : ∀ m, m ∈ lam → m < n) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.prependPart n lam) :=
-  PartI.Ch05.IsStrictPartition_prependPart_of_forall_lt hstrict hn hgt
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.prependPart n lam) :=
+  PartI.Ch04Franklin.IsStrictPartition_prependPart_of_forall_lt hstrict hn hgt
 
 theorem exercise5_numberOfParts_prependPart (n : Nat) (lam : List Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.prependPart n lam) =
-      PartI.Ch05.numberOfParts lam + 1 :=
-  PartI.Ch05.numberOfParts_prependPart n lam
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.prependPart n lam) =
+      PartI.Ch04Franklin.numberOfParts lam + 1 :=
+  PartI.Ch04Franklin.numberOfParts_prependPart n lam
 
 theorem exercise5_partParity_prependPart (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partParity (PartI.Ch05.prependPart n lam) =
-      (PartI.Ch05.partParity lam + 1) % 2 :=
-  PartI.Ch05.partParity_prependPart n lam
+    PartI.Ch04Franklin.partParity (PartI.Ch04Franklin.prependPart n lam) =
+      (PartI.Ch04Franklin.partParity lam + 1) % 2 :=
+  PartI.Ch04Franklin.partParity_prependPart n lam
 
 theorem exercise5_partSign_prependPart (n : Nat) (lam : List Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.prependPart n lam) =
-      - PartI.Ch05.partSign lam :=
-  PartI.Ch05.partSign_prependPart n lam
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.prependPart n lam) =
+      - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.partSign_prependPart n lam
 
 theorem exercise5_prependPart_weight_sign (n : Nat) (lam : List Nat) :
-    partitionWeight (PartI.Ch05.prependPart n lam) = n + partitionWeight lam ∧
-      PartI.Ch05.partSign (PartI.Ch05.prependPart n lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.prependPart_weight_sign n lam
+    partitionWeight (PartI.Ch04Franklin.prependPart n lam) = n + partitionWeight lam ∧
+      PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.prependPart n lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.prependPart_weight_sign n lam
 
 theorem exercise5_cons_strict_weight_sign_of_forall_lt {n : Nat} {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hn : 0 < n)
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hn : 0 < n)
     (hgt : ∀ m, m ∈ lam → m < n) :
-    PartI.Ch05.IsStrictPartition (n :: lam) ∧
+    PartI.Ch04Franklin.IsStrictPartition (n :: lam) ∧
       partitionWeight (n :: lam) = n + partitionWeight lam ∧
-      PartI.Ch05.partSign (n :: lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.cons_strict_weight_sign_of_forall_lt hstrict hn hgt
+      PartI.Ch04Franklin.partSign (n :: lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.cons_strict_weight_sign_of_forall_lt hstrict hn hgt
 
 theorem exercise5_prependPart_strict_weight_sign_of_forall_lt {n : Nat} {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hn : 0 < n)
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hn : 0 < n)
     (hgt : ∀ m, m ∈ lam → m < n) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.prependPart n lam) ∧
-      partitionWeight (PartI.Ch05.prependPart n lam) = n + partitionWeight lam ∧
-      PartI.Ch05.partSign (PartI.Ch05.prependPart n lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.prependPart_strict_weight_sign_of_forall_lt hstrict hn hgt
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.prependPart n lam) ∧
+      partitionWeight (PartI.Ch04Franklin.prependPart n lam) = n + partitionWeight lam ∧
+      PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.prependPart n lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.prependPart_strict_weight_sign_of_forall_lt hstrict hn hgt
 
 theorem exercise5_partSign_cons_cons (m n : Nat) (lam : List Nat) :
-    PartI.Ch05.partSign (m :: n :: lam) = PartI.Ch05.partSign lam :=
-  PartI.Ch05.partSign_cons_cons m n lam
+    PartI.Ch04Franklin.partSign (m :: n :: lam) = PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.partSign_cons_cons m n lam
 
 theorem exercise5_partSign_append (lam mu : List Nat) :
-    PartI.Ch05.partSign (lam ++ mu) =
-      PartI.Ch05.partSign lam * PartI.Ch05.partSign mu :=
-  PartI.Ch05.partSign_append lam mu
+    PartI.Ch04Franklin.partSign (lam ++ mu) =
+      PartI.Ch04Franklin.partSign lam * PartI.Ch04Franklin.partSign mu :=
+  PartI.Ch04Franklin.partSign_append lam mu
 
 /-- Exercise (Chapter 5 style): `[3,2,1]` is a strict partition. -/
 theorem exercise5_IsStrictPartition_three_two_one :
-    PartI.Ch05.IsStrictPartition [3, 2, 1] :=
-  PartI.Ch05.IsStrictPartition_three_two_one
+    PartI.Ch04Franklin.IsStrictPartition [3, 2, 1] :=
+  PartI.Ch04Franklin.IsStrictPartition_three_two_one
 
 /-- Exercise (Chapter 5 style): `[2,2]` is not a strict partition. -/
 theorem exercise5_not_IsStrictPartition_two_two :
-    ¬ PartI.Ch05.IsStrictPartition [2, 2] :=
-  PartI.Ch05.not_IsStrictPartition_two_two
+    ¬ PartI.Ch04Franklin.IsStrictPartition [2, 2] :=
+  PartI.Ch04Franklin.not_IsStrictPartition_two_two
 
 /-- Exercise (Chapter 5 style): the staircase partition of height 3 is `[3,2,1]`. -/
 theorem exercise5_staircasePartition_three :
-    PartI.Ch05.staircasePartition 3 = [3, 2, 1] :=
-  PartI.Ch05.staircasePartition_three
+    PartI.Ch04Franklin.staircasePartition 3 = [3, 2, 1] :=
+  PartI.Ch04Franklin.staircasePartition_three
 
 /-- Exercise (Chapter 5 style): staircase partitions have triangular weight. -/
 theorem exercise5_partitionWeight_staircasePartition (n : Nat) :
-    partitionWeight (PartI.Ch05.staircasePartition n) = triangular n :=
-  PartI.Ch05.partitionWeight_staircasePartition n
+    partitionWeight (PartI.Ch04Franklin.staircasePartition n) = triangular n :=
+  PartI.Ch04Franklin.partitionWeight_staircasePartition n
 
 theorem exercise5_staircasePartition_length (n : Nat) :
-    (PartI.Ch05.staircasePartition n).length = n :=
-  PartI.Ch05.staircasePartition_length n
+    (PartI.Ch04Franklin.staircasePartition n).length = n :=
+  PartI.Ch04Franklin.staircasePartition_length n
 
 theorem exercise5_staircasePartition_getD_of_lt {n r : Nat} (hr : r < n) :
-    (PartI.Ch05.staircasePartition n).getD r 0 = n - r :=
-  PartI.Ch05.staircasePartition_getD_of_lt hr
+    (PartI.Ch04Franklin.staircasePartition n).getD r 0 = n - r :=
+  PartI.Ch04Franklin.staircasePartition_getD_of_lt hr
 
 theorem exercise5_partParity_staircasePartition (n : Nat) :
-    PartI.Ch05.partParity (PartI.Ch05.staircasePartition n) = n % 2 :=
-  PartI.Ch05.partParity_staircasePartition n
+    PartI.Ch04Franklin.partParity (PartI.Ch04Franklin.staircasePartition n) = n % 2 :=
+  PartI.Ch04Franklin.partParity_staircasePartition n
 
 theorem exercise5_partSign_staircasePartition (n : Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.staircasePartition n) =
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.staircasePartition n) =
       if n % 2 = 0 then 1 else -1 :=
-  PartI.Ch05.partSign_staircasePartition n
+  PartI.Ch04Franklin.partSign_staircasePartition n
 
 /-- Exercise (Chapter 5 style): every staircase partition is strict. -/
 theorem exercise5_IsStrictPartition_staircasePartition (n : Nat) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.staircasePartition n) :=
-  PartI.Ch05.IsStrictPartition_staircasePartition n
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.staircasePartition n) :=
+  PartI.Ch04Franklin.IsStrictPartition_staircasePartition n
 
 /-- Exercise (Chapter 5 style): shifting all parts preserves strict partitions. -/
 theorem exercise5_IsStrictPartition_shiftParts {d : Nat} {lam : List Nat}
-    (h : PartI.Ch05.IsStrictPartition lam) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.shiftParts d lam) :=
-  PartI.Ch05.IsStrictPartition_shiftParts h
+    (h : PartI.Ch04Franklin.IsStrictPartition lam) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.shiftParts d lam) :=
+  PartI.Ch04Franklin.IsStrictPartition_shiftParts h
 
 /-- Exercise (Chapter 5 style): shifting `[3,2,1]` by one gives `[4,3,2]`. -/
 theorem exercise5_shiftParts_three_two_one_one :
-    PartI.Ch05.shiftParts 1 [3, 2, 1] = [4, 3, 2] :=
-  PartI.Ch05.shiftParts_three_two_one_one
+    PartI.Ch04Franklin.shiftParts 1 [3, 2, 1] = [4, 3, 2] :=
+  PartI.Ch04Franklin.shiftParts_three_two_one_one
 
 /-- Exercise (Chapter 5 style): shifting all parts changes weight predictably. -/
 theorem exercise5_partitionWeight_shiftParts (d : Nat) (lam : List Nat) :
-    partitionWeight (PartI.Ch05.shiftParts d lam) =
-      partitionWeight lam + d * PartI.Ch05.numberOfParts lam :=
-  PartI.Ch05.partitionWeight_shiftParts d lam
+    partitionWeight (PartI.Ch04Franklin.shiftParts d lam) =
+      partitionWeight lam + d * PartI.Ch04Franklin.numberOfParts lam :=
+  PartI.Ch04Franklin.partitionWeight_shiftParts d lam
 
 theorem exercise5_partParity_shiftParts (d : Nat) (lam : List Nat) :
-    PartI.Ch05.partParity (PartI.Ch05.shiftParts d lam) = PartI.Ch05.partParity lam :=
-  PartI.Ch05.partParity_shiftParts d lam
+    PartI.Ch04Franklin.partParity (PartI.Ch04Franklin.shiftParts d lam) = PartI.Ch04Franklin.partParity lam :=
+  PartI.Ch04Franklin.partParity_shiftParts d lam
 
 theorem exercise5_partSign_shiftParts (d : Nat) (lam : List Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.shiftParts d lam) = PartI.Ch05.partSign lam :=
-  PartI.Ch05.partSign_shiftParts d lam
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.shiftParts d lam) = PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.partSign_shiftParts d lam
 
 theorem exercise5_shiftParts_getD_of_lt {d : Nat} {lam : List Nat} {r : Nat}
     (hr : r < lam.length) :
-    (PartI.Ch05.shiftParts d lam).getD r 0 = lam.getD r 0 + d :=
-  PartI.Ch05.shiftParts_getD_of_lt hr
+    (PartI.Ch04Franklin.shiftParts d lam).getD r 0 = lam.getD r 0 + d :=
+  PartI.Ch04Franklin.shiftParts_getD_of_lt hr
 
 theorem exercise5_shiftParts_shiftParts (a b : Nat) (lam : List Nat) :
-    PartI.Ch05.shiftParts a (PartI.Ch05.shiftParts b lam) =
-      PartI.Ch05.shiftParts (b + a) lam :=
-  PartI.Ch05.shiftParts_shiftParts a b lam
+    PartI.Ch04Franklin.shiftParts a (PartI.Ch04Franklin.shiftParts b lam) =
+      PartI.Ch04Franklin.shiftParts (b + a) lam :=
+  PartI.Ch04Franklin.shiftParts_shiftParts a b lam
 
 /-- Exercise (Chapter 5 style): row-shortening preserves the number of displayed parts. -/
 theorem exercise5_numberOfParts_decrementParts (lam : List Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.decrementParts lam) = PartI.Ch05.numberOfParts lam :=
-  PartI.Ch05.numberOfParts_decrementParts lam
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.decrementParts lam) = PartI.Ch04Franklin.numberOfParts lam :=
+  PartI.Ch04Franklin.numberOfParts_decrementParts lam
 
 /-- Exercise (Chapter 5 style): row-shortening preserves Franklin's parity sign. -/
 theorem exercise5_partSign_decrementParts (lam : List Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.decrementParts lam) = PartI.Ch05.partSign lam :=
-  PartI.Ch05.partSign_decrementParts lam
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.decrementParts lam) = PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.partSign_decrementParts lam
 
 /-- Exercise (Chapter 5 style): weight loss from row-shortening positive parts. -/
 theorem exercise5_partitionWeight_decrementParts_add_numberOfParts {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
-    partitionWeight (PartI.Ch05.decrementParts lam) + PartI.Ch05.numberOfParts lam =
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    partitionWeight (PartI.Ch04Franklin.decrementParts lam) + PartI.Ch04Franklin.numberOfParts lam =
       partitionWeight lam :=
-  PartI.Ch05.partitionWeight_decrementParts_add_numberOfParts hpos
+  PartI.Ch04Franklin.partitionWeight_decrementParts_add_numberOfParts hpos
 
 /-- Exercise (Chapter 5 style): row-shortening preserves weakly decreasing order. -/
 theorem exercise5_IsPartition_decrementParts {lam : List Nat}
     (hpart : IsPartition lam) :
-    IsPartition (PartI.Ch05.decrementParts lam) :=
-  PartI.Ch05.IsPartition_decrementParts hpart
+    IsPartition (PartI.Ch04Franklin.decrementParts lam) :=
+  PartI.Ch04Franklin.IsPartition_decrementParts hpart
 
 /-- Exercise (Chapter 5 style): positivity survives shortening when parts are > 1. -/
 theorem exercise5_PositiveParts_decrementParts_of_one_lt {lam : List Nat}
     (hgt : ∀ n, n ∈ lam → 1 < n) :
-    PartI.Ch05.PositiveParts (PartI.Ch05.decrementParts lam) :=
-  PartI.Ch05.PositiveParts_decrementParts_of_one_lt hgt
+    PartI.Ch04Franklin.PositiveParts (PartI.Ch04Franklin.decrementParts lam) :=
+  PartI.Ch04Franklin.PositiveParts_decrementParts_of_one_lt hgt
 
 /-- Exercise (Chapter 5 style): distinctness survives row-shortening on positive parts. -/
 theorem exercise5_HasDistinctParts_decrementParts {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) (hnodup : PartI.Ch05.HasDistinctParts lam) :
-    PartI.Ch05.HasDistinctParts (PartI.Ch05.decrementParts lam) :=
-  PartI.Ch05.HasDistinctParts_decrementParts hpos hnodup
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) (hnodup : PartI.Ch04Franklin.HasDistinctParts lam) :
+    PartI.Ch04Franklin.HasDistinctParts (PartI.Ch04Franklin.decrementParts lam) :=
+  PartI.Ch04Franklin.HasDistinctParts_decrementParts hpos hnodup
 
 /-- Exercise (Chapter 5 style): row-shortening preserves strictness. -/
 theorem exercise5_IsStrictPartition_decrementParts_of_one_lt {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hgt : ∀ n, n ∈ lam → 1 < n) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.decrementParts lam) :=
-  PartI.Ch05.IsStrictPartition_decrementParts_of_one_lt hstrict hgt
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hgt : ∀ n, n ∈ lam → 1 < n) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.decrementParts lam) :=
+  PartI.Ch04Franklin.IsStrictPartition_decrementParts_of_one_lt hstrict hgt
 
 /-- Exercise (Chapter 5 style): the down move adds one displayed part. -/
 theorem exercise5_numberOfParts_franklinDownMove (lam : List Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.franklinDownMove lam) =
-      PartI.Ch05.numberOfParts lam + 1 :=
-  PartI.Ch05.numberOfParts_franklinDownMove lam
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.franklinDownMove lam) =
+      PartI.Ch04Franklin.numberOfParts lam + 1 :=
+  PartI.Ch04Franklin.numberOfParts_franklinDownMove lam
 
 theorem exercise5_IsFranklinDownBranchInput (lam : List Nat) :
-    PartI.Ch05.IsFranklinDownBranchInput lam ↔
-      0 < PartI.Ch05.numberOfParts lam ∧
-        ∀ n, n ∈ lam → PartI.Ch05.numberOfParts lam + 1 < n := by
+    PartI.Ch04Franklin.IsFranklinDownBranchInput lam ↔
+      0 < PartI.Ch04Franklin.numberOfParts lam ∧
+        ∀ n, n ∈ lam → PartI.Ch04Franklin.numberOfParts lam + 1 < n := by
   rfl
 
 theorem exercise5_IsFranklinUpBranchInput (lam : List Nat) :
-    PartI.Ch05.IsFranklinUpBranchInput lam ↔
+    PartI.Ch04Franklin.IsFranklinUpBranchInput lam ↔
       ∃ mu : List Nat,
-        PartI.Ch05.IsStrictPartition mu ∧
-          lam = mu ++ [PartI.Ch05.numberOfParts mu] := by
+        PartI.Ch04Franklin.IsStrictPartition mu ∧
+          lam = mu ++ [PartI.Ch04Franklin.numberOfParts mu] := by
   rfl
 
 /-- Exercise (Chapter 5 style): the down move reverses Franklin's sign. -/
 theorem exercise5_partSign_franklinDownMove (lam : List Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.franklinDownMove lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.partSign_franklinDownMove lam
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.franklinDownMove lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.partSign_franklinDownMove lam
 
 /-- Exercise (Chapter 5 style): the down move preserves weight on positive-parts lists. -/
 theorem exercise5_partitionWeight_franklinDownMove {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
-    partitionWeight (PartI.Ch05.franklinDownMove lam) = partitionWeight lam :=
-  PartI.Ch05.partitionWeight_franklinDownMove hpos
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    partitionWeight (PartI.Ch04Franklin.franklinDownMove lam) = partitionWeight lam :=
+  PartI.Ch04Franklin.partitionWeight_franklinDownMove hpos
 
 /-- Exercise (Chapter 5 style): the down move preserves strictness under Franklin inequality. -/
 theorem exercise5_IsStrictPartition_franklinDownMove {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hlen : 0 < PartI.Ch05.numberOfParts lam)
-    (hgt : ∀ n, n ∈ lam → PartI.Ch05.numberOfParts lam + 1 < n) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.franklinDownMove lam) :=
-  PartI.Ch05.IsStrictPartition_franklinDownMove hstrict hlen hgt
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hlen : 0 < PartI.Ch04Franklin.numberOfParts lam)
+    (hgt : ∀ n, n ∈ lam → PartI.Ch04Franklin.numberOfParts lam + 1 < n) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.franklinDownMove lam) :=
+  PartI.Ch04Franklin.IsStrictPartition_franklinDownMove hstrict hlen hgt
 
 /-- Exercise (Chapter 5 style): weight, sign, and strictness package for the down branch. -/
 theorem exercise5_franklinDownMove_strict_weight_sign {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) (hlen : 0 < PartI.Ch05.numberOfParts lam)
-    (hgt : ∀ n, n ∈ lam → PartI.Ch05.numberOfParts lam + 1 < n) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.franklinDownMove lam) ∧
-      partitionWeight (PartI.Ch05.franklinDownMove lam) = partitionWeight lam ∧
-      PartI.Ch05.partSign (PartI.Ch05.franklinDownMove lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.franklinDownMove_strict_weight_sign hstrict hlen hgt
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) (hlen : 0 < PartI.Ch04Franklin.numberOfParts lam)
+    (hgt : ∀ n, n ∈ lam → PartI.Ch04Franklin.numberOfParts lam + 1 < n) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.franklinDownMove lam) ∧
+      partitionWeight (PartI.Ch04Franklin.franklinDownMove lam) = partitionWeight lam ∧
+      PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.franklinDownMove lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.franklinDownMove_strict_weight_sign hstrict hlen hgt
 
 theorem exercise5_IsStrictPartition_decrementParts_of_franklinDownMove_hgt {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hgt : ∀ n, n ∈ lam → PartI.Ch05.numberOfParts lam + 1 < n) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.decrementParts lam) :=
-  PartI.Ch05.IsStrictPartition_decrementParts_of_franklinDownMove_hgt hstrict hgt
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hgt : ∀ n, n ∈ lam → PartI.Ch04Franklin.numberOfParts lam + 1 < n) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.decrementParts lam) :=
+  PartI.Ch04Franklin.IsStrictPartition_decrementParts_of_franklinDownMove_hgt hstrict hgt
 
 theorem exercise5_franklinDownMove_eq_append_numberOfParts_decrementParts (lam : List Nat) :
-    PartI.Ch05.franklinDownMove lam =
-      PartI.Ch05.decrementParts lam ++
-        [PartI.Ch05.numberOfParts (PartI.Ch05.decrementParts lam)] :=
-  PartI.Ch05.franklinDownMove_eq_append_numberOfParts_decrementParts lam
+    PartI.Ch04Franklin.franklinDownMove lam =
+      PartI.Ch04Franklin.decrementParts lam ++
+        [PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.decrementParts lam)] :=
+  PartI.Ch04Franklin.franklinDownMove_eq_append_numberOfParts_decrementParts lam
 
 theorem exercise5_franklinDownMove_eq_append_numberOfParts_exists (lam : List Nat) :
     ∃ mu : List Nat,
-      PartI.Ch05.franklinDownMove lam =
-        mu ++ [PartI.Ch05.numberOfParts mu] :=
-  PartI.Ch05.franklinDownMove_eq_append_numberOfParts_exists lam
+      PartI.Ch04Franklin.franklinDownMove lam =
+        mu ++ [PartI.Ch04Franklin.numberOfParts mu] :=
+  PartI.Ch04Franklin.franklinDownMove_eq_append_numberOfParts_exists lam
 
 theorem exercise5_franklinDownMove_eq_append_numberOfParts_strict_exists {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hgt : ∀ n, n ∈ lam → PartI.Ch05.numberOfParts lam + 1 < n) :
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hgt : ∀ n, n ∈ lam → PartI.Ch04Franklin.numberOfParts lam + 1 < n) :
     ∃ mu : List Nat,
-      PartI.Ch05.IsStrictPartition mu ∧
-        PartI.Ch05.franklinDownMove lam =
-          mu ++ [PartI.Ch05.numberOfParts mu] :=
-  PartI.Ch05.franklinDownMove_eq_append_numberOfParts_strict_exists hstrict hgt
+      PartI.Ch04Franklin.IsStrictPartition mu ∧
+        PartI.Ch04Franklin.franklinDownMove lam =
+          mu ++ [PartI.Ch04Franklin.numberOfParts mu] :=
+  PartI.Ch04Franklin.franklinDownMove_eq_append_numberOfParts_strict_exists hstrict hgt
 
 theorem exercise5_IsFranklinUpBranchInput_franklinDownMove {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hdown : PartI.Ch05.IsFranklinDownBranchInput lam) :
-    PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.franklinDownMove lam) :=
-  PartI.Ch05.IsFranklinUpBranchInput_franklinDownMove hstrict hdown
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hdown : PartI.Ch04Franklin.IsFranklinDownBranchInput lam) :
+    PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.franklinDownMove lam) :=
+  PartI.Ch04Franklin.IsFranklinUpBranchInput_franklinDownMove hstrict hdown
 
 theorem exercise5_franklinDownMove_strict_weight_sign_of_branch_input {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hdown : PartI.Ch05.IsFranklinDownBranchInput lam) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.franklinDownMove lam) ∧
-      partitionWeight (PartI.Ch05.franklinDownMove lam) = partitionWeight lam ∧
-      PartI.Ch05.partSign (PartI.Ch05.franklinDownMove lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.franklinDownMove_strict_weight_sign_of_branch_input hstrict hdown
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hdown : PartI.Ch04Franklin.IsFranklinDownBranchInput lam) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.franklinDownMove lam) ∧
+      partitionWeight (PartI.Ch04Franklin.franklinDownMove lam) = partitionWeight lam ∧
+      PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.franklinDownMove lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.franklinDownMove_strict_weight_sign_of_branch_input hstrict hdown
 
 theorem exercise5_franklinDownMove_branch_transition_and_inverse {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hdown : PartI.Ch05.IsFranklinDownBranchInput lam) :
-    PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.franklinDownMove lam) ∧
-      PartI.Ch05.franklinUpMove (PartI.Ch05.franklinDownMove lam) = lam :=
-  PartI.Ch05.franklinDownMove_branch_transition_and_inverse hstrict hdown
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hdown : PartI.Ch04Franklin.IsFranklinDownBranchInput lam) :
+    PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.franklinDownMove lam) ∧
+      PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.franklinDownMove lam) = lam :=
+  PartI.Ch04Franklin.franklinDownMove_branch_transition_and_inverse hstrict hdown
 
 theorem exercise5_shiftParts_one_decrementParts_eq_of_positive {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
-    PartI.Ch05.shiftParts 1 (PartI.Ch05.decrementParts lam) = lam :=
-  PartI.Ch05.shiftParts_one_decrementParts_eq_of_positive hpos
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    PartI.Ch04Franklin.shiftParts 1 (PartI.Ch04Franklin.decrementParts lam) = lam :=
+  PartI.Ch04Franklin.shiftParts_one_decrementParts_eq_of_positive hpos
 
 theorem exercise5_decrementParts_shiftParts_one_eq (lam : List Nat) :
-    PartI.Ch05.decrementParts (PartI.Ch05.shiftParts 1 lam) = lam :=
-  PartI.Ch05.decrementParts_shiftParts_one_eq lam
+    PartI.Ch04Franklin.decrementParts (PartI.Ch04Franklin.shiftParts 1 lam) = lam :=
+  PartI.Ch04Franklin.decrementParts_shiftParts_one_eq lam
 
 theorem exercise5_decrementParts_shiftParts_succ (d : Nat) (lam : List Nat) :
-    PartI.Ch05.decrementParts (PartI.Ch05.shiftParts (d + 1) lam) =
-      PartI.Ch05.shiftParts d lam :=
-  PartI.Ch05.decrementParts_shiftParts_succ d lam
+    PartI.Ch04Franklin.decrementParts (PartI.Ch04Franklin.shiftParts (d + 1) lam) =
+      PartI.Ch04Franklin.shiftParts d lam :=
+  PartI.Ch04Franklin.decrementParts_shiftParts_succ d lam
 
 theorem exercise5_franklinUpMove_franklinDownMove_of_positive {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
-    PartI.Ch05.franklinUpMove (PartI.Ch05.franklinDownMove lam) = lam :=
-  PartI.Ch05.franklinUpMove_franklinDownMove_of_positive hpos
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.franklinDownMove lam) = lam :=
+  PartI.Ch04Franklin.franklinUpMove_franklinDownMove_of_positive hpos
 
 theorem exercise5_franklinUpMove_append_singleton (mu : List Nat) (n : Nat) :
-    PartI.Ch05.franklinUpMove (mu ++ [n]) = PartI.Ch05.shiftParts 1 mu :=
-  PartI.Ch05.franklinUpMove_append_singleton mu n
+    PartI.Ch04Franklin.franklinUpMove (mu ++ [n]) = PartI.Ch04Franklin.shiftParts 1 mu :=
+  PartI.Ch04Franklin.franklinUpMove_append_singleton mu n
 
 theorem exercise5_franklinDownMove_franklinUpMove_append_numberOfParts (mu : List Nat) :
-    PartI.Ch05.franklinDownMove
-        (PartI.Ch05.franklinUpMove (mu ++ [PartI.Ch05.numberOfParts mu])) =
-      mu ++ [PartI.Ch05.numberOfParts mu] :=
-  PartI.Ch05.franklinDownMove_franklinUpMove_append_numberOfParts mu
+    PartI.Ch04Franklin.franklinDownMove
+        (PartI.Ch04Franklin.franklinUpMove (mu ++ [PartI.Ch04Franklin.numberOfParts mu])) =
+      mu ++ [PartI.Ch04Franklin.numberOfParts mu] :=
+  PartI.Ch04Franklin.franklinDownMove_franklinUpMove_append_numberOfParts mu
 
 theorem exercise5_numberOfParts_franklinUpMove_append_singleton
     (mu : List Nat) (n : Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.franklinUpMove (mu ++ [n])) =
-      PartI.Ch05.numberOfParts mu :=
-  PartI.Ch05.numberOfParts_franklinUpMove_append_singleton mu n
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.franklinUpMove (mu ++ [n])) =
+      PartI.Ch04Franklin.numberOfParts mu :=
+  PartI.Ch04Franklin.numberOfParts_franklinUpMove_append_singleton mu n
 
 theorem exercise5_IsFranklinDownBranchInput_franklinUpMove {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hup : PartI.Ch05.IsFranklinUpBranchInput lam) :
-    PartI.Ch05.IsFranklinDownBranchInput (PartI.Ch05.franklinUpMove lam) :=
-  PartI.Ch05.IsFranklinDownBranchInput_franklinUpMove hstrict hup
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hup : PartI.Ch04Franklin.IsFranklinUpBranchInput lam) :
+    PartI.Ch04Franklin.IsFranklinDownBranchInput (PartI.Ch04Franklin.franklinUpMove lam) :=
+  PartI.Ch04Franklin.IsFranklinDownBranchInput_franklinUpMove hstrict hup
 
 theorem exercise5_partSign_franklinUpMove_append_singleton (mu : List Nat) (n : Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.franklinUpMove (mu ++ [n])) =
-      - PartI.Ch05.partSign (mu ++ [n]) :=
-  PartI.Ch05.partSign_franklinUpMove_append_singleton mu n
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.franklinUpMove (mu ++ [n])) =
+      - PartI.Ch04Franklin.partSign (mu ++ [n]) :=
+  PartI.Ch04Franklin.partSign_franklinUpMove_append_singleton mu n
 
 theorem exercise5_partitionWeight_franklinUpMove_append_numberOfParts (mu : List Nat) :
-    partitionWeight (PartI.Ch05.franklinUpMove (mu ++ [PartI.Ch05.numberOfParts mu])) =
-      partitionWeight (mu ++ [PartI.Ch05.numberOfParts mu]) :=
-  PartI.Ch05.partitionWeight_franklinUpMove_append_numberOfParts mu
+    partitionWeight (PartI.Ch04Franklin.franklinUpMove (mu ++ [PartI.Ch04Franklin.numberOfParts mu])) =
+      partitionWeight (mu ++ [PartI.Ch04Franklin.numberOfParts mu]) :=
+  PartI.Ch04Franklin.partitionWeight_franklinUpMove_append_numberOfParts mu
 
 theorem exercise5_IsStrictPartition_franklinUpMove_append_singleton
-    {mu : List Nat} {n : Nat} (hstrict : PartI.Ch05.IsStrictPartition mu) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.franklinUpMove (mu ++ [n])) :=
-  PartI.Ch05.IsStrictPartition_franklinUpMove_append_singleton hstrict
+    {mu : List Nat} {n : Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition mu) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.franklinUpMove (mu ++ [n])) :=
+  PartI.Ch04Franklin.IsStrictPartition_franklinUpMove_append_singleton hstrict
 
 theorem exercise5_franklinUpMove_append_numberOfParts_strict_weight_sign {mu : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition mu) :
-    PartI.Ch05.IsStrictPartition
-        (PartI.Ch05.franklinUpMove (mu ++ [PartI.Ch05.numberOfParts mu])) ∧
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition mu) :
+    PartI.Ch04Franklin.IsStrictPartition
+        (PartI.Ch04Franklin.franklinUpMove (mu ++ [PartI.Ch04Franklin.numberOfParts mu])) ∧
       partitionWeight
-          (PartI.Ch05.franklinUpMove (mu ++ [PartI.Ch05.numberOfParts mu])) =
-        partitionWeight (mu ++ [PartI.Ch05.numberOfParts mu]) ∧
-  PartI.Ch05.partSign
-      (PartI.Ch05.franklinUpMove (mu ++ [PartI.Ch05.numberOfParts mu])) =
-        - PartI.Ch05.partSign (mu ++ [PartI.Ch05.numberOfParts mu]) :=
-  PartI.Ch05.franklinUpMove_append_numberOfParts_strict_weight_sign hstrict
+          (PartI.Ch04Franklin.franklinUpMove (mu ++ [PartI.Ch04Franklin.numberOfParts mu])) =
+        partitionWeight (mu ++ [PartI.Ch04Franklin.numberOfParts mu]) ∧
+  PartI.Ch04Franklin.partSign
+      (PartI.Ch04Franklin.franklinUpMove (mu ++ [PartI.Ch04Franklin.numberOfParts mu])) =
+        - PartI.Ch04Franklin.partSign (mu ++ [PartI.Ch04Franklin.numberOfParts mu]) :=
+  PartI.Ch04Franklin.franklinUpMove_append_numberOfParts_strict_weight_sign hstrict
 
 theorem exercise5_franklinUpMove_strict_weight_sign_of_branch_input {lam : List Nat}
-    (hup : PartI.Ch05.IsFranklinUpBranchInput lam) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.franklinUpMove lam) ∧
-      partitionWeight (PartI.Ch05.franklinUpMove lam) = partitionWeight lam ∧
-      PartI.Ch05.partSign (PartI.Ch05.franklinUpMove lam) = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.franklinUpMove_strict_weight_sign_of_branch_input hup
+    (hup : PartI.Ch04Franklin.IsFranklinUpBranchInput lam) :
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.franklinUpMove lam) ∧
+      partitionWeight (PartI.Ch04Franklin.franklinUpMove lam) = partitionWeight lam ∧
+      PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.franklinUpMove lam) = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.franklinUpMove_strict_weight_sign_of_branch_input hup
 
 theorem exercise5_franklinUpMove_branch_transition_and_inverse {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hup : PartI.Ch05.IsFranklinUpBranchInput lam) :
-    PartI.Ch05.IsFranklinDownBranchInput (PartI.Ch05.franklinUpMove lam) ∧
-      PartI.Ch05.franklinDownMove (PartI.Ch05.franklinUpMove lam) = lam :=
-  PartI.Ch05.franklinUpMove_branch_transition_and_inverse hstrict hup
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hup : PartI.Ch04Franklin.IsFranklinUpBranchInput lam) :
+    PartI.Ch04Franklin.IsFranklinDownBranchInput (PartI.Ch04Franklin.franklinUpMove lam) ∧
+      PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.franklinUpMove lam) = lam :=
+  PartI.Ch04Franklin.franklinUpMove_branch_transition_and_inverse hstrict hup
 
 theorem exercise5_numberOfParts_franklinUpMove_of_ne_nil {lam : List Nat}
     (hne : lam ≠ []) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.franklinUpMove lam) =
-      PartI.Ch05.numberOfParts lam - 1 :=
-  PartI.Ch05.numberOfParts_franklinUpMove_of_ne_nil hne
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.franklinUpMove lam) =
+      PartI.Ch04Franklin.numberOfParts lam - 1 :=
+  PartI.Ch04Franklin.numberOfParts_franklinUpMove_of_ne_nil hne
 
 theorem exercise5_successive_getD_franklinUpMove_of_successive {lam : List Nat}
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    ∀ r, r + 1 < PartI.Ch05.numberOfParts (PartI.Ch05.franklinUpMove lam) →
-      (PartI.Ch05.franklinUpMove lam).getD (r + 1) 0 + 1 =
-        (PartI.Ch05.franklinUpMove lam).getD r 0 :=
-  PartI.Ch05.successive_getD_franklinUpMove_of_successive hsucc
+    ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.franklinUpMove lam) →
+      (PartI.Ch04Franklin.franklinUpMove lam).getD (r + 1) 0 + 1 =
+        (PartI.Ch04Franklin.franklinUpMove lam).getD r 0 :=
+  PartI.Ch04Franklin.successive_getD_franklinUpMove_of_successive hsucc
 
 theorem exercise5_not_IsFranklinDownBranchInput_of_IsFranklinUpBranchInput
-    {lam : List Nat} (hup : PartI.Ch05.IsFranklinUpBranchInput lam) :
-    ¬ PartI.Ch05.IsFranklinDownBranchInput lam :=
-  PartI.Ch05.not_IsFranklinDownBranchInput_of_IsFranklinUpBranchInput hup
+    {lam : List Nat} (hup : PartI.Ch04Franklin.IsFranklinUpBranchInput lam) :
+    ¬ PartI.Ch04Franklin.IsFranklinDownBranchInput lam :=
+  PartI.Ch04Franklin.not_IsFranklinDownBranchInput_of_IsFranklinUpBranchInput hup
 
 theorem exercise5_not_IsFranklinUpBranchInput_of_IsFranklinDownBranchInput
-    {lam : List Nat} (hdown : PartI.Ch05.IsFranklinDownBranchInput lam) :
-    ¬ PartI.Ch05.IsFranklinUpBranchInput lam :=
-  PartI.Ch05.not_IsFranklinUpBranchInput_of_IsFranklinDownBranchInput hdown
+    {lam : List Nat} (hdown : PartI.Ch04Franklin.IsFranklinDownBranchInput lam) :
+    ¬ PartI.Ch04Franklin.IsFranklinUpBranchInput lam :=
+  PartI.Ch04Franklin.not_IsFranklinUpBranchInput_of_IsFranklinDownBranchInput hdown
 
 theorem exercise5_IsFranklinUpBranchInput_lastPart_eq_pred {lam : List Nat}
-    (hup : PartI.Ch05.IsFranklinUpBranchInput lam) :
-    lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-      PartI.Ch05.numberOfParts lam - 1 :=
-  PartI.Ch05.IsFranklinUpBranchInput.lastPart_eq_pred hup
+    (hup : PartI.Ch04Franklin.IsFranklinUpBranchInput lam) :
+    lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+      PartI.Ch04Franklin.numberOfParts lam - 1 :=
+  PartI.Ch04Franklin.IsFranklinUpBranchInput.lastPart_eq_pred hup
 
 theorem exercise5_IsFranklinUpBranchInput_of_strict_lastPart_eq_pred
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hlast : lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-      PartI.Ch05.numberOfParts lam - 1) :
-    PartI.Ch05.IsFranklinUpBranchInput lam :=
-  PartI.Ch05.IsFranklinUpBranchInput_of_strict_lastPart_eq_pred hstrict hne hlast
+    (hlast : lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+      PartI.Ch04Franklin.numberOfParts lam - 1) :
+    PartI.Ch04Franklin.IsFranklinUpBranchInput lam :=
+  PartI.Ch04Franklin.IsFranklinUpBranchInput_of_strict_lastPart_eq_pred hstrict hne hlast
 
 theorem exercise5_IsFranklinUpBranchInput_iff_lastPart_eq_pred_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ []) :
-    PartI.Ch05.IsFranklinUpBranchInput lam ↔
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-        PartI.Ch05.numberOfParts lam - 1 :=
-  PartI.Ch05.IsFranklinUpBranchInput_iff_lastPart_eq_pred_of_strict hstrict hne
+    PartI.Ch04Franklin.IsFranklinUpBranchInput lam ↔
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+        PartI.Ch04Franklin.numberOfParts lam - 1 :=
+  PartI.Ch04Franklin.IsFranklinUpBranchInput_iff_lastPart_eq_pred_of_strict hstrict hne
 
 theorem exercise5_IsFranklinDownBranchInput_lastPart_gt_numberOfParts_add_one
-    {lam : List Nat} (hdown : PartI.Ch05.IsFranklinDownBranchInput lam) :
-    PartI.Ch05.numberOfParts lam + 1 <
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 :=
-  PartI.Ch05.IsFranklinDownBranchInput.lastPart_gt_numberOfParts_add_one hdown
+    {lam : List Nat} (hdown : PartI.Ch04Franklin.IsFranklinDownBranchInput lam) :
+    PartI.Ch04Franklin.numberOfParts lam + 1 <
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 :=
+  PartI.Ch04Franklin.IsFranklinDownBranchInput.lastPart_gt_numberOfParts_add_one hdown
 
 theorem exercise5_IsFranklinDownBranchInput_of_strict_lastPart_gt_numberOfParts_add_one
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hlast : PartI.Ch05.numberOfParts lam + 1 <
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0) :
-    PartI.Ch05.IsFranklinDownBranchInput lam :=
-  PartI.Ch05.IsFranklinDownBranchInput_of_strict_lastPart_gt_numberOfParts_add_one
+    (hlast : PartI.Ch04Franklin.numberOfParts lam + 1 <
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0) :
+    PartI.Ch04Franklin.IsFranklinDownBranchInput lam :=
+  PartI.Ch04Franklin.IsFranklinDownBranchInput_of_strict_lastPart_gt_numberOfParts_add_one
     hstrict hne hlast
 
 theorem exercise5_IsFranklinDownBranchInput_iff_lastPart_gt_numberOfParts_add_one_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ []) :
-    PartI.Ch05.IsFranklinDownBranchInput lam ↔
-      PartI.Ch05.numberOfParts lam + 1 <
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 :=
-  PartI.Ch05.IsFranklinDownBranchInput_iff_lastPart_gt_numberOfParts_add_one_of_strict
+    PartI.Ch04Franklin.IsFranklinDownBranchInput lam ↔
+      PartI.Ch04Franklin.numberOfParts lam + 1 <
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 :=
+  PartI.Ch04Franklin.IsFranklinDownBranchInput_iff_lastPart_gt_numberOfParts_add_one_of_strict
     hstrict hne
 
 theorem exercise5_IsFranklinMovePair_franklinDownMove {lam : List Nat}
-    (hdown : PartI.Ch05.IsFranklinDownBranchInput lam) :
-    PartI.Ch05.IsFranklinMovePair lam (PartI.Ch05.franklinDownMove lam) :=
-  PartI.Ch05.IsFranklinMovePair_franklinDownMove hdown
+    (hdown : PartI.Ch04Franklin.IsFranklinDownBranchInput lam) :
+    PartI.Ch04Franklin.IsFranklinMovePair lam (PartI.Ch04Franklin.franklinDownMove lam) :=
+  PartI.Ch04Franklin.IsFranklinMovePair_franklinDownMove hdown
 
 theorem exercise5_IsFranklinMovePair_franklinUpMove {lam : List Nat}
-    (hup : PartI.Ch05.IsFranklinUpBranchInput lam) :
-    PartI.Ch05.IsFranklinMovePair lam (PartI.Ch05.franklinUpMove lam) :=
-  PartI.Ch05.IsFranklinMovePair_franklinUpMove hup
+    (hup : PartI.Ch04Franklin.IsFranklinUpBranchInput lam) :
+    PartI.Ch04Franklin.IsFranklinMovePair lam (PartI.Ch04Franklin.franklinUpMove lam) :=
+  PartI.Ch04Franklin.IsFranklinMovePair_franklinUpMove hup
 
 theorem exercise5_exists_IsFranklinMovePair_iff (lam : List Nat) :
-    (∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ↔
-      PartI.Ch05.IsFranklinDownBranchInput lam ∨
-        PartI.Ch05.IsFranklinUpBranchInput lam :=
-  PartI.Ch05.exists_IsFranklinMovePair_iff lam
+    (∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ↔
+      PartI.Ch04Franklin.IsFranklinDownBranchInput lam ∨
+        PartI.Ch04Franklin.IsFranklinUpBranchInput lam :=
+  PartI.Ch04Franklin.exists_IsFranklinMovePair_iff lam
 
 theorem exercise5_exists_IsFranklinMovePair_iff_lastPart_boundary_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ []) :
-    (∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ↔
-      PartI.Ch05.numberOfParts lam + 1 <
-          lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 ∨
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam - 1 :=
-  PartI.Ch05.exists_IsFranklinMovePair_iff_lastPart_boundary_of_strict hstrict hne
+    (∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ↔
+      PartI.Ch04Franklin.numberOfParts lam + 1 <
+          lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 ∨
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam - 1 :=
+  PartI.Ch04Franklin.exists_IsFranklinMovePair_iff_lastPart_boundary_of_strict hstrict hne
 
 theorem exercise5_not_exists_IsFranklinMovePair_iff_not_lastPart_boundary_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ []) :
-    (¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ↔
-      ¬ PartI.Ch05.numberOfParts lam + 1 <
-          lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 ∧
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 ≠
-          PartI.Ch05.numberOfParts lam - 1 :=
-  PartI.Ch05.not_exists_IsFranklinMovePair_iff_not_lastPart_boundary_of_strict
+    (¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ↔
+      ¬ PartI.Ch04Franklin.numberOfParts lam + 1 <
+          lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 ∧
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 ≠
+          PartI.Ch04Franklin.numberOfParts lam - 1 :=
+  PartI.Ch04Franklin.not_exists_IsFranklinMovePair_iff_not_lastPart_boundary_of_strict
     hstrict hne
 
 theorem exercise5_IsFranklinMovePair_iff_lastPart_boundary_of_strict
-    {lam mu : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam mu : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ []) :
-    PartI.Ch05.IsFranklinMovePair lam mu ↔
-      (PartI.Ch05.numberOfParts lam + 1 <
-          lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 ∧
-        mu = PartI.Ch05.franklinDownMove lam) ∨
-      (lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam - 1 ∧
-        mu = PartI.Ch05.franklinUpMove lam) :=
-  PartI.Ch05.IsFranklinMovePair_iff_lastPart_boundary_of_strict hstrict hne
+    PartI.Ch04Franklin.IsFranklinMovePair lam mu ↔
+      (PartI.Ch04Franklin.numberOfParts lam + 1 <
+          lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 ∧
+        mu = PartI.Ch04Franklin.franklinDownMove lam) ∨
+      (lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam - 1 ∧
+        mu = PartI.Ch04Franklin.franklinUpMove lam) :=
+  PartI.Ch04Franklin.IsFranklinMovePair_iff_lastPart_boundary_of_strict hstrict hne
 
 theorem exercise5_IsFranklinMovePair_lastPart_cases_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ []) :
-    (lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 <
-        PartI.Ch05.numberOfParts lam - 1 ∧
-        ¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ∨
-      (lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam - 1 ∧
-        PartI.Ch05.IsFranklinMovePair lam (PartI.Ch05.franklinUpMove lam)) ∨
-      (((lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-            PartI.Ch05.numberOfParts lam) ∨
-          lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-            PartI.Ch05.numberOfParts lam + 1) ∧
-        ¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ∨
-      (PartI.Ch05.numberOfParts lam + 1 <
-          lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 ∧
-        PartI.Ch05.IsFranklinMovePair lam (PartI.Ch05.franklinDownMove lam)) :=
-  PartI.Ch05.IsFranklinMovePair_lastPart_cases_of_strict hstrict hne
+    (lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 <
+        PartI.Ch04Franklin.numberOfParts lam - 1 ∧
+        ¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ∨
+      (lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam - 1 ∧
+        PartI.Ch04Franklin.IsFranklinMovePair lam (PartI.Ch04Franklin.franklinUpMove lam)) ∨
+      (((lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+            PartI.Ch04Franklin.numberOfParts lam) ∨
+          lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+            PartI.Ch04Franklin.numberOfParts lam + 1) ∧
+        ¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ∨
+      (PartI.Ch04Franklin.numberOfParts lam + 1 <
+          lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 ∧
+        PartI.Ch04Franklin.IsFranklinMovePair lam (PartI.Ch04Franklin.franklinDownMove lam)) :=
+  PartI.Ch04Franklin.IsFranklinMovePair_lastPart_cases_of_strict hstrict hne
 
 theorem exercise5_IsFranklinMovePair_eq_of_left {lam mu nu : List Nat}
-    (hmu : PartI.Ch05.IsFranklinMovePair lam mu)
-    (hnu : PartI.Ch05.IsFranklinMovePair lam nu) :
+    (hmu : PartI.Ch04Franklin.IsFranklinMovePair lam mu)
+    (hnu : PartI.Ch04Franklin.IsFranklinMovePair lam nu) :
     mu = nu :=
-  PartI.Ch05.IsFranklinMovePair.eq_of_left hmu hnu
+  PartI.Ch04Franklin.IsFranklinMovePair.eq_of_left hmu hnu
 
 theorem exercise5_IsFranklinMovePair_symm_of_strict {lam mu : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
-    PartI.Ch05.IsFranklinMovePair mu lam :=
-  PartI.Ch05.IsFranklinMovePair.symm_of_strict hstrict hpair
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
+    PartI.Ch04Franklin.IsFranklinMovePair mu lam :=
+  PartI.Ch04Franklin.IsFranklinMovePair.symm_of_strict hstrict hpair
 
 theorem exercise5_IsFranklinMovePair_comm_iff_of_strict {lam mu : List Nat}
-    (hlam : PartI.Ch05.IsStrictPartition lam)
-    (hmu : PartI.Ch05.IsStrictPartition mu) :
-    PartI.Ch05.IsFranklinMovePair lam mu ↔
-      PartI.Ch05.IsFranklinMovePair mu lam :=
-  PartI.Ch05.IsFranklinMovePair_comm_iff_of_strict hlam hmu
+    (hlam : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hmu : PartI.Ch04Franklin.IsStrictPartition mu) :
+    PartI.Ch04Franklin.IsFranklinMovePair lam mu ↔
+      PartI.Ch04Franklin.IsFranklinMovePair mu lam :=
+  PartI.Ch04Franklin.IsFranklinMovePair_comm_iff_of_strict hlam hmu
 
 theorem exercise5_IsFranklinMovePair_eq_of_right_of_strict {lam mu nu : List Nat}
-    (hlam : PartI.Ch05.IsStrictPartition lam)
-    (hmu : PartI.Ch05.IsStrictPartition mu)
-    (hpair_lam : PartI.Ch05.IsFranklinMovePair lam nu)
-    (hpair_mu : PartI.Ch05.IsFranklinMovePair mu nu) :
+    (hlam : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hmu : PartI.Ch04Franklin.IsStrictPartition mu)
+    (hpair_lam : PartI.Ch04Franklin.IsFranklinMovePair lam nu)
+    (hpair_mu : PartI.Ch04Franklin.IsFranklinMovePair mu nu) :
     lam = mu :=
-  PartI.Ch05.IsFranklinMovePair.eq_of_right_of_strict hlam hmu hpair_lam hpair_mu
+  PartI.Ch04Franklin.IsFranklinMovePair.eq_of_right_of_strict hlam hmu hpair_lam hpair_mu
 
 theorem exercise5_IsFranklinMovePair_strict_weight_sign {lam mu : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
-    PartI.Ch05.IsStrictPartition mu ∧
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
+    PartI.Ch04Franklin.IsStrictPartition mu ∧
       partitionWeight mu = partitionWeight lam ∧
-      PartI.Ch05.partSign mu = - PartI.Ch05.partSign lam :=
-  PartI.Ch05.IsFranklinMovePair.strict_weight_sign hstrict hpair
+      PartI.Ch04Franklin.partSign mu = - PartI.Ch04Franklin.partSign lam :=
+  PartI.Ch04Franklin.IsFranklinMovePair.strict_weight_sign hstrict hpair
 
 theorem exercise5_IsFranklinMovePair_not_self_of_strict {lam : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam) :
-    ¬ PartI.Ch05.IsFranklinMovePair lam lam :=
-  PartI.Ch05.IsFranklinMovePair.not_self_of_strict hstrict
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam) :
+    ¬ PartI.Ch04Franklin.IsFranklinMovePair lam lam :=
+  PartI.Ch04Franklin.IsFranklinMovePair.not_self_of_strict hstrict
 
 theorem exercise5_IsFranklinMovePair_ne_of_strict {lam mu : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
     mu ≠ lam :=
-  PartI.Ch05.IsFranklinMovePair.ne_of_strict hstrict hpair
+  PartI.Ch04Franklin.IsFranklinMovePair.ne_of_strict hstrict hpair
 
 theorem exercise5_IsFranklinMovePair_involution_package {lam mu : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
-    PartI.Ch05.IsStrictPartition mu ∧
-      PartI.Ch05.IsFranklinMovePair mu lam ∧
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
+    PartI.Ch04Franklin.IsStrictPartition mu ∧
+      PartI.Ch04Franklin.IsFranklinMovePair mu lam ∧
       partitionWeight mu = partitionWeight lam ∧
-      PartI.Ch05.partSign mu = - PartI.Ch05.partSign lam ∧
+      PartI.Ch04Franklin.partSign mu = - PartI.Ch04Franklin.partSign lam ∧
       mu ≠ lam :=
-  PartI.Ch05.IsFranklinMovePair.involution_package hstrict hpair
+  PartI.Ch04Franklin.IsFranklinMovePair.involution_package hstrict hpair
 
 theorem exercise5_IsFranklinMovePair_partSign_add_eq_zero {lam mu : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
-    PartI.Ch05.partSign lam + PartI.Ch05.partSign mu = 0 :=
-  PartI.Ch05.IsFranklinMovePair.partSign_add_eq_zero hstrict hpair
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
+    PartI.Ch04Franklin.partSign lam + PartI.Ch04Franklin.partSign mu = 0 :=
+  PartI.Ch04Franklin.IsFranklinMovePair.partSign_add_eq_zero hstrict hpair
 
 theorem exercise5_IsFranklinMovePair_partSign_add_eq_zero' {lam mu : List Nat}
-    (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
-    PartI.Ch05.partSign mu + PartI.Ch05.partSign lam = 0 :=
-  PartI.Ch05.IsFranklinMovePair.partSign_add_eq_zero' hstrict hpair
+    (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
+    PartI.Ch04Franklin.partSign mu + PartI.Ch04Franklin.partSign lam = 0 :=
+  PartI.Ch04Franklin.IsFranklinMovePair.partSign_add_eq_zero' hstrict hpair
 
 theorem exercise5_not_IsFranklinMovePair_of_IsPentagonalFixedShape_left
-    {lam mu : List Nat} (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    ¬ PartI.Ch05.IsFranklinMovePair lam mu :=
-  PartI.Ch05.not_IsFranklinMovePair_of_IsPentagonalFixedShape_left hfixed
+    {lam mu : List Nat} (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ¬ PartI.Ch04Franklin.IsFranklinMovePair lam mu :=
+  PartI.Ch04Franklin.not_IsFranklinMovePair_of_IsPentagonalFixedShape_left hfixed
 
 theorem exercise5_not_exists_IsFranklinMovePair_of_IsPentagonalFixedShape_left
-    {lam : List Nat} (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    ¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu :=
-  PartI.Ch05.not_exists_IsFranklinMovePair_of_IsPentagonalFixedShape_left hfixed
+    {lam : List Nat} (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu :=
+  PartI.Ch04Franklin.not_exists_IsFranklinMovePair_of_IsPentagonalFixedShape_left hfixed
 
 theorem exercise5_not_IsFranklinMovePair_of_middle_lastPart_and_successive
-    {lam mu : List Nat} (hlen : 0 < PartI.Ch05.numberOfParts lam)
+    {lam mu : List Nat} (hlen : 0 < PartI.Ch04Franklin.numberOfParts lam)
     (hlast :
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam ∨
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam + 1)
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam ∨
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam + 1)
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    ¬ PartI.Ch05.IsFranklinMovePair lam mu :=
-  PartI.Ch05.not_IsFranklinMovePair_of_middle_lastPart_and_successive
+    ¬ PartI.Ch04Franklin.IsFranklinMovePair lam mu :=
+  PartI.Ch04Franklin.not_IsFranklinMovePair_of_middle_lastPart_and_successive
     hlen hlast hsucc
 
 theorem exercise5_not_exists_IsFranklinMovePair_of_middle_lastPart_and_successive
-    {lam : List Nat} (hlen : 0 < PartI.Ch05.numberOfParts lam)
+    {lam : List Nat} (hlen : 0 < PartI.Ch04Franklin.numberOfParts lam)
     (hlast :
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam ∨
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam + 1)
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam ∨
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam + 1)
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    ¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu :=
-  PartI.Ch05.not_exists_IsFranklinMovePair_of_middle_lastPart_and_successive
+    ¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu :=
+  PartI.Ch04Franklin.not_exists_IsFranklinMovePair_of_middle_lastPart_and_successive
     hlen hlast hsucc
 
 theorem exercise5_IsFranklinMovePair_successive_lastPart_cases_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    (lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 <
-        PartI.Ch05.numberOfParts lam - 1 ∧
-        ¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ∨
-      (lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam - 1 ∧
-        PartI.Ch05.IsFranklinMovePair lam (PartI.Ch05.franklinUpMove lam)) ∨
-      (PartI.Ch05.IsPentagonalFixedShape lam ∧
-        ¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ∨
-      (PartI.Ch05.numberOfParts lam + 1 <
-          lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 ∧
-        PartI.Ch05.IsFranklinMovePair lam (PartI.Ch05.franklinDownMove lam)) :=
-  PartI.Ch05.IsFranklinMovePair_successive_lastPart_cases_of_strict
+    (lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 <
+        PartI.Ch04Franklin.numberOfParts lam - 1 ∧
+        ¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ∨
+      (lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam - 1 ∧
+        PartI.Ch04Franklin.IsFranklinMovePair lam (PartI.Ch04Franklin.franklinUpMove lam)) ∨
+      (PartI.Ch04Franklin.IsPentagonalFixedShape lam ∧
+        ¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ∨
+      (PartI.Ch04Franklin.numberOfParts lam + 1 <
+          lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 ∧
+        PartI.Ch04Franklin.IsFranklinMovePair lam (PartI.Ch04Franklin.franklinDownMove lam)) :=
+  PartI.Ch04Franklin.IsFranklinMovePair_successive_lastPart_cases_of_strict
     hstrict hne hsucc
 
 theorem exercise5_not_exists_IsFranklinMovePair_iff_low_or_fixed_of_successive_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    (¬ ∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ↔
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 <
-          PartI.Ch05.numberOfParts lam - 1 ∨
-        PartI.Ch05.IsPentagonalFixedShape lam :=
-  PartI.Ch05.not_exists_IsFranklinMovePair_iff_low_or_fixed_of_successive_of_strict
+    (¬ ∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ↔
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 <
+          PartI.Ch04Franklin.numberOfParts lam - 1 ∨
+        PartI.Ch04Franklin.IsPentagonalFixedShape lam :=
+  PartI.Ch04Franklin.not_exists_IsFranklinMovePair_iff_low_or_fixed_of_successive_of_strict
     hstrict hne hsucc
 
 theorem exercise5_exists_IsFranklinMovePair_iff_not_low_not_fixed_of_successive_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    (∃ mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu) ↔
-      ¬ lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 <
-          PartI.Ch05.numberOfParts lam - 1 ∧
-        ¬ PartI.Ch05.IsPentagonalFixedShape lam :=
-  PartI.Ch05.exists_IsFranklinMovePair_iff_not_low_not_fixed_of_successive_of_strict
+    (∃ mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu) ↔
+      ¬ lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 <
+          PartI.Ch04Franklin.numberOfParts lam - 1 ∧
+        ¬ PartI.Ch04Franklin.IsPentagonalFixedShape lam :=
+  PartI.Ch04Franklin.exists_IsFranklinMovePair_iff_not_low_not_fixed_of_successive_of_strict
     hstrict hne hsucc
 
 theorem exercise5_exists_unique_IsFranklinMovePair_of_not_low_not_fixed_of_successive_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0)
-    (hnotLow : ¬ lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 <
-      PartI.Ch05.numberOfParts lam - 1)
-    (hnotFixed : ¬ PartI.Ch05.IsPentagonalFixedShape lam) :
-    ∃! mu : List Nat, PartI.Ch05.IsFranklinMovePair lam mu :=
-  PartI.Ch05.exists_unique_IsFranklinMovePair_of_not_low_not_fixed_of_successive_of_strict
+    (hnotLow : ¬ lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 <
+      PartI.Ch04Franklin.numberOfParts lam - 1)
+    (hnotFixed : ¬ PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ∃! mu : List Nat, PartI.Ch04Franklin.IsFranklinMovePair lam mu :=
+  PartI.Ch04Franklin.exists_unique_IsFranklinMovePair_of_not_low_not_fixed_of_successive_of_strict
     hstrict hne hsucc hnotLow hnotFixed
 
 theorem exercise5_exists_IsFranklinMovePair_involution_package_of_not_low_not_fixed_of_successive_of_strict
-    {lam : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0)
-    (hnotLow : ¬ lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 <
-      PartI.Ch05.numberOfParts lam - 1)
-    (hnotFixed : ¬ PartI.Ch05.IsPentagonalFixedShape lam) :
+    (hnotLow : ¬ lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 <
+      PartI.Ch04Franklin.numberOfParts lam - 1)
+    (hnotFixed : ¬ PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
     ∃ mu : List Nat,
-      PartI.Ch05.IsFranklinMovePair lam mu ∧
-        PartI.Ch05.IsStrictPartition mu ∧
-        PartI.Ch05.IsFranklinMovePair mu lam ∧
+      PartI.Ch04Franklin.IsFranklinMovePair lam mu ∧
+        PartI.Ch04Franklin.IsStrictPartition mu ∧
+        PartI.Ch04Franklin.IsFranklinMovePair mu lam ∧
         partitionWeight mu = partitionWeight lam ∧
-        PartI.Ch05.partSign mu = - PartI.Ch05.partSign lam ∧
+        PartI.Ch04Franklin.partSign mu = - PartI.Ch04Franklin.partSign lam ∧
         mu ≠ lam :=
-  PartI.Ch05.exists_IsFranklinMovePair_involution_package_of_not_low_not_fixed_of_successive_of_strict
+  PartI.Ch04Franklin.exists_IsFranklinMovePair_involution_package_of_not_low_not_fixed_of_successive_of_strict
     hstrict hne hsucc hnotLow hnotFixed
 
 theorem exercise5_IsFranklinMovePair_active_target_cases_of_not_low_not_fixed_of_successive_of_strict
-    {lam mu : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
+    {lam mu : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
     (hne : lam ≠ [])
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0)
-    (hnotLow : ¬ lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 <
-      PartI.Ch05.numberOfParts lam - 1)
-    (hnotFixed : ¬ PartI.Ch05.IsPentagonalFixedShape lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
-    (lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-        PartI.Ch05.numberOfParts lam - 1 ∧
-        mu = PartI.Ch05.franklinUpMove lam) ∨
-      (PartI.Ch05.numberOfParts lam + 1 <
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 ∧
-        mu = PartI.Ch05.franklinDownMove lam) :=
-  PartI.Ch05.IsFranklinMovePair_active_target_cases_of_not_low_not_fixed_of_successive_of_strict
+    (hnotLow : ¬ lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 <
+      PartI.Ch04Franklin.numberOfParts lam - 1)
+    (hnotFixed : ¬ PartI.Ch04Franklin.IsPentagonalFixedShape lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
+    (lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+        PartI.Ch04Franklin.numberOfParts lam - 1 ∧
+        mu = PartI.Ch04Franklin.franklinUpMove lam) ∨
+      (PartI.Ch04Franklin.numberOfParts lam + 1 <
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 ∧
+        mu = PartI.Ch04Franklin.franklinDownMove lam) :=
+  PartI.Ch04Franklin.IsFranklinMovePair_active_target_cases_of_not_low_not_fixed_of_successive_of_strict
     hstrict hne hsucc hnotLow hnotFixed hpair
 
 theorem exercise5_not_IsPentagonalFixedShape_right_of_IsFranklinMovePair
-    {lam mu : List Nat} (hstrict : PartI.Ch05.IsStrictPartition lam)
-    (hpair : PartI.Ch05.IsFranklinMovePair lam mu) :
-    ¬ PartI.Ch05.IsPentagonalFixedShape mu :=
-  PartI.Ch05.not_IsPentagonalFixedShape_right_of_IsFranklinMovePair hstrict hpair
+    {lam mu : List Nat} (hstrict : PartI.Ch04Franklin.IsStrictPartition lam)
+    (hpair : PartI.Ch04Franklin.IsFranklinMovePair lam mu) :
+    ¬ PartI.Ch04Franklin.IsPentagonalFixedShape mu :=
+  PartI.Ch04Franklin.not_IsPentagonalFixedShape_right_of_IsFranklinMovePair hstrict hpair
 
 theorem exercise5_append_numberOfParts_lastPart (mu : List Nat) :
-    (mu ++ [PartI.Ch05.numberOfParts mu]).getD
-        (PartI.Ch05.numberOfParts (mu ++ [PartI.Ch05.numberOfParts mu]) - 1) 0 =
-      PartI.Ch05.numberOfParts (mu ++ [PartI.Ch05.numberOfParts mu]) - 1 :=
-  PartI.Ch05.append_numberOfParts_lastPart mu
+    (mu ++ [PartI.Ch04Franklin.numberOfParts mu]).getD
+        (PartI.Ch04Franklin.numberOfParts (mu ++ [PartI.Ch04Franklin.numberOfParts mu]) - 1) 0 =
+      PartI.Ch04Franklin.numberOfParts (mu ++ [PartI.Ch04Franklin.numberOfParts mu]) - 1 :=
+  PartI.Ch04Franklin.append_numberOfParts_lastPart mu
 
 /-- Exercise (Chapter 5 style): the staircase of height 3 shifted by 1 is [4,3,2]. -/
 theorem exercise5_shiftedStaircasePartition_three_one :
-    PartI.Ch05.shiftedStaircasePartition 1 3 = [4, 3, 2] :=
-  PartI.Ch05.shiftedStaircasePartition_three_one
+    PartI.Ch04Franklin.shiftedStaircasePartition 1 3 = [4, 3, 2] :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_three_one
 
 /-- Exercise (Chapter 5 style): shifted staircase partitions have `n` parts. -/
 theorem exercise5_numberOfParts_shiftedStaircasePartition (d n : Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d n) = n :=
-  PartI.Ch05.numberOfParts_shiftedStaircasePartition d n
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d n) = n :=
+  PartI.Ch04Franklin.numberOfParts_shiftedStaircasePartition d n
 
 theorem exercise5_shiftedStaircasePartition_getD_of_lt {d n r : Nat} (hr : r < n) :
-    (PartI.Ch05.shiftedStaircasePartition d n).getD r 0 = n - r + d :=
-  PartI.Ch05.shiftedStaircasePartition_getD_of_lt hr
+    (PartI.Ch04Franklin.shiftedStaircasePartition d n).getD r 0 = n - r + d :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_getD_of_lt hr
 
 theorem exercise5_shiftedStaircasePartition_lastPart (d n : Nat) (hn : 0 < n) :
-    (PartI.Ch05.shiftedStaircasePartition d n).getD (n - 1) 0 = 1 + d :=
-  PartI.Ch05.shiftedStaircasePartition_lastPart d n hn
+    (PartI.Ch04Franklin.shiftedStaircasePartition d n).getD (n - 1) 0 = 1 + d :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_lastPart d n hn
 
 theorem exercise5_shiftedStaircasePartition_succ_append (d n : Nat) :
-    PartI.Ch05.shiftedStaircasePartition d (n + 1) =
-      PartI.Ch05.shiftedStaircasePartition (d + 1) n ++ [1 + d] :=
-  PartI.Ch05.shiftedStaircasePartition_succ_append d n
+    PartI.Ch04Franklin.shiftedStaircasePartition d (n + 1) =
+      PartI.Ch04Franklin.shiftedStaircasePartition (d + 1) n ++ [1 + d] :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_succ_append d n
 
 theorem exercise5_shiftParts_shiftedStaircasePartition (a d n : Nat) :
-    PartI.Ch05.shiftParts a (PartI.Ch05.shiftedStaircasePartition d n) =
-      PartI.Ch05.shiftedStaircasePartition (d + a) n :=
-  PartI.Ch05.shiftParts_shiftedStaircasePartition a d n
+    PartI.Ch04Franklin.shiftParts a (PartI.Ch04Franklin.shiftedStaircasePartition d n) =
+      PartI.Ch04Franklin.shiftedStaircasePartition (d + a) n :=
+  PartI.Ch04Franklin.shiftParts_shiftedStaircasePartition a d n
 
 theorem exercise5_decrementParts_shiftedStaircasePartition_succ_offset (d n : Nat) :
-    PartI.Ch05.decrementParts (PartI.Ch05.shiftedStaircasePartition (d + 1) n) =
-      PartI.Ch05.shiftedStaircasePartition d n :=
-  PartI.Ch05.decrementParts_shiftedStaircasePartition_succ_offset d n
+    PartI.Ch04Franklin.decrementParts (PartI.Ch04Franklin.shiftedStaircasePartition (d + 1) n) =
+      PartI.Ch04Franklin.shiftedStaircasePartition d n :=
+  PartI.Ch04Franklin.decrementParts_shiftedStaircasePartition_succ_offset d n
 
 theorem exercise5_franklinUpMove_shiftedStaircasePartition_succ (d n : Nat) :
-    PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d (n + 1)) =
-      PartI.Ch05.shiftedStaircasePartition (d + 2) n :=
-  PartI.Ch05.franklinUpMove_shiftedStaircasePartition_succ d n
+    PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d (n + 1)) =
+      PartI.Ch04Franklin.shiftedStaircasePartition (d + 2) n :=
+  PartI.Ch04Franklin.franklinUpMove_shiftedStaircasePartition_succ d n
 
 theorem exercise5_franklinUpMove_shiftedStaircasePartition_of_pos_height
     {d k : Nat} (hk : 0 < k) :
-    PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k) =
-      PartI.Ch05.shiftedStaircasePartition (d + 2) (k - 1) :=
-  PartI.Ch05.franklinUpMove_shiftedStaircasePartition_of_pos_height hk
+    PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k) =
+      PartI.Ch04Franklin.shiftedStaircasePartition (d + 2) (k - 1) :=
+  PartI.Ch04Franklin.franklinUpMove_shiftedStaircasePartition_of_pos_height hk
 
 theorem exercise5_franklinDownMove_shiftedStaircasePartition_succ_offset
     (d n : Nat) :
-    PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition (d + 1) n) =
-      PartI.Ch05.shiftedStaircasePartition d n ++ [n] :=
-  PartI.Ch05.franklinDownMove_shiftedStaircasePartition_succ_offset d n
+    PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition (d + 1) n) =
+      PartI.Ch04Franklin.shiftedStaircasePartition d n ++ [n] :=
+  PartI.Ch04Franklin.franklinDownMove_shiftedStaircasePartition_succ_offset d n
 
 theorem exercise5_franklinDownMove_shiftedStaircasePartition_of_pos_offset
     {d k : Nat} (hd : 0 < d) :
-    PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k) =
-      PartI.Ch05.shiftedStaircasePartition (d - 1) k ++ [k] :=
-  PartI.Ch05.franklinDownMove_shiftedStaircasePartition_of_pos_offset hd
+    PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k) =
+      PartI.Ch04Franklin.shiftedStaircasePartition (d - 1) k ++ [k] :=
+  PartI.Ch04Franklin.franklinDownMove_shiftedStaircasePartition_of_pos_offset hd
 
 theorem exercise5_franklinDownMove_hgt_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
-    (∀ n, n ∈ PartI.Ch05.shiftedStaircasePartition d k →
-      PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) + 1 < n) ↔
+    (∀ n, n ∈ PartI.Ch04Franklin.shiftedStaircasePartition d k →
+      PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) + 1 < n) ↔
       k < d :=
-  PartI.Ch05.franklinDownMove_hgt_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.franklinDownMove_hgt_shiftedStaircasePartition_iff hk
 
 theorem exercise5_not_franklinDownMove_hgt_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
-    ¬ (∀ n, n ∈ PartI.Ch05.shiftedStaircasePartition d k →
-      PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) + 1 < n) ↔
+    ¬ (∀ n, n ∈ PartI.Ch04Franklin.shiftedStaircasePartition d k →
+      PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) + 1 < n) ↔
       d ≤ k :=
-  PartI.Ch05.not_franklinDownMove_hgt_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.not_franklinDownMove_hgt_shiftedStaircasePartition_iff hk
 
 theorem exercise5_eq_shiftedStaircasePartition_of_getD {lam : List Nat} {d n : Nat}
-    (hlen : PartI.Ch05.numberOfParts lam = n)
+    (hlen : PartI.Ch04Franklin.numberOfParts lam = n)
     (hget : ∀ r, r < n → lam.getD r 0 = n - r + d) :
-    lam = PartI.Ch05.shiftedStaircasePartition d n :=
-  PartI.Ch05.eq_shiftedStaircasePartition_of_getD hlen hget
+    lam = PartI.Ch04Franklin.shiftedStaircasePartition d n :=
+  PartI.Ch04Franklin.eq_shiftedStaircasePartition_of_getD hlen hget
 
 theorem exercise5_partParity_shiftedStaircasePartition (d n : Nat) :
-    PartI.Ch05.partParity (PartI.Ch05.shiftedStaircasePartition d n) = n % 2 :=
-  PartI.Ch05.partParity_shiftedStaircasePartition d n
+    PartI.Ch04Franklin.partParity (PartI.Ch04Franklin.shiftedStaircasePartition d n) = n % 2 :=
+  PartI.Ch04Franklin.partParity_shiftedStaircasePartition d n
 
 theorem exercise5_partSign_shiftedStaircasePartition (d n : Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.shiftedStaircasePartition d n) =
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.shiftedStaircasePartition d n) =
       if n % 2 = 0 then 1 else -1 :=
-  PartI.Ch05.partSign_shiftedStaircasePartition d n
+  PartI.Ch04Franklin.partSign_shiftedStaircasePartition d n
 
 /-- Exercise (Chapter 5 style): weight of a shifted staircase is triangular + d*n. -/
 theorem exercise5_partitionWeight_shiftedStaircasePartition (d n : Nat) :
-    partitionWeight (PartI.Ch05.shiftedStaircasePartition d n) = triangular n + d * n :=
-  PartI.Ch05.partitionWeight_shiftedStaircasePartition d n
+    partitionWeight (PartI.Ch04Franklin.shiftedStaircasePartition d n) = triangular n + d * n :=
+  PartI.Ch04Franklin.partitionWeight_shiftedStaircasePartition d n
 
 /-- Exercise (Chapter 5 style): every shifted staircase partition is strict. -/
 theorem exercise5_IsStrictPartition_shiftedStaircasePartition (d n : Nat) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.shiftedStaircasePartition d n) :=
-  PartI.Ch05.IsStrictPartition_shiftedStaircasePartition d n
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.shiftedStaircasePartition d n) :=
+  PartI.Ch04Franklin.IsStrictPartition_shiftedStaircasePartition d n
 
 /-- Exercise (Chapter 5 style): the lower pentagonal partition of height 3 is [5,4,3]. -/
 theorem exercise5_lowerPentagonalPartition_three :
-    PartI.Ch05.lowerPentagonalPartition 3 = [5, 4, 3] :=
-  PartI.Ch05.lowerPentagonalPartition_three
+    PartI.Ch04Franklin.lowerPentagonalPartition 3 = [5, 4, 3] :=
+  PartI.Ch04Franklin.lowerPentagonalPartition_three
 
 /-- Exercise (Chapter 5 style): the upper pentagonal partition of height 3 is [6,5,4]. -/
 theorem exercise5_upperPentagonalPartition_three :
-    PartI.Ch05.upperPentagonalPartition 3 = [6, 5, 4] :=
-  PartI.Ch05.upperPentagonalPartition_three
+    PartI.Ch04Franklin.upperPentagonalPartition 3 = [6, 5, 4] :=
+  PartI.Ch04Franklin.upperPentagonalPartition_three
 
 theorem exercise5_eq_lowerPentagonalPartition_of_getD {lam : List Nat} {k : Nat}
-    (hlen : PartI.Ch05.numberOfParts lam = k)
+    (hlen : PartI.Ch04Franklin.numberOfParts lam = k)
     (hget : ∀ r, r < k → lam.getD r 0 = k - r + (k - 1)) :
-    lam = PartI.Ch05.lowerPentagonalPartition k :=
-  PartI.Ch05.eq_lowerPentagonalPartition_of_getD hlen hget
+    lam = PartI.Ch04Franklin.lowerPentagonalPartition k :=
+  PartI.Ch04Franklin.eq_lowerPentagonalPartition_of_getD hlen hget
 
 theorem exercise5_eq_upperPentagonalPartition_of_getD {lam : List Nat} {k : Nat}
-    (hlen : PartI.Ch05.numberOfParts lam = k)
+    (hlen : PartI.Ch04Franklin.numberOfParts lam = k)
     (hget : ∀ r, r < k → lam.getD r 0 = k - r + k) :
-    lam = PartI.Ch05.upperPentagonalPartition k :=
-  PartI.Ch05.eq_upperPentagonalPartition_of_getD hlen hget
+    lam = PartI.Ch04Franklin.upperPentagonalPartition k :=
+  PartI.Ch04Franklin.eq_upperPentagonalPartition_of_getD hlen hget
 
 theorem exercise5_eq_lowerPentagonalPartition_of_firstPart_and_successive
     {lam : List Nat} {k : Nat}
-    (hlen : PartI.Ch05.numberOfParts lam = k)
+    (hlen : PartI.Ch04Franklin.numberOfParts lam = k)
     (hfirst : lam.getD 0 0 = 2 * k - 1)
     (hsucc : ∀ r, r + 1 < k → lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    lam = PartI.Ch05.lowerPentagonalPartition k :=
-  PartI.Ch05.eq_lowerPentagonalPartition_of_firstPart_and_successive hlen hfirst hsucc
+    lam = PartI.Ch04Franklin.lowerPentagonalPartition k :=
+  PartI.Ch04Franklin.eq_lowerPentagonalPartition_of_firstPart_and_successive hlen hfirst hsucc
 
 theorem exercise5_eq_upperPentagonalPartition_of_firstPart_and_successive
     {lam : List Nat} {k : Nat}
-    (hlen : PartI.Ch05.numberOfParts lam = k)
+    (hlen : PartI.Ch04Franklin.numberOfParts lam = k)
     (hfirst : lam.getD 0 0 = 2 * k)
     (hsucc : ∀ r, r + 1 < k → lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    lam = PartI.Ch05.upperPentagonalPartition k :=
-  PartI.Ch05.eq_upperPentagonalPartition_of_firstPart_and_successive hlen hfirst hsucc
+    lam = PartI.Ch04Franklin.upperPentagonalPartition k :=
+  PartI.Ch04Franklin.eq_upperPentagonalPartition_of_firstPart_and_successive hlen hfirst hsucc
 
 theorem exercise5_getD_zero_eq_last_add_of_successive {lam : List Nat} {k : Nat}
     (hk : 0 < k)
     (hsucc : ∀ r, r + 1 < k → lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
     lam.getD 0 0 = lam.getD (k - 1) 0 + (k - 1) :=
-  PartI.Ch05.getD_zero_eq_last_add_of_successive hk hsucc
+  PartI.Ch04Franklin.getD_zero_eq_last_add_of_successive hk hsucc
 
 theorem exercise5_eq_lowerPentagonalPartition_of_lastPart_and_successive
     {lam : List Nat} {k : Nat}
-    (hk : 0 < k) (hlen : PartI.Ch05.numberOfParts lam = k)
+    (hk : 0 < k) (hlen : PartI.Ch04Franklin.numberOfParts lam = k)
     (hlast : lam.getD (k - 1) 0 = k)
     (hsucc : ∀ r, r + 1 < k → lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    lam = PartI.Ch05.lowerPentagonalPartition k :=
-  PartI.Ch05.eq_lowerPentagonalPartition_of_lastPart_and_successive
+    lam = PartI.Ch04Franklin.lowerPentagonalPartition k :=
+  PartI.Ch04Franklin.eq_lowerPentagonalPartition_of_lastPart_and_successive
     hk hlen hlast hsucc
 
 theorem exercise5_eq_upperPentagonalPartition_of_lastPart_and_successive
     {lam : List Nat} {k : Nat}
-    (hk : 0 < k) (hlen : PartI.Ch05.numberOfParts lam = k)
+    (hk : 0 < k) (hlen : PartI.Ch04Franklin.numberOfParts lam = k)
     (hlast : lam.getD (k - 1) 0 = k + 1)
     (hsucc : ∀ r, r + 1 < k → lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    lam = PartI.Ch05.upperPentagonalPartition k :=
-  PartI.Ch05.eq_upperPentagonalPartition_of_lastPart_and_successive
+    lam = PartI.Ch04Franklin.upperPentagonalPartition k :=
+  PartI.Ch04Franklin.eq_upperPentagonalPartition_of_lastPart_and_successive
     hk hlen hlast hsucc
 
 theorem exercise5_IsPentagonalFixedShape_of_lastPart_eq_numberOfParts_or_add_one
-    {lam : List Nat} (hlen : 0 < PartI.Ch05.numberOfParts lam)
+    {lam : List Nat} (hlen : 0 < PartI.Ch04Franklin.numberOfParts lam)
     (hlast :
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 = PartI.Ch05.numberOfParts lam ∨
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam + 1)
-    (hsucc : ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 = PartI.Ch04Franklin.numberOfParts lam ∨
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam + 1)
+    (hsucc : ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0) :
-    PartI.Ch05.IsPentagonalFixedShape lam :=
-  PartI.Ch05.IsPentagonalFixedShape_of_lastPart_eq_numberOfParts_or_add_one
+    PartI.Ch04Franklin.IsPentagonalFixedShape lam :=
+  PartI.Ch04Franklin.IsPentagonalFixedShape_of_lastPart_eq_numberOfParts_or_add_one
     hlen hlast hsucc
 
 theorem exercise5_lowerPentagonalPartition_getD_of_lt {k r : Nat} (hr : r < k) :
-    (PartI.Ch05.lowerPentagonalPartition k).getD r 0 = k - r + (k - 1) :=
-  PartI.Ch05.lowerPentagonalPartition_getD_of_lt hr
+    (PartI.Ch04Franklin.lowerPentagonalPartition k).getD r 0 = k - r + (k - 1) :=
+  PartI.Ch04Franklin.lowerPentagonalPartition_getD_of_lt hr
 
 theorem exercise5_upperPentagonalPartition_getD_of_lt {k r : Nat} (hr : r < k) :
-    (PartI.Ch05.upperPentagonalPartition k).getD r 0 = k - r + k :=
-  PartI.Ch05.upperPentagonalPartition_getD_of_lt hr
+    (PartI.Ch04Franklin.upperPentagonalPartition k).getD r 0 = k - r + k :=
+  PartI.Ch04Franklin.upperPentagonalPartition_getD_of_lt hr
 
 theorem exercise5_lowerPentagonalPartition_lastPart (k : Nat) (hk : 0 < k) :
-    (PartI.Ch05.lowerPentagonalPartition k).getD (k - 1) 0 = k :=
-  PartI.Ch05.lowerPentagonalPartition_lastPart k hk
+    (PartI.Ch04Franklin.lowerPentagonalPartition k).getD (k - 1) 0 = k :=
+  PartI.Ch04Franklin.lowerPentagonalPartition_lastPart k hk
 
 theorem exercise5_upperPentagonalPartition_lastPart (k : Nat) (hk : 0 < k) :
-    (PartI.Ch05.upperPentagonalPartition k).getD (k - 1) 0 = k + 1 :=
-  PartI.Ch05.upperPentagonalPartition_lastPart k hk
+    (PartI.Ch04Franklin.upperPentagonalPartition k).getD (k - 1) 0 = k + 1 :=
+  PartI.Ch04Franklin.upperPentagonalPartition_lastPart k hk
 
 theorem exercise5_lowerPentagonalPartition_firstPart (k : Nat) (hk : 0 < k) :
-    (PartI.Ch05.lowerPentagonalPartition k).getD 0 0 = 2 * k - 1 :=
-  PartI.Ch05.lowerPentagonalPartition_firstPart k hk
+    (PartI.Ch04Franklin.lowerPentagonalPartition k).getD 0 0 = 2 * k - 1 :=
+  PartI.Ch04Franklin.lowerPentagonalPartition_firstPart k hk
 
 theorem exercise5_upperPentagonalPartition_firstPart (k : Nat) (hk : 0 < k) :
-    (PartI.Ch05.upperPentagonalPartition k).getD 0 0 = 2 * k :=
-  PartI.Ch05.upperPentagonalPartition_firstPart k hk
+    (PartI.Ch04Franklin.upperPentagonalPartition k).getD 0 0 = 2 * k :=
+  PartI.Ch04Franklin.upperPentagonalPartition_firstPart k hk
 
 theorem exercise5_lowerPentagonalPartition_successive_getD
     (k r : Nat) (hr : r + 1 < k) :
-    (PartI.Ch05.lowerPentagonalPartition k).getD (r + 1) 0 + 1 =
-      (PartI.Ch05.lowerPentagonalPartition k).getD r 0 :=
-  PartI.Ch05.lowerPentagonalPartition_successive_getD k r hr
+    (PartI.Ch04Franklin.lowerPentagonalPartition k).getD (r + 1) 0 + 1 =
+      (PartI.Ch04Franklin.lowerPentagonalPartition k).getD r 0 :=
+  PartI.Ch04Franklin.lowerPentagonalPartition_successive_getD k r hr
 
 theorem exercise5_upperPentagonalPartition_successive_getD
     (k r : Nat) (hr : r + 1 < k) :
-    (PartI.Ch05.upperPentagonalPartition k).getD (r + 1) 0 + 1 =
-      (PartI.Ch05.upperPentagonalPartition k).getD r 0 :=
-  PartI.Ch05.upperPentagonalPartition_successive_getD k r hr
+    (PartI.Ch04Franklin.upperPentagonalPartition k).getD (r + 1) 0 + 1 =
+      (PartI.Ch04Franklin.upperPentagonalPartition k).getD r 0 :=
+  PartI.Ch04Franklin.upperPentagonalPartition_successive_getD k r hr
 
 /-- Exercise (Chapter 5 style): lower pentagonal partitions have pentagonal weight. -/
 theorem exercise5_partitionWeight_lowerPentagonalPartition (k : Nat) :
-    partitionWeight (PartI.Ch05.lowerPentagonalPartition k) = pentagonalNumber k :=
-  PartI.Ch05.partitionWeight_lowerPentagonalPartition k
+    partitionWeight (PartI.Ch04Franklin.lowerPentagonalPartition k) = pentagonalNumber k :=
+  PartI.Ch04Franklin.partitionWeight_lowerPentagonalPartition k
 
 /-- Exercise (Chapter 5 style): upper pentagonal partitions have upper pentagonal weight. -/
 theorem exercise5_partitionWeight_upperPentagonalPartition (k : Nat) :
-    partitionWeight (PartI.Ch05.upperPentagonalPartition k) = PartI.Ch05.upperPentagonalNumber k :=
-  PartI.Ch05.partitionWeight_upperPentagonalPartition k
+    partitionWeight (PartI.Ch04Franklin.upperPentagonalPartition k) = PartI.Ch04Franklin.upperPentagonalNumber k :=
+  PartI.Ch04Franklin.partitionWeight_upperPentagonalPartition k
 
 /-- Exercise (Chapter 5 style): formula for the upper pentagonal number. -/
 theorem exercise5_two_mul_upperPentagonalNumber (k : Nat) :
-    2 * PartI.Ch05.upperPentagonalNumber k = k * (3 * k + 1) :=
-  PartI.Ch05.two_mul_upperPentagonalNumber k
+    2 * PartI.Ch04Franklin.upperPentagonalNumber k = k * (3 * k + 1) :=
+  PartI.Ch04Franklin.two_mul_upperPentagonalNumber k
 
 /-- Exercise (Chapter 5 style): lower pentagonal partitions are strict. -/
 theorem exercise5_IsStrictPartition_lowerPentagonalPartition (k : Nat) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.lowerPentagonalPartition k) :=
-  PartI.Ch05.IsStrictPartition_lowerPentagonalPartition k
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.lowerPentagonalPartition k) :=
+  PartI.Ch04Franklin.IsStrictPartition_lowerPentagonalPartition k
 
 /-- Exercise (Chapter 5 style): upper pentagonal partitions are strict. -/
 theorem exercise5_IsStrictPartition_upperPentagonalPartition (k : Nat) :
-    PartI.Ch05.IsStrictPartition (PartI.Ch05.upperPentagonalPartition k) :=
-  PartI.Ch05.IsStrictPartition_upperPentagonalPartition k
+    PartI.Ch04Franklin.IsStrictPartition (PartI.Ch04Franklin.upperPentagonalPartition k) :=
+  PartI.Ch04Franklin.IsStrictPartition_upperPentagonalPartition k
 
 theorem exercise5_IsPentagonalFixedShape_lower (k : Nat) (hk : 0 < k) :
-    PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.lowerPentagonalPartition k) :=
-  PartI.Ch05.IsPentagonalFixedShape_lower k hk
+    PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.lowerPentagonalPartition k) :=
+  PartI.Ch04Franklin.IsPentagonalFixedShape_lower k hk
 
 theorem exercise5_IsPentagonalFixedShape_upper (k : Nat) (hk : 0 < k) :
-    PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.upperPentagonalPartition k) :=
-  PartI.Ch05.IsPentagonalFixedShape_upper k hk
+    PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.upperPentagonalPartition k) :=
+  PartI.Ch04Franklin.IsPentagonalFixedShape_upper k hk
 
 theorem exercise5_IsStrictPartition_of_IsPentagonalFixedShape {lam : List Nat}
-    (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    PartI.Ch05.IsStrictPartition lam :=
-  PartI.Ch05.IsStrictPartition_of_IsPentagonalFixedShape hfixed
+    (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    PartI.Ch04Franklin.IsStrictPartition lam :=
+  PartI.Ch04Franklin.IsStrictPartition_of_IsPentagonalFixedShape hfixed
 
 theorem exercise5_numberOfParts_pos_of_IsPentagonalFixedShape {lam : List Nat}
-    (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    0 < PartI.Ch05.numberOfParts lam :=
-  PartI.Ch05.numberOfParts_pos_of_IsPentagonalFixedShape hfixed
+    (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    0 < PartI.Ch04Franklin.numberOfParts lam :=
+  PartI.Ch04Franklin.numberOfParts_pos_of_IsPentagonalFixedShape hfixed
 
 /-- Exercise (Chapter 5 style): lower pentagonal partitions have k parts. -/
 theorem exercise5_numberOfParts_lowerPentagonalPartition (k : Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.lowerPentagonalPartition k) = k :=
-  PartI.Ch05.numberOfParts_lowerPentagonalPartition k
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.lowerPentagonalPartition k) = k :=
+  PartI.Ch04Franklin.numberOfParts_lowerPentagonalPartition k
 
 /-- Exercise (Chapter 5 style): upper pentagonal partitions have k parts. -/
 theorem exercise5_numberOfParts_upperPentagonalPartition (k : Nat) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.upperPentagonalPartition k) = k :=
-  PartI.Ch05.numberOfParts_upperPentagonalPartition k
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.upperPentagonalPartition k) = k :=
+  PartI.Ch04Franklin.numberOfParts_upperPentagonalPartition k
 
 theorem exercise5_lowerPentagonalPartition_lastPart_mem (k : Nat) (hk : 0 < k) :
-    k ∈ PartI.Ch05.lowerPentagonalPartition k :=
-  PartI.Ch05.lowerPentagonalPartition_lastPart_mem k hk
+    k ∈ PartI.Ch04Franklin.lowerPentagonalPartition k :=
+  PartI.Ch04Franklin.lowerPentagonalPartition_lastPart_mem k hk
 
 theorem exercise5_upperPentagonalPartition_lastPart_mem (k : Nat) (hk : 0 < k) :
-    k + 1 ∈ PartI.Ch05.upperPentagonalPartition k :=
-  PartI.Ch05.upperPentagonalPartition_lastPart_mem k hk
+    k + 1 ∈ PartI.Ch04Franklin.upperPentagonalPartition k :=
+  PartI.Ch04Franklin.upperPentagonalPartition_lastPart_mem k hk
 
 theorem exercise5_lowerPentagonalPartition_lastPart_eq_numberOfParts
     (k : Nat) (hk : 0 < k) :
-    (PartI.Ch05.lowerPentagonalPartition k).getD
-      (PartI.Ch05.numberOfParts (PartI.Ch05.lowerPentagonalPartition k) - 1) 0 =
-        PartI.Ch05.numberOfParts (PartI.Ch05.lowerPentagonalPartition k) :=
-  PartI.Ch05.lowerPentagonalPartition_lastPart_eq_numberOfParts k hk
+    (PartI.Ch04Franklin.lowerPentagonalPartition k).getD
+      (PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.lowerPentagonalPartition k) - 1) 0 =
+        PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.lowerPentagonalPartition k) :=
+  PartI.Ch04Franklin.lowerPentagonalPartition_lastPart_eq_numberOfParts k hk
 
 theorem exercise5_upperPentagonalPartition_lastPart_eq_numberOfParts_add_one
     (k : Nat) (hk : 0 < k) :
-    (PartI.Ch05.upperPentagonalPartition k).getD
-      (PartI.Ch05.numberOfParts (PartI.Ch05.upperPentagonalPartition k) - 1) 0 =
-        PartI.Ch05.numberOfParts (PartI.Ch05.upperPentagonalPartition k) + 1 :=
-  PartI.Ch05.upperPentagonalPartition_lastPart_eq_numberOfParts_add_one k hk
+    (PartI.Ch04Franklin.upperPentagonalPartition k).getD
+      (PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.upperPentagonalPartition k) - 1) 0 =
+        PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.upperPentagonalPartition k) + 1 :=
+  PartI.Ch04Franklin.upperPentagonalPartition_lastPart_eq_numberOfParts_add_one k hk
 
 theorem exercise5_not_franklinDownMove_hgt_lowerPentagonalPartition
     (k : Nat) (hk : 0 < k) :
-    ¬ (∀ n, n ∈ PartI.Ch05.lowerPentagonalPartition k →
-      PartI.Ch05.numberOfParts (PartI.Ch05.lowerPentagonalPartition k) + 1 < n) :=
-  PartI.Ch05.not_franklinDownMove_hgt_lowerPentagonalPartition k hk
+    ¬ (∀ n, n ∈ PartI.Ch04Franklin.lowerPentagonalPartition k →
+      PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.lowerPentagonalPartition k) + 1 < n) :=
+  PartI.Ch04Franklin.not_franklinDownMove_hgt_lowerPentagonalPartition k hk
 
 theorem exercise5_not_franklinDownMove_hgt_upperPentagonalPartition
     (k : Nat) (hk : 0 < k) :
-    ¬ (∀ n, n ∈ PartI.Ch05.upperPentagonalPartition k →
-      PartI.Ch05.numberOfParts (PartI.Ch05.upperPentagonalPartition k) + 1 < n) :=
-  PartI.Ch05.not_franklinDownMove_hgt_upperPentagonalPartition k hk
+    ¬ (∀ n, n ∈ PartI.Ch04Franklin.upperPentagonalPartition k →
+      PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.upperPentagonalPartition k) + 1 < n) :=
+  PartI.Ch04Franklin.not_franklinDownMove_hgt_upperPentagonalPartition k hk
 
 theorem exercise5_not_lowerPentagonalPartition_eq_append_numberOfParts
     (k : Nat) (hk : 0 < k) :
     ¬ ∃ mu : List Nat,
-      PartI.Ch05.lowerPentagonalPartition k = mu ++ [PartI.Ch05.numberOfParts mu] :=
-  PartI.Ch05.not_lowerPentagonalPartition_eq_append_numberOfParts k hk
+      PartI.Ch04Franklin.lowerPentagonalPartition k = mu ++ [PartI.Ch04Franklin.numberOfParts mu] :=
+  PartI.Ch04Franklin.not_lowerPentagonalPartition_eq_append_numberOfParts k hk
 
 theorem exercise5_not_upperPentagonalPartition_eq_append_numberOfParts
     (k : Nat) (hk : 0 < k) :
     ¬ ∃ mu : List Nat,
-      PartI.Ch05.upperPentagonalPartition k = mu ++ [PartI.Ch05.numberOfParts mu] :=
-  PartI.Ch05.not_upperPentagonalPartition_eq_append_numberOfParts k hk
+      PartI.Ch04Franklin.upperPentagonalPartition k = mu ++ [PartI.Ch04Franklin.numberOfParts mu] :=
+  PartI.Ch04Franklin.not_upperPentagonalPartition_eq_append_numberOfParts k hk
 
 theorem exercise5_not_franklinDownMove_hgt_of_IsPentagonalFixedShape {lam : List Nat}
-    (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    ¬ (∀ n, n ∈ lam → PartI.Ch05.numberOfParts lam + 1 < n) :=
-  PartI.Ch05.not_franklinDownMove_hgt_of_IsPentagonalFixedShape hfixed
+    (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ¬ (∀ n, n ∈ lam → PartI.Ch04Franklin.numberOfParts lam + 1 < n) :=
+  PartI.Ch04Franklin.not_franklinDownMove_hgt_of_IsPentagonalFixedShape hfixed
 
 theorem exercise5_not_eq_append_numberOfParts_of_IsPentagonalFixedShape {lam : List Nat}
-    (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    ¬ ∃ mu : List Nat, lam = mu ++ [PartI.Ch05.numberOfParts mu] :=
-  PartI.Ch05.not_eq_append_numberOfParts_of_IsPentagonalFixedShape hfixed
+    (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ¬ ∃ mu : List Nat, lam = mu ++ [PartI.Ch04Franklin.numberOfParts mu] :=
+  PartI.Ch04Franklin.not_eq_append_numberOfParts_of_IsPentagonalFixedShape hfixed
 
 theorem exercise5_not_IsFranklinDownBranchInput_of_IsPentagonalFixedShape
-    {lam : List Nat} (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    ¬ PartI.Ch05.IsFranklinDownBranchInput lam :=
-  PartI.Ch05.not_IsFranklinDownBranchInput_of_IsPentagonalFixedShape hfixed
+    {lam : List Nat} (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ¬ PartI.Ch04Franklin.IsFranklinDownBranchInput lam :=
+  PartI.Ch04Franklin.not_IsFranklinDownBranchInput_of_IsPentagonalFixedShape hfixed
 
 theorem exercise5_not_IsFranklinUpBranchInput_of_IsPentagonalFixedShape
-    {lam : List Nat} (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    ¬ PartI.Ch05.IsFranklinUpBranchInput lam :=
-  PartI.Ch05.not_IsFranklinUpBranchInput_of_IsPentagonalFixedShape hfixed
+    {lam : List Nat} (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ¬ PartI.Ch04Franklin.IsFranklinUpBranchInput lam :=
+  PartI.Ch04Franklin.not_IsFranklinUpBranchInput_of_IsPentagonalFixedShape hfixed
 
 theorem exercise5_lastPart_eq_numberOfParts_or_add_one_of_IsPentagonalFixedShape
-    {lam : List Nat} (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 = PartI.Ch05.numberOfParts lam ∨
-      lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-        PartI.Ch05.numberOfParts lam + 1 :=
-  PartI.Ch05.lastPart_eq_numberOfParts_or_add_one_of_IsPentagonalFixedShape hfixed
+    {lam : List Nat} (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 = PartI.Ch04Franklin.numberOfParts lam ∨
+      lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+        PartI.Ch04Franklin.numberOfParts lam + 1 :=
+  PartI.Ch04Franklin.lastPart_eq_numberOfParts_or_add_one_of_IsPentagonalFixedShape hfixed
 
 theorem exercise5_successive_getD_of_IsPentagonalFixedShape {lam : List Nat}
-    (hfixed : PartI.Ch05.IsPentagonalFixedShape lam) :
-    ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    (hfixed : PartI.Ch04Franklin.IsPentagonalFixedShape lam) :
+    ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
       lam.getD (r + 1) 0 + 1 = lam.getD r 0 :=
-  PartI.Ch05.successive_getD_of_IsPentagonalFixedShape hfixed
+  PartI.Ch04Franklin.successive_getD_of_IsPentagonalFixedShape hfixed
 
 theorem exercise5_IsPentagonalFixedShape_iff_lastPart_boundary_and_successive
-    {lam : List Nat} (hlen : 0 < PartI.Ch05.numberOfParts lam) :
-    PartI.Ch05.IsPentagonalFixedShape lam ↔
-      (lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam ∨
-        lam.getD (PartI.Ch05.numberOfParts lam - 1) 0 =
-          PartI.Ch05.numberOfParts lam + 1) ∧
-        ∀ r, r + 1 < PartI.Ch05.numberOfParts lam →
+    {lam : List Nat} (hlen : 0 < PartI.Ch04Franklin.numberOfParts lam) :
+    PartI.Ch04Franklin.IsPentagonalFixedShape lam ↔
+      (lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam ∨
+        lam.getD (PartI.Ch04Franklin.numberOfParts lam - 1) 0 =
+          PartI.Ch04Franklin.numberOfParts lam + 1) ∧
+        ∀ r, r + 1 < PartI.Ch04Franklin.numberOfParts lam →
           lam.getD (r + 1) 0 + 1 = lam.getD r 0 :=
-  PartI.Ch05.IsPentagonalFixedShape_iff_lastPart_boundary_and_successive hlen
+  PartI.Ch04Franklin.IsPentagonalFixedShape_iff_lastPart_boundary_and_successive hlen
 
 theorem exercise5_IsPentagonalFixedShape_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
-    PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ↔
+    PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ↔
       d = k - 1 ∨ d = k :=
-  PartI.Ch05.IsPentagonalFixedShape_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.IsPentagonalFixedShape_shiftedStaircasePartition_iff hk
 
 theorem exercise5_not_IsPentagonalFixedShape_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
-    ¬ PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ↔
+    ¬ PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ↔
       d ≠ k - 1 ∧ d ≠ k :=
-  PartI.Ch05.not_IsPentagonalFixedShape_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.not_IsPentagonalFixedShape_shiftedStaircasePartition_iff hk
 
 theorem exercise5_shiftedStaircasePartition_eq_append_numberOfParts_iff
     {d k : Nat} (hk : 0 < k) :
     (∃ mu : List Nat,
-      PartI.Ch05.shiftedStaircasePartition d k =
-        mu ++ [PartI.Ch05.numberOfParts mu]) ↔
+      PartI.Ch04Franklin.shiftedStaircasePartition d k =
+        mu ++ [PartI.Ch04Franklin.numberOfParts mu]) ↔
       d + 2 = k :=
-  PartI.Ch05.shiftedStaircasePartition_eq_append_numberOfParts_iff hk
+  PartI.Ch04Franklin.shiftedStaircasePartition_eq_append_numberOfParts_iff hk
 
 theorem exercise5_IsFranklinUpBranchInput_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
-    PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.shiftedStaircasePartition d k) ↔
+    PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) ↔
       d + 2 = k :=
-  PartI.Ch05.IsFranklinUpBranchInput_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.IsFranklinUpBranchInput_shiftedStaircasePartition_iff hk
 
 theorem exercise5_IsFranklinDownBranchInput_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
-    PartI.Ch05.IsFranklinDownBranchInput (PartI.Ch05.shiftedStaircasePartition d k) ↔
+    PartI.Ch04Franklin.IsFranklinDownBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) ↔
       k < d :=
-  PartI.Ch05.IsFranklinDownBranchInput_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.IsFranklinDownBranchInput_shiftedStaircasePartition_iff hk
 
 theorem exercise5_exists_IsFranklinMovePair_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
     (∃ mu : List Nat,
-      PartI.Ch05.IsFranklinMovePair (PartI.Ch05.shiftedStaircasePartition d k) mu) ↔
+      PartI.Ch04Franklin.IsFranklinMovePair (PartI.Ch04Franklin.shiftedStaircasePartition d k) mu) ↔
       d + 2 = k ∨ k < d :=
-  PartI.Ch05.exists_IsFranklinMovePair_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.exists_IsFranklinMovePair_shiftedStaircasePartition_iff hk
 
 theorem exercise5_not_exists_IsFranklinMovePair_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) :
     (¬ ∃ mu : List Nat,
-      PartI.Ch05.IsFranklinMovePair (PartI.Ch05.shiftedStaircasePartition d k) mu) ↔
-      PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∨
+      PartI.Ch04Franklin.IsFranklinMovePair (PartI.Ch04Franklin.shiftedStaircasePartition d k) mu) ↔
+      PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
         d + 2 < k :=
-  PartI.Ch05.not_exists_IsFranklinMovePair_shiftedStaircasePartition_iff hk
+  PartI.Ch04Franklin.not_exists_IsFranklinMovePair_shiftedStaircasePartition_iff hk
 
 theorem exercise5_IsFranklinMovePair_shiftedStaircasePartition_iff
     {d k : Nat} (hk : 0 < k) {mu : List Nat} :
-    PartI.Ch05.IsFranklinMovePair (PartI.Ch05.shiftedStaircasePartition d k) mu ↔
+    PartI.Ch04Franklin.IsFranklinMovePair (PartI.Ch04Franklin.shiftedStaircasePartition d k) mu ↔
       (d + 2 = k ∧
-        mu = PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) ∨
+        mu = PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∨
         (k < d ∧
-          mu = PartI.Ch05.franklinDownMove
-            (PartI.Ch05.shiftedStaircasePartition d k)) :=
-  PartI.Ch05.IsFranklinMovePair_shiftedStaircasePartition_iff hk
+          mu = PartI.Ch04Franklin.franklinDownMove
+            (PartI.Ch04Franklin.shiftedStaircasePartition d k)) :=
+  PartI.Ch04Franklin.IsFranklinMovePair_shiftedStaircasePartition_iff hk
 
 theorem exercise5_shiftedStaircasePartition_lastPart_low_residual_iff
     {d k : Nat} (hk : 0 < k) :
-    (PartI.Ch05.shiftedStaircasePartition d k).getD
-        (PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) - 1) 0 <
-      PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) - 1 ↔
+    (PartI.Ch04Franklin.shiftedStaircasePartition d k).getD
+        (PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) - 1) 0 <
+      PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) - 1 ↔
       d + 2 < k :=
-  PartI.Ch05.shiftedStaircasePartition_lastPart_low_residual_iff hk
+  PartI.Ch04Franklin.shiftedStaircasePartition_lastPart_low_residual_iff hk
 
 theorem exercise5_shiftedStaircasePartition_lastPart_up_boundary_iff
     {d k : Nat} (hk : 0 < k) :
-    (PartI.Ch05.shiftedStaircasePartition d k).getD
-        (PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) - 1) 0 =
-      PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) - 1 ↔
-      PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.shiftedStaircasePartition_lastPart_up_boundary_iff hk
+    (PartI.Ch04Franklin.shiftedStaircasePartition d k).getD
+        (PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) - 1) 0 =
+      PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) - 1 ↔
+      PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_lastPart_up_boundary_iff hk
 
 theorem exercise5_shiftedStaircasePartition_lastPart_fixed_boundary_iff
     {d k : Nat} (hk : 0 < k) :
-    ((PartI.Ch05.shiftedStaircasePartition d k).getD
-          (PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) - 1) 0 =
-        PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) ∨
-      (PartI.Ch05.shiftedStaircasePartition d k).getD
-          (PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) - 1) 0 =
-        PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) + 1) ↔
-      PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.shiftedStaircasePartition_lastPart_fixed_boundary_iff hk
+    ((PartI.Ch04Franklin.shiftedStaircasePartition d k).getD
+          (PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) - 1) 0 =
+        PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+      (PartI.Ch04Franklin.shiftedStaircasePartition d k).getD
+          (PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) - 1) 0 =
+        PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) + 1) ↔
+      PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_lastPart_fixed_boundary_iff hk
 
 theorem exercise5_shiftedStaircasePartition_lastPart_down_boundary_iff
     {d k : Nat} (hk : 0 < k) :
-    PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) + 1 <
-        (PartI.Ch05.shiftedStaircasePartition d k).getD
-          (PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) - 1) 0 ↔
-      PartI.Ch05.IsFranklinDownBranchInput (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.shiftedStaircasePartition_lastPart_down_boundary_iff hk
+    PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) + 1 <
+        (PartI.Ch04Franklin.shiftedStaircasePartition d k).getD
+          (PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) - 1) 0 ↔
+      PartI.Ch04Franklin.IsFranklinDownBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_lastPart_down_boundary_iff hk
 
 theorem exercise5_IsFranklinDownBranchInput_franklinUpMove_shiftedStaircasePartition
     {d k : Nat} (hk : 0 < k) (hup : d + 2 = k) :
-    PartI.Ch05.IsFranklinDownBranchInput
-      (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) :=
-  PartI.Ch05.IsFranklinDownBranchInput_franklinUpMove_shiftedStaircasePartition hk hup
+    PartI.Ch04Franklin.IsFranklinDownBranchInput
+      (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) :=
+  PartI.Ch04Franklin.IsFranklinDownBranchInput_franklinUpMove_shiftedStaircasePartition hk hup
 
 theorem exercise5_IsFranklinUpBranchInput_franklinDownMove_shiftedStaircasePartition
     {d k : Nat} (hk : 0 < k) (hdown : k < d) :
-    PartI.Ch05.IsFranklinUpBranchInput
-      (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) :=
-  PartI.Ch05.IsFranklinUpBranchInput_franklinDownMove_shiftedStaircasePartition hk hdown
+    PartI.Ch04Franklin.IsFranklinUpBranchInput
+      (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) :=
+  PartI.Ch04Franklin.IsFranklinUpBranchInput_franklinDownMove_shiftedStaircasePartition hk hdown
 
 theorem exercise5_franklinDownMove_franklinUpMove_shiftedStaircasePartition
     {d k : Nat} (hk : 0 < k) (hup : d + 2 = k) :
-    PartI.Ch05.franklinDownMove
-        (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-      PartI.Ch05.shiftedStaircasePartition d k :=
-  PartI.Ch05.franklinDownMove_franklinUpMove_shiftedStaircasePartition hk hup
+    PartI.Ch04Franklin.franklinDownMove
+        (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+      PartI.Ch04Franklin.shiftedStaircasePartition d k :=
+  PartI.Ch04Franklin.franklinDownMove_franklinUpMove_shiftedStaircasePartition hk hup
 
 theorem exercise5_franklinUpMove_franklinDownMove_shiftedStaircasePartition
     {d k : Nat} (hk : 0 < k) (hdown : k < d) :
-    PartI.Ch05.franklinUpMove
-        (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-      PartI.Ch05.shiftedStaircasePartition d k :=
-  PartI.Ch05.franklinUpMove_franklinDownMove_shiftedStaircasePartition hk hdown
+    PartI.Ch04Franklin.franklinUpMove
+        (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+      PartI.Ch04Franklin.shiftedStaircasePartition d k :=
+  PartI.Ch04Franklin.franklinUpMove_franklinDownMove_shiftedStaircasePartition hk hdown
 
 theorem exercise5_franklinUpMove_shiftedStaircasePartition_strict_weight_sign
     {d k : Nat} (hk : 0 < k) (hup : d + 2 = k) :
-    PartI.Ch05.IsStrictPartition
-        (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) ∧
+    PartI.Ch04Franklin.IsStrictPartition
+        (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∧
       partitionWeight
-          (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        partitionWeight (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      PartI.Ch05.partSign
-          (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        - PartI.Ch05.partSign (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.franklinUpMove_shiftedStaircasePartition_strict_weight_sign hk hup
+          (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        partitionWeight (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      PartI.Ch04Franklin.partSign
+          (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        - PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.franklinUpMove_shiftedStaircasePartition_strict_weight_sign hk hup
 
 theorem exercise5_franklinDownMove_shiftedStaircasePartition_strict_weight_sign
     {d k : Nat} (hk : 0 < k) (hdown : k < d) :
-    PartI.Ch05.IsStrictPartition
-        (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) ∧
+    PartI.Ch04Franklin.IsStrictPartition
+        (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∧
       partitionWeight
-          (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        partitionWeight (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      PartI.Ch05.partSign
-          (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        - PartI.Ch05.partSign (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.franklinDownMove_shiftedStaircasePartition_strict_weight_sign hk hdown
+          (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        partitionWeight (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      PartI.Ch04Franklin.partSign
+          (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        - PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.franklinDownMove_shiftedStaircasePartition_strict_weight_sign hk hdown
 
 theorem exercise5_franklinUpMove_shiftedStaircasePartition_branch_package
     {d k : Nat} (hk : 0 < k) (hup : d + 2 = k) :
-    PartI.Ch05.IsStrictPartition
-        (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) ∧
+    PartI.Ch04Franklin.IsStrictPartition
+        (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∧
       partitionWeight
-          (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        partitionWeight (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      PartI.Ch05.partSign
-          (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        - PartI.Ch05.partSign (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      PartI.Ch05.IsFranklinDownBranchInput
-        (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) ∧
-      PartI.Ch05.franklinDownMove
-          (PartI.Ch05.franklinUpMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        PartI.Ch05.shiftedStaircasePartition d k :=
-  PartI.Ch05.franklinUpMove_shiftedStaircasePartition_branch_package hk hup
+          (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        partitionWeight (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      PartI.Ch04Franklin.partSign
+          (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        - PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      PartI.Ch04Franklin.IsFranklinDownBranchInput
+        (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∧
+      PartI.Ch04Franklin.franklinDownMove
+          (PartI.Ch04Franklin.franklinUpMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        PartI.Ch04Franklin.shiftedStaircasePartition d k :=
+  PartI.Ch04Franklin.franklinUpMove_shiftedStaircasePartition_branch_package hk hup
 
 theorem exercise5_franklinDownMove_shiftedStaircasePartition_branch_package
     {d k : Nat} (hk : 0 < k) (hdown : k < d) :
-    PartI.Ch05.IsStrictPartition
-        (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) ∧
+    PartI.Ch04Franklin.IsStrictPartition
+        (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∧
       partitionWeight
-          (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        partitionWeight (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      PartI.Ch05.partSign
-          (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        - PartI.Ch05.partSign (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      PartI.Ch05.IsFranklinUpBranchInput
-        (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) ∧
-      PartI.Ch05.franklinUpMove
-          (PartI.Ch05.franklinDownMove (PartI.Ch05.shiftedStaircasePartition d k)) =
-        PartI.Ch05.shiftedStaircasePartition d k :=
-  PartI.Ch05.franklinDownMove_shiftedStaircasePartition_branch_package hk hdown
+          (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        partitionWeight (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      PartI.Ch04Franklin.partSign
+          (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        - PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      PartI.Ch04Franklin.IsFranklinUpBranchInput
+        (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∧
+      PartI.Ch04Franklin.franklinUpMove
+          (PartI.Ch04Franklin.franklinDownMove (PartI.Ch04Franklin.shiftedStaircasePartition d k)) =
+        PartI.Ch04Franklin.shiftedStaircasePartition d k :=
+  PartI.Ch04Franklin.franklinDownMove_shiftedStaircasePartition_branch_package hk hdown
 
 theorem exercise5_shiftedStaircasePartition_low_offset_no_boundary
     {d k : Nat} (hk : 0 < k) (hdk : d + 2 < k) :
-    ¬ PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∧
+    ¬ PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
       ¬ (∃ mu : List Nat,
-        PartI.Ch05.shiftedStaircasePartition d k =
-          mu ++ [PartI.Ch05.numberOfParts mu]) ∧
-      ¬ (∀ n, n ∈ PartI.Ch05.shiftedStaircasePartition d k →
-        PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) + 1 < n) :=
-  PartI.Ch05.shiftedStaircasePartition_low_offset_no_boundary hk hdk
+        PartI.Ch04Franklin.shiftedStaircasePartition d k =
+          mu ++ [PartI.Ch04Franklin.numberOfParts mu]) ∧
+      ¬ (∀ n, n ∈ PartI.Ch04Franklin.shiftedStaircasePartition d k →
+        PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) + 1 < n) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_low_offset_no_boundary hk hdk
 
 theorem exercise5_shiftedStaircasePartition_low_offset_no_branch_inputs
     {d k : Nat} (hk : 0 < k) (hdk : d + 2 < k) :
-    ¬ PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      ¬ PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.shiftedStaircasePartition d k) ∧
-      ¬ PartI.Ch05.IsFranklinDownBranchInput
-        (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.shiftedStaircasePartition_low_offset_no_branch_inputs hk hdk
+    ¬ PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      ¬ PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+      ¬ PartI.Ch04Franklin.IsFranklinDownBranchInput
+        (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_low_offset_no_branch_inputs hk hdk
 
 theorem exercise5_shiftedStaircasePartition_residual_branch_inputs_iff
     {d k : Nat} (hk : 0 < k) :
-    (¬ PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∧
-        ¬ PartI.Ch05.IsFranklinUpBranchInput
-          (PartI.Ch05.shiftedStaircasePartition d k) ∧
-        ¬ PartI.Ch05.IsFranklinDownBranchInput
-          (PartI.Ch05.shiftedStaircasePartition d k)) ↔
+    (¬ PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+        ¬ PartI.Ch04Franklin.IsFranklinUpBranchInput
+          (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+        ¬ PartI.Ch04Franklin.IsFranklinDownBranchInput
+          (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ↔
       d + 2 < k :=
-  PartI.Ch05.shiftedStaircasePartition_residual_branch_inputs_iff hk
+  PartI.Ch04Franklin.shiftedStaircasePartition_residual_branch_inputs_iff hk
 
 theorem exercise5_shiftedStaircasePartition_offset_cases {d k : Nat} (hk : 0 < k) :
     (d + 2 < k ∧
-        ¬ PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∧
+        ¬ PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
         ¬ (∃ mu : List Nat,
-          PartI.Ch05.shiftedStaircasePartition d k =
-            mu ++ [PartI.Ch05.numberOfParts mu]) ∧
-        ¬ (∀ n, n ∈ PartI.Ch05.shiftedStaircasePartition d k →
-          PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) + 1 < n)) ∨
+          PartI.Ch04Franklin.shiftedStaircasePartition d k =
+            mu ++ [PartI.Ch04Franklin.numberOfParts mu]) ∧
+        ¬ (∀ n, n ∈ PartI.Ch04Franklin.shiftedStaircasePartition d k →
+          PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) + 1 < n)) ∨
       (∃ mu : List Nat,
-        PartI.Ch05.shiftedStaircasePartition d k =
-          mu ++ [PartI.Ch05.numberOfParts mu]) ∨
-      PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∨
-      (∀ n, n ∈ PartI.Ch05.shiftedStaircasePartition d k →
-        PartI.Ch05.numberOfParts (PartI.Ch05.shiftedStaircasePartition d k) + 1 < n) :=
-  PartI.Ch05.shiftedStaircasePartition_offset_cases hk
+        PartI.Ch04Franklin.shiftedStaircasePartition d k =
+          mu ++ [PartI.Ch04Franklin.numberOfParts mu]) ∨
+      PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+      (∀ n, n ∈ PartI.Ch04Franklin.shiftedStaircasePartition d k →
+        PartI.Ch04Franklin.numberOfParts (PartI.Ch04Franklin.shiftedStaircasePartition d k) + 1 < n) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_offset_cases hk
 
 theorem exercise5_shiftedStaircasePartition_branch_input_cases
     {d k : Nat} (hk : 0 < k) :
     (d + 2 < k ∧
-        ¬ PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∧
-        ¬ PartI.Ch05.IsFranklinUpBranchInput
-          (PartI.Ch05.shiftedStaircasePartition d k) ∧
-        ¬ PartI.Ch05.IsFranklinDownBranchInput
-          (PartI.Ch05.shiftedStaircasePartition d k)) ∨
-      PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.shiftedStaircasePartition d k) ∨
-      PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∨
-      PartI.Ch05.IsFranklinDownBranchInput
-        (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.shiftedStaircasePartition_branch_input_cases hk
+        ¬ PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+        ¬ PartI.Ch04Franklin.IsFranklinUpBranchInput
+          (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∧
+        ¬ PartI.Ch04Franklin.IsFranklinDownBranchInput
+          (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ∨
+      PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+      PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+      PartI.Ch04Franklin.IsFranklinDownBranchInput
+        (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_branch_input_cases hk
 
 theorem exercise5_shiftedStaircasePartition_up_or_fixed_or_down_of_not_low_offset
     {d k : Nat} (hk : 0 < k) (hlow : ¬ (d + 2 < k)) :
-    PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.shiftedStaircasePartition d k) ∨
-      PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∨
-      PartI.Ch05.IsFranklinDownBranchInput
-        (PartI.Ch05.shiftedStaircasePartition d k) :=
-  PartI.Ch05.shiftedStaircasePartition_up_or_fixed_or_down_of_not_low_offset hk hlow
+    PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+      PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+      PartI.Ch04Franklin.IsFranklinDownBranchInput
+        (PartI.Ch04Franklin.shiftedStaircasePartition d k) :=
+  PartI.Ch04Franklin.shiftedStaircasePartition_up_or_fixed_or_down_of_not_low_offset hk hlow
 
 theorem exercise5_shiftedStaircasePartition_up_or_fixed_or_down_iff_not_low_offset
     {d k : Nat} (hk : 0 < k) :
-    (PartI.Ch05.IsFranklinUpBranchInput (PartI.Ch05.shiftedStaircasePartition d k) ∨
-        PartI.Ch05.IsPentagonalFixedShape (PartI.Ch05.shiftedStaircasePartition d k) ∨
-        PartI.Ch05.IsFranklinDownBranchInput
-          (PartI.Ch05.shiftedStaircasePartition d k)) ↔
+    (PartI.Ch04Franklin.IsFranklinUpBranchInput (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+        PartI.Ch04Franklin.IsPentagonalFixedShape (PartI.Ch04Franklin.shiftedStaircasePartition d k) ∨
+        PartI.Ch04Franklin.IsFranklinDownBranchInput
+          (PartI.Ch04Franklin.shiftedStaircasePartition d k)) ↔
       ¬ (d + 2 < k) :=
-  PartI.Ch05.shiftedStaircasePartition_up_or_fixed_or_down_iff_not_low_offset hk
+  PartI.Ch04Franklin.shiftedStaircasePartition_up_or_fixed_or_down_iff_not_low_offset hk
 
 /-- Exercise (Chapter 5 style): sign parity of lower pentagonal fixed shape is k % 2. -/
 theorem exercise5_partParity_lowerPentagonalPartition (k : Nat) :
-    PartI.Ch05.partParity (PartI.Ch05.lowerPentagonalPartition k) = k % 2 :=
-  PartI.Ch05.partParity_lowerPentagonalPartition k
+    PartI.Ch04Franklin.partParity (PartI.Ch04Franklin.lowerPentagonalPartition k) = k % 2 :=
+  PartI.Ch04Franklin.partParity_lowerPentagonalPartition k
 
 /-- Exercise (Chapter 5 style): sign parity of upper pentagonal fixed shape is k % 2. -/
 theorem exercise5_partParity_upperPentagonalPartition (k : Nat) :
-    PartI.Ch05.partParity (PartI.Ch05.upperPentagonalPartition k) = k % 2 :=
-  PartI.Ch05.partParity_upperPentagonalPartition k
+    PartI.Ch04Franklin.partParity (PartI.Ch04Franklin.upperPentagonalPartition k) = k % 2 :=
+  PartI.Ch04Franklin.partParity_upperPentagonalPartition k
 
 theorem exercise5_partSign_lowerPentagonalPartition (k : Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.lowerPentagonalPartition k) =
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.lowerPentagonalPartition k) =
       if k % 2 = 0 then 1 else -1 :=
-  PartI.Ch05.partSign_lowerPentagonalPartition k
+  PartI.Ch04Franklin.partSign_lowerPentagonalPartition k
 
 theorem exercise5_partSign_upperPentagonalPartition (k : Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.upperPentagonalPartition k) =
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.upperPentagonalPartition k) =
       if k % 2 = 0 then 1 else -1 :=
-  PartI.Ch05.partSign_upperPentagonalPartition k
+  PartI.Ch04Franklin.partSign_upperPentagonalPartition k
 
 theorem exercise5_partSign_lowerPentagonalPartition_eq_upper (k : Nat) :
-    PartI.Ch05.partSign (PartI.Ch05.lowerPentagonalPartition k) =
-      PartI.Ch05.partSign (PartI.Ch05.upperPentagonalPartition k) :=
-  PartI.Ch05.partSign_lowerPentagonalPartition_eq_upper k
+    PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.lowerPentagonalPartition k) =
+      PartI.Ch04Franklin.partSign (PartI.Ch04Franklin.upperPentagonalPartition k) :=
+  PartI.Ch04Franklin.partSign_lowerPentagonalPartition_eq_upper k
 
 /-- Exercise (Chapter 5 style): Ferrers conjugation preserves diagram cardinality. -/
 theorem exercise5_FerrersDiagramCells_card_FerrersConjugatePartition {lam : List Nat}
     (hpart : IsPartition lam) :
-    (PartI.Ch05.FerrersDiagramCells (PartI.Ch05.FerrersConjugatePartition lam)).card =
-      (PartI.Ch05.FerrersDiagramCells lam).card :=
-  PartI.Ch05.FerrersDiagramCells_card_FerrersConjugatePartition hpart
+    (PartI.Ch04Franklin.FerrersDiagramCells (PartI.Ch04Franklin.FerrersConjugatePartition lam)).card =
+      (PartI.Ch04Franklin.FerrersDiagramCells lam).card :=
+  PartI.Ch04Franklin.FerrersDiagramCells_card_FerrersConjugatePartition hpart
 
 /-- Exercise (Chapter 5 style): double Ferrers conjugation preserves weight. -/
 theorem exercise5_partitionWeight_FerrersConjugatePartition_conjugate {lam : List Nat}
     (hpart : IsPartition lam) :
     partitionWeight
-        (PartI.Ch05.FerrersConjugatePartition (PartI.Ch05.FerrersConjugatePartition lam)) =
+        (PartI.Ch04Franklin.FerrersConjugatePartition (PartI.Ch04Franklin.FerrersConjugatePartition lam)) =
       partitionWeight lam :=
-  PartI.Ch05.partitionWeight_FerrersConjugatePartition_conjugate hpart
+  PartI.Ch04Franklin.partitionWeight_FerrersConjugatePartition_conjugate hpart
 
 /-- Exercise (Chapter 5 style): partition parts are antitone (getD form). -/
 theorem exercise5_IsPartition_getD_antitone {lam : List Nat} (hpart : IsPartition lam)
     {s r : Nat} (hsr : s ≤ r) (hr : r < lam.length) :
     lam.getD r 0 ≤ lam.getD s 0 :=
-  PartI.Ch05.IsPartition.getD_antitone hpart hsr hr
+  PartI.Ch04Franklin.IsPartition.getD_antitone hpart hsr hr
 
 /-- Exercise (Chapter 5 style): Ferrers cells are upward closed in the row index. -/
 theorem exercise5_FerrersCell_of_le_row {lam : List Nat} (hpart : IsPartition lam)
-    {s r c : Nat} (hsr : s ≤ r) (hcell : PartI.Ch05.FerrersCell lam r c) :
-    PartI.Ch05.FerrersCell lam s c :=
-  PartI.Ch05.FerrersCell_of_le_row hpart hsr hcell
+    {s r c : Nat} (hsr : s ≤ r) (hcell : PartI.Ch04Franklin.FerrersCell lam r c) :
+    PartI.Ch04Franklin.FerrersCell lam s c :=
+  PartI.Ch04Franklin.FerrersCell_of_le_row hpart hsr hcell
 
 /-- Exercise (Chapter 5 style): Ferrers column cells are upward closed in the row index. -/
 theorem exercise5_FerrersColumnCells_mem_of_le_row {lam : List Nat} (hpart : IsPartition lam)
-    {s r c : Nat} (hsr : s ≤ r) (hr : r ∈ PartI.Ch05.FerrersColumnCells lam c) :
-    s ∈ PartI.Ch05.FerrersColumnCells lam c :=
-  PartI.Ch05.FerrersColumnCells_mem_of_le_row hpart hsr hr
+    {s r c : Nat} (hsr : s ≤ r) (hr : r ∈ PartI.Ch04Franklin.FerrersColumnCells lam c) :
+    s ∈ PartI.Ch04Franklin.FerrersColumnCells lam c :=
+  PartI.Ch04Franklin.FerrersColumnCells_mem_of_le_row hpart hsr hr
 
 /-- Exercise (Chapter 5 style): earlier Ferrers columns contain later Ferrers columns. -/
 theorem exercise5_FerrersColumnCells_subset_of_le_col (lam : List Nat) {c d : Nat}
     (hcd : c ≤ d) :
-    PartI.Ch05.FerrersColumnCells lam d ⊆ PartI.Ch05.FerrersColumnCells lam c :=
-  PartI.Ch05.FerrersColumnCells_subset_of_le_col lam hcd
+    PartI.Ch04Franklin.FerrersColumnCells lam d ⊆ PartI.Ch04Franklin.FerrersColumnCells lam c :=
+  PartI.Ch04Franklin.FerrersColumnCells_subset_of_le_col lam hcd
 
 /-- Exercise (Chapter 5 style): Ferrers column heights are weakly decreasing. -/
 theorem exercise5_FerrersColumnCells_card_antitone (lam : List Nat) {c d : Nat}
     (hcd : c ≤ d) :
-    (PartI.Ch05.FerrersColumnCells lam d).card ≤
-      (PartI.Ch05.FerrersColumnCells lam c).card :=
-  PartI.Ch05.FerrersColumnCells_card_antitone lam hcd
+    (PartI.Ch04Franklin.FerrersColumnCells lam d).card ≤
+      (PartI.Ch04Franklin.FerrersColumnCells lam c).card :=
+  PartI.Ch04Franklin.FerrersColumnCells_card_antitone lam hcd
 
 /-- Exercise (Chapter 5 style): partition Ferrers columns are initial row segments. -/
 theorem exercise5_FerrersColumnCells_eq_range_card {lam : List Nat}
     (hpart : IsPartition lam) (c : Nat) :
-    PartI.Ch05.FerrersColumnCells lam c =
-      Finset.range (PartI.Ch05.FerrersColumnCells lam c).card :=
-  PartI.Ch05.FerrersColumnCells_eq_range_card hpart c
+    PartI.Ch04Franklin.FerrersColumnCells lam c =
+      Finset.range (PartI.Ch04Franklin.FerrersColumnCells lam c).card :=
+  PartI.Ch04Franklin.FerrersColumnCells_eq_range_card hpart c
 
 /-- Exercise (Chapter 5 style): membership in the column-grouped Ferrers diagram with a bound. -/
 theorem exercise5_mem_FerrersDiagramCellsByColumnsUpTo_iff {lam : List Nat} {N r c : Nat} :
-    (r, c) ∈ PartI.Ch05.FerrersDiagramCellsByColumnsUpTo lam N ↔
-      PartI.Ch05.FerrersCell lam r c ∧ c < N :=
-  PartI.Ch05.mem_FerrersDiagramCellsByColumnsUpTo_iff
+    (r, c) ∈ PartI.Ch04Franklin.FerrersDiagramCellsByColumnsUpTo lam N ↔
+      PartI.Ch04Franklin.FerrersCell lam r c ∧ c < N :=
+  PartI.Ch04Franklin.mem_FerrersDiagramCellsByColumnsUpTo_iff
 
 /-- Exercise (Chapter 5 style): grouping cells by columns recovers the diagram if the bound is safe. -/
 theorem exercise5_FerrersDiagramCellsByColumnsUpTo_eq_of_bound (lam : List Nat) (N : Nat)
     (hbound : ∀ r : Nat, r < lam.length → lam.getD r 0 ≤ N) :
-    PartI.Ch05.FerrersDiagramCellsByColumnsUpTo lam N = PartI.Ch05.FerrersDiagramCells lam :=
-  PartI.Ch05.FerrersDiagramCellsByColumnsUpTo_eq_of_bound lam N hbound
+    PartI.Ch04Franklin.FerrersDiagramCellsByColumnsUpTo lam N = PartI.Ch04Franklin.FerrersDiagramCells lam :=
+  PartI.Ch04Franklin.FerrersDiagramCellsByColumnsUpTo_eq_of_bound lam N hbound
 
 /-- Exercise (Chapter 5 style): cardinality of the column-grouped diagram is the sum of heights. -/
 theorem exercise5_FerrersDiagramCellsByColumnsUpTo_card (lam : List Nat) (N : Nat) :
-    (PartI.Ch05.FerrersDiagramCellsByColumnsUpTo lam N).card =
-      (Finset.range N).sum (fun c => (PartI.Ch05.FerrersColumnCells lam c).card) :=
-  PartI.Ch05.FerrersDiagramCellsByColumnsUpTo_card lam N
+    (PartI.Ch04Franklin.FerrersDiagramCellsByColumnsUpTo lam N).card =
+      (Finset.range N).sum (fun c => (PartI.Ch04Franklin.FerrersColumnCells lam c).card) :=
+  PartI.Ch04Franklin.FerrersDiagramCellsByColumnsUpTo_card lam N
 
 /-- Exercise (Chapter 5 style): total Ferrers cells as a bounded sum of column heights. -/
 theorem exercise5_FerrersDiagramCells_card_eq_sum_column_cards_of_bound (lam : List Nat) (N : Nat)
     (hbound : ∀ r : Nat, r < lam.length → lam.getD r 0 ≤ N) :
-    (PartI.Ch05.FerrersDiagramCells lam).card =
-      (Finset.range N).sum (fun c => (PartI.Ch05.FerrersColumnCells lam c).card) :=
-  PartI.Ch05.FerrersDiagramCells_card_eq_sum_column_cards_of_bound lam N hbound
+    (PartI.Ch04Franklin.FerrersDiagramCells lam).card =
+      (Finset.range N).sum (fun c => (PartI.Ch04Franklin.FerrersColumnCells lam c).card) :=
+  PartI.Ch04Franklin.FerrersDiagramCells_card_eq_sum_column_cards_of_bound lam N hbound
 
 /-- Exercise (Chapter 5 style): the truncated column-height list has the requested width. -/
 theorem exercise5_FerrersColumnHeightsUpTo_length (lam : List Nat) (N : Nat) :
-    (PartI.Ch05.FerrersColumnHeightsUpTo lam N).length = N :=
-  PartI.Ch05.FerrersColumnHeightsUpTo_length lam N
+    (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N).length = N :=
+  PartI.Ch04Franklin.FerrersColumnHeightsUpTo_length lam N
 
 /-- Exercise (Chapter 5 style): reading a displayed column height below the width. -/
 theorem exercise5_FerrersColumnHeightsUpTo_getD_of_lt (lam : List Nat) {c N : Nat}
     (hc : c < N) :
-    (PartI.Ch05.FerrersColumnHeightsUpTo lam N).getD c 0 =
-      (PartI.Ch05.FerrersColumnCells lam c).card :=
-  PartI.Ch05.FerrersColumnHeightsUpTo_getD_of_lt lam hc
+    (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N).getD c 0 =
+      (PartI.Ch04Franklin.FerrersColumnCells lam c).card :=
+  PartI.Ch04Franklin.FerrersColumnHeightsUpTo_getD_of_lt lam hc
 
 /-- Exercise (Chapter 5 style): reading a displayed column height past the width. -/
 theorem exercise5_FerrersColumnHeightsUpTo_getD_of_ge (lam : List Nat) {c N : Nat}
     (hN : N ≤ c) :
-    (PartI.Ch05.FerrersColumnHeightsUpTo lam N).getD c 0 = 0 :=
-  PartI.Ch05.FerrersColumnHeightsUpTo_getD_of_ge lam hN
+    (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N).getD c 0 = 0 :=
+  PartI.Ch04Franklin.FerrersColumnHeightsUpTo_getD_of_ge lam hN
 
 /-- Exercise (Chapter 5 style): truncated Ferrers column heights form a partition. -/
 theorem exercise5_IsPartition_FerrersColumnHeightsUpTo (lam : List Nat) (N : Nat) :
-    IsPartition (PartI.Ch05.FerrersColumnHeightsUpTo lam N) :=
-  PartI.Ch05.IsPartition_FerrersColumnHeightsUpTo lam N
+    IsPartition (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N) :=
+  PartI.Ch04Franklin.IsPartition_FerrersColumnHeightsUpTo lam N
 
 /-- Exercise (Chapter 5 style): column-height Ferrers cells transpose original cells. -/
 theorem exercise5_FerrersCell_FerrersColumnHeightsUpTo_iff {lam : List Nat}
     (hpart : IsPartition lam) {N r c : Nat} :
-    PartI.Ch05.FerrersCell (PartI.Ch05.FerrersColumnHeightsUpTo lam N) c r ↔
-      c < N ∧ PartI.Ch05.FerrersCell lam r c :=
-  PartI.Ch05.FerrersCell_FerrersColumnHeightsUpTo_iff hpart
+    PartI.Ch04Franklin.FerrersCell (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N) c r ↔
+      c < N ∧ PartI.Ch04Franklin.FerrersCell lam r c :=
+  PartI.Ch04Franklin.FerrersCell_FerrersColumnHeightsUpTo_iff hpart
 
 /-- Exercise (Chapter 5 style): column-height diagrams transpose original diagram membership. -/
 theorem exercise5_mem_FerrersDiagramCells_FerrersColumnHeightsUpTo_iff {lam : List Nat}
     (hpart : IsPartition lam) {N r c : Nat} :
-    (c, r) ∈ PartI.Ch05.FerrersDiagramCells (PartI.Ch05.FerrersColumnHeightsUpTo lam N) ↔
-      (r, c) ∈ PartI.Ch05.FerrersDiagramCells lam ∧ c < N :=
-  PartI.Ch05.mem_FerrersDiagramCells_FerrersColumnHeightsUpTo_iff hpart
+    (c, r) ∈ PartI.Ch04Franklin.FerrersDiagramCells (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N) ↔
+      (r, c) ∈ PartI.Ch04Franklin.FerrersDiagramCells lam ∧ c < N :=
+  PartI.Ch04Franklin.mem_FerrersDiagramCells_FerrersColumnHeightsUpTo_iff hpart
 
 /-- Exercise (Chapter 5 style): bounded column-height cells exactly transpose original cells. -/
 theorem exercise5_FerrersCell_FerrersColumnHeightsUpTo_iff_of_bound {lam : List Nat}
     (hpart : IsPartition lam) {N r c : Nat}
     (hbound : ∀ s : Nat, s < lam.length → lam.getD s 0 ≤ N) :
-    PartI.Ch05.FerrersCell (PartI.Ch05.FerrersColumnHeightsUpTo lam N) c r ↔
-      PartI.Ch05.FerrersCell lam r c :=
-  PartI.Ch05.FerrersCell_FerrersColumnHeightsUpTo_iff_of_bound hpart hbound
+    PartI.Ch04Franklin.FerrersCell (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N) c r ↔
+      PartI.Ch04Franklin.FerrersCell lam r c :=
+  PartI.Ch04Franklin.FerrersCell_FerrersColumnHeightsUpTo_iff_of_bound hpart hbound
 
 /-- Exercise (Chapter 5 style): bounded column-height diagrams transpose membership. -/
 theorem exercise5_mem_FerrersDiagramCells_FerrersColumnHeightsUpTo_iff_of_bound
     {lam : List Nat} (hpart : IsPartition lam) {N r c : Nat}
     (hbound : ∀ s : Nat, s < lam.length → lam.getD s 0 ≤ N) :
-    (c, r) ∈ PartI.Ch05.FerrersDiagramCells (PartI.Ch05.FerrersColumnHeightsUpTo lam N) ↔
-      (r, c) ∈ PartI.Ch05.FerrersDiagramCells lam :=
-  PartI.Ch05.mem_FerrersDiagramCells_FerrersColumnHeightsUpTo_iff_of_bound hpart hbound
+    (c, r) ∈ PartI.Ch04Franklin.FerrersDiagramCells (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N) ↔
+      (r, c) ∈ PartI.Ch04Franklin.FerrersDiagramCells lam :=
+  PartI.Ch04Franklin.mem_FerrersDiagramCells_FerrersColumnHeightsUpTo_iff_of_bound hpart hbound
 
 /-- Exercise (Chapter 5 style): every row length is bounded by the first row. -/
 theorem exercise5_IsPartition_getD_le_first {lam : List Nat} (hpart : IsPartition lam)
     {r : Nat} (hr : r < lam.length) :
     lam.getD r 0 ≤ lam.getD 0 0 :=
-  PartI.Ch05.IsPartition.getD_le_first hpart hr
+  PartI.Ch04Franklin.IsPartition.getD_le_first hpart hr
 
 /-- Exercise (Chapter 5 style): conjugate length is the first row length. -/
 theorem exercise5_FerrersConjugatePartition_length (lam : List Nat) :
-    (PartI.Ch05.FerrersConjugatePartition lam).length = lam.getD 0 0 :=
-  PartI.Ch05.FerrersConjugatePartition_length lam
+    (PartI.Ch04Franklin.FerrersConjugatePartition lam).length = lam.getD 0 0 :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_length lam
 
 /-- Exercise (Chapter 5 style): reading a conjugate part below the first row length. -/
 theorem exercise5_FerrersConjugatePartition_getD_of_lt (lam : List Nat) {c : Nat}
     (hc : c < lam.getD 0 0) :
-    (PartI.Ch05.FerrersConjugatePartition lam).getD c 0 =
-      (PartI.Ch05.FerrersColumnCells lam c).card :=
-  PartI.Ch05.FerrersConjugatePartition_getD_of_lt lam hc
+    (PartI.Ch04Franklin.FerrersConjugatePartition lam).getD c 0 =
+      (PartI.Ch04Franklin.FerrersColumnCells lam c).card :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_getD_of_lt lam hc
 
 /-- Exercise (Chapter 5 style): reading a conjugate part past the first row length. -/
 theorem exercise5_FerrersConjugatePartition_getD_of_ge (lam : List Nat) {c : Nat}
     (hc : lam.getD 0 0 ≤ c) :
-    (PartI.Ch05.FerrersConjugatePartition lam).getD c 0 = 0 :=
-  PartI.Ch05.FerrersConjugatePartition_getD_of_ge lam hc
+    (PartI.Ch04Franklin.FerrersConjugatePartition lam).getD c 0 = 0 :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_getD_of_ge lam hc
 
 /-- Exercise (Chapter 5 style): for positive parts, the zeroth Ferrers column is all rows. -/
 theorem exercise5_FerrersColumnCells_zero_eq_range_length_of_positive {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
-    PartI.Ch05.FerrersColumnCells lam 0 = Finset.range lam.length :=
-  PartI.Ch05.FerrersColumnCells_zero_eq_range_length_of_positive hpos
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    PartI.Ch04Franklin.FerrersColumnCells lam 0 = Finset.range lam.length :=
+  PartI.Ch04Franklin.FerrersColumnCells_zero_eq_range_length_of_positive hpos
 
 /-- Exercise (Chapter 5 style): the first conjugate part counts rows. -/
 theorem exercise5_FerrersConjugatePartition_getD_zero_eq_length_of_positive {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
-    (PartI.Ch05.FerrersConjugatePartition lam).getD 0 0 = lam.length :=
-  PartI.Ch05.FerrersConjugatePartition_getD_zero_eq_length_of_positive hpos
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    (PartI.Ch04Franklin.FerrersConjugatePartition lam).getD 0 0 = lam.length :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_getD_zero_eq_length_of_positive hpos
 
 theorem exercise5_FerrersConjugatePartition_nil :
-    PartI.Ch05.FerrersConjugatePartition [] = [] :=
-  PartI.Ch05.FerrersConjugatePartition_nil
+    PartI.Ch04Franklin.FerrersConjugatePartition [] = [] :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_nil
 
 theorem exercise5_FerrersConjugatePartition_three_two_one :
-    PartI.Ch05.FerrersConjugatePartition [3, 2, 1] = [3, 2, 1] :=
-  PartI.Ch05.FerrersConjugatePartition_three_two_one
+    PartI.Ch04Franklin.FerrersConjugatePartition [3, 2, 1] = [3, 2, 1] :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_three_two_one
 
 theorem exercise5_FerrersConjugatePartition_four_two :
-    PartI.Ch05.FerrersConjugatePartition [4, 2] = [2, 2, 1, 1] :=
-  PartI.Ch05.FerrersConjugatePartition_four_two
+    PartI.Ch04Franklin.FerrersConjugatePartition [4, 2] = [2, 2, 1, 1] :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_four_two
 
 theorem exercise5_FerrersConjugatePartition_two_two_one_one :
-    PartI.Ch05.FerrersConjugatePartition [2, 2, 1, 1] = [4, 2] :=
-  PartI.Ch05.FerrersConjugatePartition_two_two_one_one
+    PartI.Ch04Franklin.FerrersConjugatePartition [2, 2, 1, 1] = [4, 2] :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_two_two_one_one
 
 theorem exercise5_FerrersColumnCells_staircasePartition_eq_range_sub (n c : Nat) :
-    PartI.Ch05.FerrersColumnCells (PartI.Ch05.staircasePartition n) c =
+    PartI.Ch04Franklin.FerrersColumnCells (PartI.Ch04Franklin.staircasePartition n) c =
       Finset.range (n - c) :=
-  PartI.Ch05.FerrersColumnCells_staircasePartition_eq_range_sub n c
+  PartI.Ch04Franklin.FerrersColumnCells_staircasePartition_eq_range_sub n c
 
 theorem exercise5_FerrersConjugatePartition_staircasePartition (n : Nat) :
-    PartI.Ch05.FerrersConjugatePartition (PartI.Ch05.staircasePartition n) =
-      PartI.Ch05.staircasePartition n :=
-  PartI.Ch05.FerrersConjugatePartition_staircasePartition n
+    PartI.Ch04Franklin.FerrersConjugatePartition (PartI.Ch04Franklin.staircasePartition n) =
+      PartI.Ch04Franklin.staircasePartition n :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_staircasePartition n
 
 /-- Exercise (Chapter 5 style): the Ferrers conjugate list is a partition. -/
 theorem exercise5_IsPartition_FerrersConjugatePartition (lam : List Nat) :
-    IsPartition (PartI.Ch05.FerrersConjugatePartition lam) :=
-  PartI.Ch05.IsPartition_FerrersConjugatePartition lam
+    IsPartition (PartI.Ch04Franklin.FerrersConjugatePartition lam) :=
+  PartI.Ch04Franklin.IsPartition_FerrersConjugatePartition lam
 
 /-- Exercise (Chapter 5 style): displayed conjugate parts are positive. -/
 theorem exercise5_PositiveParts_FerrersConjugatePartition (lam : List Nat) :
-    PartI.Ch05.PositiveParts (PartI.Ch05.FerrersConjugatePartition lam) :=
-  PartI.Ch05.PositiveParts_FerrersConjugatePartition lam
+    PartI.Ch04Franklin.PositiveParts (PartI.Ch04Franklin.FerrersConjugatePartition lam) :=
+  PartI.Ch04Franklin.PositiveParts_FerrersConjugatePartition lam
 
 /-- Exercise (Chapter 5 style): Ferrers conjugation preserves weight. -/
 theorem exercise5_partitionWeight_FerrersConjugatePartition {lam : List Nat}
     (hpart : IsPartition lam) :
-    partitionWeight (PartI.Ch05.FerrersConjugatePartition lam) = partitionWeight lam :=
-  PartI.Ch05.partitionWeight_FerrersConjugatePartition hpart
+    partitionWeight (PartI.Ch04Franklin.FerrersConjugatePartition lam) = partitionWeight lam :=
+  PartI.Ch04Franklin.partitionWeight_FerrersConjugatePartition hpart
 
 /-- Exercise (Chapter 5 style): conjugate Ferrers cells transpose original cells. -/
 theorem exercise5_FerrersCell_FerrersConjugatePartition_iff {lam : List Nat}
     (hpart : IsPartition lam) {r c : Nat} :
-    PartI.Ch05.FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) c r ↔
-      PartI.Ch05.FerrersCell lam r c :=
-  PartI.Ch05.FerrersCell_FerrersConjugatePartition_iff hpart
+    PartI.Ch04Franklin.FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r ↔
+      PartI.Ch04Franklin.FerrersCell lam r c :=
+  PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_iff hpart
 
 /-- Exercise (Chapter 5 style): double conjugation preserves length for positive parts. -/
 theorem exercise5_FerrersConjugatePartition_conjugate_length {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
-    (PartI.Ch05.FerrersConjugatePartition
-      (PartI.Ch05.FerrersConjugatePartition lam)).length = lam.length :=
-  PartI.Ch05.FerrersConjugatePartition_conjugate_length hpos
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    (PartI.Ch04Franklin.FerrersConjugatePartition
+      (PartI.Ch04Franklin.FerrersConjugatePartition lam)).length = lam.length :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_conjugate_length hpos
 
 /-- Exercise (Chapter 5 style): double Ferrers conjugation returns the original partition list. -/
 theorem exercise5_FerrersConjugatePartition_conjugate_eq {lam : List Nat}
-    (hpart : IsPartition lam) (hpos : PartI.Ch05.PositiveParts lam) :
-    PartI.Ch05.FerrersConjugatePartition
-      (PartI.Ch05.FerrersConjugatePartition lam) = lam :=
-  PartI.Ch05.FerrersConjugatePartition_conjugate_eq hpart hpos
+    (hpart : IsPartition lam) (hpos : PartI.Ch04Franklin.PositiveParts lam) :
+    PartI.Ch04Franklin.FerrersConjugatePartition
+      (PartI.Ch04Franklin.FerrersConjugatePartition lam) = lam :=
+  PartI.Ch04Franklin.FerrersConjugatePartition_conjugate_eq hpart hpos
 
 /-- Exercise (Chapter 5 style): conjugate Ferrers diagrams transpose membership. -/
 theorem exercise5_mem_FerrersDiagramCells_FerrersConjugatePartition_iff {lam : List Nat}
     (hpart : IsPartition lam) {r c : Nat} :
-    (c, r) ∈ PartI.Ch05.FerrersDiagramCells (PartI.Ch05.FerrersConjugatePartition lam) ↔
-      (r, c) ∈ PartI.Ch05.FerrersDiagramCells lam :=
-  PartI.Ch05.mem_FerrersDiagramCells_FerrersConjugatePartition_iff hpart
+    (c, r) ∈ PartI.Ch04Franklin.FerrersDiagramCells (PartI.Ch04Franklin.FerrersConjugatePartition lam) ↔
+      (r, c) ∈ PartI.Ch04Franklin.FerrersDiagramCells lam :=
+  PartI.Ch04Franklin.mem_FerrersDiagramCells_FerrersConjugatePartition_iff hpart
 
 /-- Exercise (Chapter 5 style): double conjugation preserves Ferrers-cell membership. -/
 theorem exercise5_FerrersCell_FerrersConjugatePartition_conjugate_iff
     {lam : List Nat} (hpart : IsPartition lam) {r c : Nat} :
-    PartI.Ch05.FerrersCell
-        (PartI.Ch05.FerrersConjugatePartition (PartI.Ch05.FerrersConjugatePartition lam))
+    PartI.Ch04Franklin.FerrersCell
+        (PartI.Ch04Franklin.FerrersConjugatePartition (PartI.Ch04Franklin.FerrersConjugatePartition lam))
         r c ↔
-      PartI.Ch05.FerrersCell lam r c :=
-  PartI.Ch05.FerrersCell_FerrersConjugatePartition_conjugate_iff hpart
+      PartI.Ch04Franklin.FerrersCell lam r c :=
+  PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_conjugate_iff hpart
 
 /-- Exercise (Chapter 5 style): double conjugation preserves Ferrers-diagram membership. -/
 theorem exercise5_mem_FerrersDiagramCells_FerrersConjugatePartition_conjugate_iff
     {lam : List Nat} (hpart : IsPartition lam) {r c : Nat} :
-    (r, c) ∈ PartI.Ch05.FerrersDiagramCells
-        (PartI.Ch05.FerrersConjugatePartition (PartI.Ch05.FerrersConjugatePartition lam)) ↔
-      (r, c) ∈ PartI.Ch05.FerrersDiagramCells lam :=
-  PartI.Ch05.mem_FerrersDiagramCells_FerrersConjugatePartition_conjugate_iff hpart
+    (r, c) ∈ PartI.Ch04Franklin.FerrersDiagramCells
+        (PartI.Ch04Franklin.FerrersConjugatePartition (PartI.Ch04Franklin.FerrersConjugatePartition lam)) ↔
+      (r, c) ∈ PartI.Ch04Franklin.FerrersDiagramCells lam :=
+  PartI.Ch04Franklin.mem_FerrersDiagramCells_FerrersConjugatePartition_conjugate_iff hpart
 
 /-- Exercise (Chapter 5 style): the weight of the truncated column-height list is the sum of its heights. -/
 theorem exercise5_partitionWeight_FerrersColumnHeightsUpTo (lam : List Nat) (N : Nat) :
-    partitionWeight (PartI.Ch05.FerrersColumnHeightsUpTo lam N) =
-      (Finset.range N).sum (fun c => (PartI.Ch05.FerrersColumnCells lam c).card) :=
-  PartI.Ch05.partitionWeight_FerrersColumnHeightsUpTo lam N
+    partitionWeight (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N) =
+      (Finset.range N).sum (fun c => (PartI.Ch04Franklin.FerrersColumnCells lam c).card) :=
+  PartI.Ch04Franklin.partitionWeight_FerrersColumnHeightsUpTo lam N
 
 /-- Exercise (Chapter 5 style): bounded column heights preserve Ferrers diagram weight. -/
 theorem exercise5_partitionWeight_FerrersColumnHeightsUpTo_eq_of_bound (lam : List Nat) (N : Nat)
     (hbound : ∀ r : Nat, r < lam.length → lam.getD r 0 ≤ N) :
-    partitionWeight (PartI.Ch05.FerrersColumnHeightsUpTo lam N) = partitionWeight lam :=
-  PartI.Ch05.partitionWeight_FerrersColumnHeightsUpTo_eq_of_bound lam N hbound
+    partitionWeight (PartI.Ch04Franklin.FerrersColumnHeightsUpTo lam N) = partitionWeight lam :=
+  PartI.Ch04Franklin.partitionWeight_FerrersColumnHeightsUpTo_eq_of_bound lam N hbound
 
 end Chapter5Exercises
 
@@ -6154,166 +6154,166 @@ section Chapter15Exercises
 variable {R : Type*} [Field R]
 
 theorem exercise15_qTaylorMonomialTopTerm_zero (q x : R) :
-    PartIII.Ch15.qTaylorMonomialTopTerm q x 0 = 1 :=
-  PartIII.Ch15.qTaylorMonomialTopTerm_zero q x
+    PartIII.QCalc.qTaylorMonomialTopTerm q x 0 = 1 :=
+  PartIII.QCalc.qTaylorMonomialTopTerm_zero q x
 
 theorem exercise15_qTaylorMonomialTopTerm_one (q x : R) (hqx : (q - 1) * x ≠ 0) :
-    PartIII.Ch15.qTaylorMonomialTopTerm q x 1 = x :=
-  PartIII.Ch15.qTaylorMonomialTopTerm_one q x hqx
+    PartIII.QCalc.qTaylorMonomialTopTerm q x 1 = x :=
+  PartIII.QCalc.qTaylorMonomialTopTerm_one q x hqx
 
 theorem exercise15_qTaylorMonomialTopTerm_two (q x : R)
     (h0 : (q - 1) * x ≠ 0) (h1 : (q - 1) * (q * x) ≠ 0)
     (hfac : 1 + q ≠ 0) :
-    PartIII.Ch15.qTaylorMonomialTopTerm q x 2 = x ^ 2 :=
-  PartIII.Ch15.qTaylorMonomialTopTerm_two q x h0 h1 hfac
+    PartIII.QCalc.qTaylorMonomialTopTerm q x 2 = x ^ 2 :=
+  PartIII.QCalc.qTaylorMonomialTopTerm_two q x h0 h1 hfac
 
 theorem exercise15_qInt_three (q : R) :
-    PartIII.Ch15.qInt q 3 = q ^ 2 + q + 1 :=
-  PartIII.Ch15.qInt_three q
+    PartIII.QCalc.qInt q 3 = q ^ 2 + q + 1 :=
+  PartIII.QCalc.qInt_three q
 
 theorem exercise15_qFactorial_three (q : R) :
-    PartIII.Ch15.qFactorial q 3 = (1 + q) * (q ^ 2 + q + 1) :=
-  PartIII.Ch15.qFactorial_three q
+    PartIII.QCalc.qFactorial q 3 = (1 + q) * (q ^ 2 + q + 1) :=
+  PartIII.QCalc.qFactorial_three q
 
 theorem exercise15_qTaylorMonomialTopTerm_three (q x : R)
     (h0 : (q - 1) * x ≠ 0) (h1 : (q - 1) * (q * x) ≠ 0)
     (h2 : (q - 1) * (q ^ 2 * x) ≠ 0)
     (hfac : (1 + q) * (q ^ 2 + q + 1) ≠ 0) :
-    PartIII.Ch15.qTaylorMonomialTopTerm q x 3 = x ^ 3 :=
-  PartIII.Ch15.qTaylorMonomialTopTerm_three q x h0 h1 h2 hfac
+    PartIII.QCalc.qTaylorMonomialTopTerm q x 3 = x ^ 3 :=
+  PartIII.QCalc.qTaylorMonomialTopTerm_three q x h0 h1 h2 hfac
 
 theorem exercise15_qPolynomialTrunc_succ (coeff : ℕ → R) (N : ℕ) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc coeff (N + 1) x =
-      PartIII.Ch15.qPolynomialTrunc coeff N x + coeff (N + 1) * x ^ (N + 1) :=
-  PartIII.Ch15.qPolynomialTrunc_succ coeff N x
+    PartIII.QCalc.qPolynomialTrunc coeff (N + 1) x =
+      PartIII.QCalc.qPolynomialTrunc coeff N x + coeff (N + 1) * x ^ (N + 1) :=
+  PartIII.QCalc.qPolynomialTrunc_succ coeff N x
 
 theorem exercise15_qTaylorPolynomialTopTrunc_succ (coeff : ℕ → R) (q x : R) (N : ℕ) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x (N + 1) =
-      PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N +
-        coeff (N + 1) * PartIII.Ch15.qTaylorMonomialTopTerm q x (N + 1) :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_succ coeff q x N
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x (N + 1) =
+      PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N +
+        coeff (N + 1) * PartIII.QCalc.qTaylorMonomialTopTerm q x (N + 1) :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_succ coeff q x N
 
 theorem exercise15_qPolynomialTrunc_zero (coeff : ℕ → R) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc coeff 0 x = coeff 0 :=
-  PartIII.Ch15.qPolynomialTrunc_zero coeff x
+    PartIII.QCalc.qPolynomialTrunc coeff 0 x = coeff 0 :=
+  PartIII.QCalc.qPolynomialTrunc_zero coeff x
 
 theorem exercise15_qPolynomialTrunc_one (coeff : ℕ → R) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc coeff 1 x = coeff 0 + coeff 1 * x :=
-  PartIII.Ch15.qPolynomialTrunc_one coeff x
+    PartIII.QCalc.qPolynomialTrunc coeff 1 x = coeff 0 + coeff 1 * x :=
+  PartIII.QCalc.qPolynomialTrunc_one coeff x
 
 theorem exercise15_qPolynomialTrunc_two (coeff : ℕ → R) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc coeff 2 x = coeff 0 + coeff 1 * x + coeff 2 * x ^ 2 :=
-  PartIII.Ch15.qPolynomialTrunc_two coeff x
+    PartIII.QCalc.qPolynomialTrunc coeff 2 x = coeff 0 + coeff 1 * x + coeff 2 * x ^ 2 :=
+  PartIII.QCalc.qPolynomialTrunc_two coeff x
 
 theorem exercise15_qPolynomialTrunc_three (coeff : ℕ → R) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc coeff 3 x =
+    PartIII.QCalc.qPolynomialTrunc coeff 3 x =
       coeff 0 + coeff 1 * x + coeff 2 * x ^ 2 + coeff 3 * x ^ 3 :=
-  PartIII.Ch15.qPolynomialTrunc_three coeff x
+  PartIII.QCalc.qPolynomialTrunc_three coeff x
 
 theorem exercise15_qTaylorPolynomialTopTrunc_zero (coeff : ℕ → R) (q x : R) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x 0 = coeff 0 :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_zero coeff q x
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x 0 = coeff 0 :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_zero coeff q x
 
 theorem exercise15_qTaylorPolynomialTopTrunc_one (coeff : ℕ → R) (q x : R)
     (hqx : (q - 1) * x ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x 1 = coeff 0 + coeff 1 * x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_one coeff q x hqx
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x 1 = coeff 0 + coeff 1 * x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_one coeff q x hqx
 
 theorem exercise15_qTaylorPolynomialTopTrunc_two (coeff : ℕ → R) (q x : R)
     (h0 : (q - 1) * x ≠ 0) (h1 : (q - 1) * (q * x) ≠ 0)
     (hfac : 1 + q ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x 2 =
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x 2 =
       coeff 0 + coeff 1 * x + coeff 2 * x ^ 2 :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_two coeff q x h0 h1 hfac
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_two coeff q x h0 h1 hfac
 
 theorem exercise15_qTaylorPolynomialTopTrunc_three (coeff : ℕ → R) (q x : R)
     (h0 : (q - 1) * x ≠ 0) (h1 : (q - 1) * (q * x) ≠ 0)
     (h2 : (q - 1) * (q ^ 2 * x) ≠ 0)
     (hfac2 : 1 + q ≠ 0)
     (hfac3 : (1 + q) * (q ^ 2 + q + 1) ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x 3 =
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x 3 =
       coeff 0 + coeff 1 * x + coeff 2 * x ^ 2 + coeff 3 * x ^ 3 :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_three coeff q x h0 h1 h2 hfac2 hfac3
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_three coeff q x h0 h1 h2 hfac2 hfac3
 
 theorem exercise15_qTaylorPolynomialTopTrunc_three_of_nonzero (coeff : ℕ → R) (q x : R)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x 3 =
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x 3 =
       coeff 0 + coeff 1 * x + coeff 2 * x ^ 2 + coeff 3 * x ^ 3 :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_three_of_nonzero coeff q x hq0 hq1 hx hq_int
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_three_of_nonzero coeff q x hq0 hq1 hx hq_int
 
 theorem exercise15_qPolynomialTrunc_zero_coeff (N : Nat) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc (fun _ => (0 : R)) N x = 0 :=
-  PartIII.Ch15.qPolynomialTrunc_zero_coeff N x
+    PartIII.QCalc.qPolynomialTrunc (fun _ => (0 : R)) N x = 0 :=
+  PartIII.QCalc.qPolynomialTrunc_zero_coeff N x
 
 theorem exercise15_qTaylorPolynomialTopTrunc_zero_coeff (q x : R) (N : Nat) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun _ => (0 : R)) q x N = 0 :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_zero_coeff q x N
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun _ => (0 : R)) q x N = 0 :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_zero_coeff q x N
 
 theorem exercise15_qPolynomialTrunc_add (coeff₁ coeff₂ : ℕ → R) (N : Nat) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => coeff₁ n + coeff₂ n) N x =
-      PartIII.Ch15.qPolynomialTrunc coeff₁ N x + PartIII.Ch15.qPolynomialTrunc coeff₂ N x :=
-  PartIII.Ch15.qPolynomialTrunc_add coeff₁ coeff₂ N x
+    PartIII.QCalc.qPolynomialTrunc (fun n => coeff₁ n + coeff₂ n) N x =
+      PartIII.QCalc.qPolynomialTrunc coeff₁ N x + PartIII.QCalc.qPolynomialTrunc coeff₂ N x :=
+  PartIII.QCalc.qPolynomialTrunc_add coeff₁ coeff₂ N x
 
 theorem exercise15_qPolynomialTrunc_smul (c : R) (coeff : ℕ → R) (N : Nat) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => c * coeff n) N x =
-      c * PartIII.Ch15.qPolynomialTrunc coeff N x :=
-  PartIII.Ch15.qPolynomialTrunc_smul c coeff N x
+    PartIII.QCalc.qPolynomialTrunc (fun n => c * coeff n) N x =
+      c * PartIII.QCalc.qPolynomialTrunc coeff N x :=
+  PartIII.QCalc.qPolynomialTrunc_smul c coeff N x
 
 theorem exercise15_qPolynomialTrunc_neg (coeff : ℕ → R) (N : Nat) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => - coeff n) N x =
-      - PartIII.Ch15.qPolynomialTrunc coeff N x :=
-  PartIII.Ch15.qPolynomialTrunc_neg coeff N x
+    PartIII.QCalc.qPolynomialTrunc (fun n => - coeff n) N x =
+      - PartIII.QCalc.qPolynomialTrunc coeff N x :=
+  PartIII.QCalc.qPolynomialTrunc_neg coeff N x
 
 theorem exercise15_qPolynomialTrunc_sub (coeff₁ coeff₂ : ℕ → R) (N : Nat) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => coeff₁ n - coeff₂ n) N x =
-      PartIII.Ch15.qPolynomialTrunc coeff₁ N x - PartIII.Ch15.qPolynomialTrunc coeff₂ N x :=
-  PartIII.Ch15.qPolynomialTrunc_sub coeff₁ coeff₂ N x
+    PartIII.QCalc.qPolynomialTrunc (fun n => coeff₁ n - coeff₂ n) N x =
+      PartIII.QCalc.qPolynomialTrunc coeff₁ N x - PartIII.QCalc.qPolynomialTrunc coeff₂ N x :=
+  PartIII.QCalc.qPolynomialTrunc_sub coeff₁ coeff₂ N x
 
 theorem exercise15_qPolynomialTrunc_congr {coeff₁ coeff₂ : ℕ → R} {N : Nat} (x : R)
     (hcoeff : ∀ n : ℕ, n ≤ N → coeff₁ n = coeff₂ n) :
-    PartIII.Ch15.qPolynomialTrunc coeff₁ N x =
-      PartIII.Ch15.qPolynomialTrunc coeff₂ N x :=
-  PartIII.Ch15.qPolynomialTrunc_congr x hcoeff
+    PartIII.QCalc.qPolynomialTrunc coeff₁ N x =
+      PartIII.QCalc.qPolynomialTrunc coeff₂ N x :=
+  PartIII.QCalc.qPolynomialTrunc_congr x hcoeff
 
 theorem exercise15_qPolynomialTrunc_eq_of_coeff_zero_above
     {coeff : ℕ → R} {M N : ℕ} (x : R) (hMN : M ≤ N)
     (hzero : ∀ n : ℕ, M < n → n ≤ N → coeff n = 0) :
-    PartIII.Ch15.qPolynomialTrunc coeff N x =
-      PartIII.Ch15.qPolynomialTrunc coeff M x :=
-  PartIII.Ch15.qPolynomialTrunc_eq_of_coeff_zero_above x hMN hzero
+    PartIII.QCalc.qPolynomialTrunc coeff N x =
+      PartIII.QCalc.qPolynomialTrunc coeff M x :=
+  PartIII.QCalc.qPolynomialTrunc_eq_of_coeff_zero_above x hMN hzero
 
 theorem exercise15_natSum_eq_sum_range (f : ℕ → R) (N : ℕ) :
     natSum f N = ∑ n ∈ Finset.range (N + 1), f n :=
-  PartIII.Ch15.natSum_eq_sum_range f N
+  PartIII.QCalc.natSum_eq_sum_range f N
 
 theorem exercise15_qPolynomialTrunc_coeff_natDegree_eq_eval (p : Polynomial R) (x : R) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => p.coeff n) p.natDegree x = p.eval x :=
-  PartIII.Ch15.qPolynomialTrunc_coeff_natDegree_eq_eval p x
+    PartIII.QCalc.qPolynomialTrunc (fun n => p.coeff n) p.natDegree x = p.eval x :=
+  PartIII.QCalc.qPolynomialTrunc_coeff_natDegree_eq_eval p x
 
 theorem exercise15_qPolynomialTrunc_coeff_eq_eval_of_natDegree_le (p : Polynomial R) (x : R)
     {N : ℕ} (hN : p.natDegree ≤ N) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => p.coeff n) N x = p.eval x :=
-  PartIII.Ch15.qPolynomialTrunc_coeff_eq_eval_of_natDegree_le p x hN
+    PartIII.QCalc.qPolynomialTrunc (fun n => p.coeff n) N x = p.eval x :=
+  PartIII.QCalc.qPolynomialTrunc_coeff_eq_eval_of_natDegree_le p x hN
 
 theorem exercise15_qPolynomialTrunc_coeff_eq_eval_of_natDegree_lt (p : Polynomial R) (x : R)
     {N : ℕ} (hN : p.natDegree < N) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => p.coeff n) N x = p.eval x :=
-  PartIII.Ch15.qPolynomialTrunc_coeff_eq_eval_of_natDegree_lt p x hN
+    PartIII.QCalc.qPolynomialTrunc (fun n => p.coeff n) N x = p.eval x :=
+  PartIII.QCalc.qPolynomialTrunc_coeff_eq_eval_of_natDegree_lt p x hN
 
 theorem exercise15_qPolynomialTrunc_coeff_eq_natDegree_of_natDegree_le
     (p : Polynomial R) (x : R) {N : ℕ} (hN : p.natDegree ≤ N) :
-    PartIII.Ch15.qPolynomialTrunc (fun n => p.coeff n) N x =
-      PartIII.Ch15.qPolynomialTrunc (fun n => p.coeff n) p.natDegree x :=
-  PartIII.Ch15.qPolynomialTrunc_coeff_eq_natDegree_of_natDegree_le p x hN
+    PartIII.QCalc.qPolynomialTrunc (fun n => p.coeff n) N x =
+      PartIII.QCalc.qPolynomialTrunc (fun n => p.coeff n) p.natDegree x :=
+  PartIII.QCalc.qPolynomialTrunc_coeff_eq_natDegree_of_natDegree_le p x hN
 
 theorem exercise15_qPolynomialTrunc_coeff_congr_zero_tail_eq_eval
     (p : Polynomial R) (coeff : ℕ → R) (x : R) {N : ℕ}
     (hN : p.natDegree ≤ N)
     (hcoeff : ∀ n : ℕ, n ≤ p.natDegree → coeff n = p.coeff n)
     (hzero : ∀ n : ℕ, p.natDegree < n → n ≤ N → coeff n = 0) :
-    PartIII.Ch15.qPolynomialTrunc coeff N x = p.eval x :=
-  PartIII.Ch15.qPolynomialTrunc_coeff_congr_zero_tail_eq_eval
+    PartIII.QCalc.qPolynomialTrunc coeff N x = p.eval x :=
+  PartIII.QCalc.qPolynomialTrunc_coeff_congr_zero_tail_eq_eval
     p coeff x hN hcoeff hzero
 
 theorem exercise15_qPolynomialTrunc_coeff_congr_zero_tail_eq_eval_of_natDegree_lt
@@ -6321,8 +6321,8 @@ theorem exercise15_qPolynomialTrunc_coeff_congr_zero_tail_eq_eval_of_natDegree_l
     (hN : p.natDegree < N)
     (hcoeff : ∀ n : ℕ, n ≤ p.natDegree → coeff n = p.coeff n)
     (hzero : ∀ n : ℕ, p.natDegree < n → n ≤ N → coeff n = 0) :
-    PartIII.Ch15.qPolynomialTrunc coeff N x = p.eval x :=
-  PartIII.Ch15.qPolynomialTrunc_coeff_congr_zero_tail_eq_eval_of_natDegree_lt
+    PartIII.QCalc.qPolynomialTrunc coeff N x = p.eval x :=
+  PartIII.QCalc.qPolynomialTrunc_coeff_congr_zero_tail_eq_eval_of_natDegree_lt
     p coeff x hN hcoeff hzero
 
 theorem exercise15_qPolynomialTrunc_coeff_congr_global_zero_tail_eq_eval
@@ -6330,113 +6330,113 @@ theorem exercise15_qPolynomialTrunc_coeff_congr_global_zero_tail_eq_eval
     (hN : p.natDegree ≤ N)
     (hcoeff : ∀ n : ℕ, n ≤ p.natDegree → coeff n = p.coeff n)
     (hzero : ∀ n : ℕ, p.natDegree < n → coeff n = 0) :
-    PartIII.Ch15.qPolynomialTrunc coeff N x = p.eval x :=
-  PartIII.Ch15.qPolynomialTrunc_coeff_congr_global_zero_tail_eq_eval
+    PartIII.QCalc.qPolynomialTrunc coeff N x = p.eval x :=
+  PartIII.QCalc.qPolynomialTrunc_coeff_congr_global_zero_tail_eq_eval
     p coeff x hN hcoeff hzero
 
 theorem exercise15_qTaylorPolynomialTopTrunc_add (coeff₁ coeff₂ : ℕ → R) (q x : R) (N : Nat) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => coeff₁ n + coeff₂ n) q x N =
-      PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₁ q x N +
-      PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₂ q x N :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_add coeff₁ coeff₂ q x N
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => coeff₁ n + coeff₂ n) q x N =
+      PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₁ q x N +
+      PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₂ q x N :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_add coeff₁ coeff₂ q x N
 
 theorem exercise15_qTaylorPolynomialTopTrunc_smul (c : R) (coeff : ℕ → R) (q x : R) (N : Nat) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => c * coeff n) q x N =
-      c * PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_smul c coeff q x N
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => c * coeff n) q x N =
+      c * PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_smul c coeff q x N
 
 theorem exercise15_qTaylorPolynomialTopTrunc_neg (coeff : ℕ → R) (q x : R) (N : Nat) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => - coeff n) q x N =
-      - PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_neg coeff q x N
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => - coeff n) q x N =
+      - PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_neg coeff q x N
 
 theorem exercise15_qTaylorPolynomialTopTrunc_sub (coeff₁ coeff₂ : ℕ → R) (q x : R) (N : Nat) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => coeff₁ n - coeff₂ n) q x N =
-      PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₁ q x N -
-        PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₂ q x N :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_sub coeff₁ coeff₂ q x N
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => coeff₁ n - coeff₂ n) q x N =
+      PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₁ q x N -
+        PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₂ q x N :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_sub coeff₁ coeff₂ q x N
 
 theorem exercise15_qTaylorPolynomialTopTrunc_congr {coeff₁ coeff₂ : ℕ → R}
     {N : Nat} (q x : R)
     (hcoeff : ∀ n : ℕ, n ≤ N → coeff₁ n = coeff₂ n) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₁ q x N =
-      PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₂ q x N :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_congr q x hcoeff
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₁ q x N =
+      PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₂ q x N :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_congr q x hcoeff
 
 theorem exercise15_qTaylorPolynomialTopTrunc_eq_of_coeff_zero_above
     {coeff : ℕ → R} {M N : ℕ} (q x : R) (hMN : M ≤ N)
     (hzero : ∀ n : ℕ, M < n → n ≤ N → coeff n = 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N =
-      PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x M :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_eq_of_coeff_zero_above q x hMN hzero
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N =
+      PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x M :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_eq_of_coeff_zero_above q x hMN hzero
 
 theorem exercise15_qTaylorPolynomialTopTrunc_eq (coeff : ℕ → R) (q x : R) (N : ℕ)
     (hiter : ∀ n : ℕ, n ≤ N →
       ∀ j : ℕ, j < n → (q - 1) * (q ^ j * x) ≠ 0)
-    (hfac : ∀ n : ℕ, n ≤ N → PartIII.Ch15.qFactorial q n ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N =
-      PartIII.Ch15.qPolynomialTrunc coeff N x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_eq coeff q x N hiter hfac
+    (hfac : ∀ n : ℕ, n ≤ N → PartIII.QCalc.qFactorial q n ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N =
+      PartIII.QCalc.qPolynomialTrunc coeff N x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_eq coeff q x N hiter hfac
 
 theorem exercise15_qTaylorPolynomialTopTrunc_eq_of_nonzero (coeff : ℕ → R) (q x : R) (N : ℕ)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N =
-      PartIII.Ch15.qPolynomialTrunc coeff N x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_eq_of_nonzero coeff q x N hq0 hq1 hx hq_int
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N =
+      PartIII.QCalc.qPolynomialTrunc coeff N x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_eq_of_nonzero coeff q x N hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_eq_of_coeff_congr
     {coeff₁ coeff₂ : ℕ → R} (q x : R) (N : ℕ)
     (hcoeff : ∀ n : ℕ, n ≤ N → coeff₁ n = coeff₂ n)
     (hiter : ∀ n : ℕ, n ≤ N →
       ∀ j : ℕ, j < n → (q - 1) * (q ^ j * x) ≠ 0)
-    (hfac : ∀ n : ℕ, n ≤ N → PartIII.Ch15.qFactorial q n ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₁ q x N =
-      PartIII.Ch15.qPolynomialTrunc coeff₂ N x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_eq_of_coeff_congr q x N hcoeff hiter hfac
+    (hfac : ∀ n : ℕ, n ≤ N → PartIII.QCalc.qFactorial q n ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₁ q x N =
+      PartIII.QCalc.qPolynomialTrunc coeff₂ N x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_eq_of_coeff_congr q x N hcoeff hiter hfac
 
 theorem exercise15_qTaylorPolynomialTopTrunc_eq_of_coeff_congr_nonzero
     {coeff₁ coeff₂ : ℕ → R} (q x : R) (N : ℕ)
     (hcoeff : ∀ n : ℕ, n ≤ N → coeff₁ n = coeff₂ n)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff₁ q x N =
-      PartIII.Ch15.qPolynomialTrunc coeff₂ N x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_eq_of_coeff_congr_nonzero
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff₁ q x N =
+      PartIII.QCalc.qPolynomialTrunc coeff₂ N x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_eq_of_coeff_congr_nonzero
     q x N hcoeff hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_natDegree_eq_eval
     (p : Polynomial R) (q x : R)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x p.natDegree =
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x p.natDegree =
       p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_natDegree_eq_eval
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_natDegree_eq_eval
     p q x hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_eq_eval_of_natDegree_le
     (p : Polynomial R) (q x : R) {N : ℕ} (hN : p.natDegree ≤ N)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x N =
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x N =
       p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_eq_eval_of_natDegree_le
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_eq_eval_of_natDegree_le
     p q x hN hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_eq_eval_of_natDegree_lt
     (p : Polynomial R) (q x : R) {N : ℕ} (hN : p.natDegree < N)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x N =
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x N =
       p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_eq_eval_of_natDegree_lt
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_eq_eval_of_natDegree_lt
     p q x hN hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_eq_natDegree_of_natDegree_le
     (p : Polynomial R) (q x : R) {N : ℕ} (hN : p.natDegree ≤ N) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x N =
-      PartIII.Ch15.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x p.natDegree :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_eq_natDegree_of_natDegree_le p q x hN
+    PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x N =
+      PartIII.QCalc.qTaylorPolynomialTopTrunc (fun n => p.coeff n) q x p.natDegree :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_eq_natDegree_of_natDegree_le p q x hN
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval
     (p : Polynomial R) (coeff : ℕ → R) (q x : R) {N : ℕ}
@@ -6444,9 +6444,9 @@ theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval
     (hcoeff : ∀ n : ℕ, n ≤ p.natDegree → coeff n = p.coeff n)
     (hzero : ∀ n : ℕ, p.natDegree < n → n ≤ N → coeff n = 0)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval
     p coeff q x hN hcoeff hzero hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval_of_natDegree_lt
@@ -6455,9 +6455,9 @@ theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval_of_na
     (hcoeff : ∀ n : ℕ, n ≤ p.natDegree → coeff n = p.coeff n)
     (hzero : ∀ n : ℕ, p.natDegree < n → n ≤ N → coeff n = 0)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval_of_natDegree_lt
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_congr_zero_tail_eq_eval_of_natDegree_lt
     p coeff q x hN hcoeff hzero hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_global_zero_tail_eq_eval
@@ -6466,9 +6466,9 @@ theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_global_zero_tail_eq_eva
     (hcoeff : ∀ n : ℕ, n ≤ p.natDegree → coeff n = p.coeff n)
     (hzero : ∀ n : ℕ, p.natDegree < n → coeff n = 0)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_congr_global_zero_tail_eq_eval
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_congr_global_zero_tail_eq_eval
     p coeff q x hN hcoeff hzero hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_le
@@ -6476,9 +6476,9 @@ theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_le
     (hcoeff : ∀ n : ℕ, n ≤ N → coeff n = p.coeff n)
     (hN : p.natDegree ≤ N)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_le
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_le
     p coeff q x hcoeff hN hq0 hq1 hx hq_int
 
 theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_lt
@@ -6486,9 +6486,9 @@ theorem exercise15_qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_lt
     (hcoeff : ∀ n : ℕ, n ≤ N → coeff n = p.coeff n)
     (hN : p.natDegree < N)
     (hq0 : q ≠ 0) (hq1 : q ≠ 1) (hx : x ≠ 0)
-    (hq_int : ∀ k, 1 ≤ k → PartIII.Ch15.qInt q k ≠ 0) :
-    PartIII.Ch15.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
-  PartIII.Ch15.qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_lt
+    (hq_int : ∀ k, 1 ≤ k → PartIII.QCalc.qInt q k ≠ 0) :
+    PartIII.QCalc.qTaylorPolynomialTopTrunc coeff q x N = p.eval x :=
+  PartIII.QCalc.qTaylorPolynomialTopTrunc_coeff_congr_eq_eval_of_natDegree_lt
     p coeff q x hcoeff hN hq0 hq1 hx hq_int
 
 end Chapter15Exercises
@@ -6590,45 +6590,45 @@ theorem exercise18_hookLength_ne_zero (lam : List Nat) (r c : Nat) :
 
 theorem exercise18_filter_length_eq_FerrersColumnCells_card (lam : List Nat) (c : Nat) :
     (lam.filter (fun rowLength => c < rowLength)).length =
-      (PartI.Ch05.FerrersColumnCells lam c).card :=
+      (PartI.Ch04Franklin.FerrersColumnCells lam c).card :=
   PartIV.Ch18.filter_length_eq_FerrersColumnCells_card lam c
 
 theorem exercise18_legLength_eq_FerrersColumnCells_drop_card
     (lam : List Nat) (r c : Nat) :
     PartIV.Ch18.legLength lam r c =
-      (PartI.Ch05.FerrersColumnCells (lam.drop (r + 1)) c).card :=
+      (PartI.Ch04Franklin.FerrersColumnCells (lam.drop (r + 1)) c).card :=
   PartIV.Ch18.legLength_eq_FerrersColumnCells_drop_card lam r c
 
 theorem exercise18_legLength_eq_column_card_sub_succ_of_FerrersCell
     {lam : List Nat} (hpart : IsPartition lam) {r c : Nat}
     (hcell : PartIV.Ch18.FerrersCell lam r c) :
     PartIV.Ch18.legLength lam r c =
-      (PartI.Ch05.FerrersColumnCells lam c).card - (r + 1) :=
+      (PartI.Ch04Franklin.FerrersColumnCells lam c).card - (r + 1) :=
   PartIV.Ch18.legLength_eq_column_card_sub_succ_of_FerrersCell hpart hcell
 
 theorem exercise18_FerrersColumnCells_FerrersConjugatePartition_card_eq_getD
     {lam : List Nat} (hpart : IsPartition lam) {r : Nat} (hr : r < lam.length) :
-    (PartI.Ch05.FerrersColumnCells (PartI.Ch05.FerrersConjugatePartition lam) r).card =
+    (PartI.Ch04Franklin.FerrersColumnCells (PartI.Ch04Franklin.FerrersConjugatePartition lam) r).card =
       lam.getD r 0 :=
   PartIV.Ch18.FerrersColumnCells_FerrersConjugatePartition_card_eq_getD hpart hr
 
 theorem exercise18_hookLength_FerrersConjugatePartition_cell {lam : List Nat}
     (hpart : IsPartition lam) {r c : Nat} (hcell : PartIV.Ch18.FerrersCell lam r c) :
-    PartIV.Ch18.FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) c r ∧
-      PartIV.Ch18.hookLength (PartI.Ch05.FerrersConjugatePartition lam) c r =
+    PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r ∧
+      PartIV.Ch18.hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r =
         PartIV.Ch18.hookLength lam r c :=
   PartIV.Ch18.hookLength_FerrersConjugatePartition_cell hpart hcell
 
 theorem exercise18_hasHookDivisibleBy_FerrersConjugatePartition_iff
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam) :
     PartIV.Ch18.HasHookDivisibleBy t lam ↔
-      PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch05.FerrersConjugatePartition lam) :=
+      PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch04Franklin.FerrersConjugatePartition lam) :=
   PartIV.Ch18.hasHookDivisibleBy_FerrersConjugatePartition_iff hpart
 
 theorem exercise18_isTCoreByHooks_FerrersConjugatePartition_iff
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam) :
     PartIV.Ch18.IsTCoreByHooks t lam ↔
-      PartIV.Ch18.IsTCoreByHooks t (PartI.Ch05.FerrersConjugatePartition lam) :=
+      PartIV.Ch18.IsTCoreByHooks t (PartI.Ch04Franklin.FerrersConjugatePartition lam) :=
   PartIV.Ch18.isTCoreByHooks_FerrersConjugatePartition_iff hpart
 
 theorem exercise18_hasHookDivisibleBy_two_four_two :
@@ -6899,7 +6899,7 @@ theorem exercise18_oneCoreByHooks_iff_no_FerrersCell (lam : List Nat) :
   PartIV.Ch18.oneCoreByHooks_iff_no_FerrersCell lam
 
 theorem exercise18_oneCoreByHooks_iff_eq_nil_of_positive {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
     PartIV.Ch18.IsTCoreByHooks 1 lam ↔ lam = [] :=
   PartIV.Ch18.oneCoreByHooks_iff_eq_nil_of_positive hpos
 
@@ -6925,107 +6925,107 @@ theorem exercise18_not_oneCoreByHooks_iff_exists_FerrersCell (lam : List Nat) :
   PartIV.Ch18.not_oneCoreByHooks_iff_exists_FerrersCell lam
 
 theorem exercise18_filter_staircasePartition_length (n c : Nat) :
-    ((PartI.Ch05.staircasePartition n).filter (fun rowLength => c < rowLength)).length =
+    ((PartI.Ch04Franklin.staircasePartition n).filter (fun rowLength => c < rowLength)).length =
       n - c :=
   PartIV.Ch18.filter_staircasePartition_length n c
 
 theorem exercise18_legLength_staircasePartition (n r c : Nat)
-    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    PartIV.Ch18.legLength (PartI.Ch05.staircasePartition n) r c =
+    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    PartIV.Ch18.legLength (PartI.Ch04Franklin.staircasePartition n) r c =
       n - c - (r + 1) :=
   PartIV.Ch18.legLength_staircasePartition n r c hcell
 
 theorem exercise18_hookLength_staircasePartition (n r c : Nat)
-    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) r c =
+    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) r c =
       2 * (n - r - c) - 1 :=
   PartIV.Ch18.hookLength_staircasePartition n r c hcell
 
 theorem exercise18_hookLength_staircasePartition_transpose_cell (n r c : Nat)
-    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) c r ∧
-      PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) c r =
-        PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) r c :=
+    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) c r ∧
+      PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) c r =
+        PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) r c :=
   PartIV.Ch18.hookLength_staircasePartition_transpose_cell n r c hcell
 
 theorem exercise18_hookLength_staircasePartition_lt_two_mul (n r c : Nat)
-    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) r c < 2 * n :=
+    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) r c < 2 * n :=
   PartIV.Ch18.hookLength_staircasePartition_lt_two_mul n r c hcell
 
 theorem exercise18_hookLength_staircasePartition_le_two_mul_sub_one (n r c : Nat)
-    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) r c ≤ 2 * n - 1 :=
+    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) r c ≤ 2 * n - 1 :=
   PartIV.Ch18.hookLength_staircasePartition_le_two_mul_sub_one n r c hcell
 
 theorem exercise18_not_two_dvd_hookLength_staircasePartition (n r c : Nat)
-    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    ¬ 2 ∣ PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) r c :=
+    (hcell : PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    ¬ 2 ∣ PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) r c :=
   PartIV.Ch18.not_two_dvd_hookLength_staircasePartition n r c hcell
 
 theorem exercise18_isTCoreByHooks_two_staircasePartition (n : Nat) :
-    PartIV.Ch18.IsTCoreByHooks 2 (PartI.Ch05.staircasePartition n) :=
+    PartIV.Ch18.IsTCoreByHooks 2 (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.isTCoreByHooks_two_staircasePartition n
 
 theorem exercise18_isTCoreByHooks_staircasePartition_of_two_dvd {n t : Nat}
     (ht : 2 ∣ t) :
-    PartIV.Ch18.IsTCoreByHooks t (PartI.Ch05.staircasePartition n) :=
+    PartIV.Ch18.IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.isTCoreByHooks_staircasePartition_of_two_dvd ht
 
 theorem exercise18_isTCoreByHooks_staircasePartition_of_two_mul_le {n t : Nat}
     (ht : 2 * n ≤ t) :
-    PartIV.Ch18.IsTCoreByHooks t (PartI.Ch05.staircasePartition n) :=
+    PartIV.Ch18.IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.isTCoreByHooks_staircasePartition_of_two_mul_le ht
 
 theorem exercise18_FerrersCell_staircasePartition_zero_zero {n : Nat} (hn : 0 < n) :
-    PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) 0 0 :=
+    PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) 0 0 :=
   PartIV.Ch18.FerrersCell_staircasePartition_zero_zero hn
 
 theorem exercise18_hookLength_staircasePartition_zero_zero {n : Nat} (hn : 0 < n) :
-    PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) 0 0 = 2 * n - 1 :=
+    PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) 0 0 = 2 * n - 1 :=
   PartIV.Ch18.hookLength_staircasePartition_zero_zero hn
 
 theorem exercise18_FerrersCell_staircasePartition_zero_sub_succ {n k : Nat}
     (hk : k < n) :
-    PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) 0 (n - (k + 1)) :=
+    PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) 0 (n - (k + 1)) :=
   PartIV.Ch18.FerrersCell_staircasePartition_zero_sub_succ hk
 
 theorem exercise18_hookLength_staircasePartition_zero_sub_succ {n k : Nat}
     (hk : k < n) :
-    PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) 0 (n - (k + 1)) =
+    PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) 0 (n - (k + 1)) =
       2 * k + 1 :=
   PartIV.Ch18.hookLength_staircasePartition_zero_sub_succ hk
 
 theorem exercise18_hasHookDivisibleBy_odd_staircasePartition_of_lt {n k : Nat}
     (hk : k < n) :
-    PartIV.Ch18.HasHookDivisibleBy (2 * k + 1) (PartI.Ch05.staircasePartition n) :=
+    PartIV.Ch18.HasHookDivisibleBy (2 * k + 1) (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.hasHookDivisibleBy_odd_staircasePartition_of_lt hk
 
 theorem exercise18_not_isTCoreByHooks_odd_staircasePartition_of_lt {n k : Nat}
     (hk : k < n) :
-    ¬ PartIV.Ch18.IsTCoreByHooks (2 * k + 1) (PartI.Ch05.staircasePartition n) :=
+    ¬ PartIV.Ch18.IsTCoreByHooks (2 * k + 1) (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.not_isTCoreByHooks_odd_staircasePartition_of_lt hk
 
 theorem exercise18_isTCoreByHooks_odd_staircasePartition_iff_le (n k : Nat) :
-    PartIV.Ch18.IsTCoreByHooks (2 * k + 1) (PartI.Ch05.staircasePartition n) ↔
+    PartIV.Ch18.IsTCoreByHooks (2 * k + 1) (PartI.Ch04Franklin.staircasePartition n) ↔
       n ≤ k :=
   PartIV.Ch18.isTCoreByHooks_odd_staircasePartition_iff_le n k
 
 theorem exercise18_isTCoreByHooks_staircasePartition_iff (n t : Nat) :
-    PartIV.Ch18.IsTCoreByHooks t (PartI.Ch05.staircasePartition n) ↔
+    PartIV.Ch18.IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) ↔
       2 ∣ t ∨ 2 * n ≤ t :=
   PartIV.Ch18.isTCoreByHooks_staircasePartition_iff n t
 
 theorem exercise18_exists_FerrersCell_hookLength_staircasePartition_iff (n t : Nat) :
-    (∃ r c, PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) r c ∧
-      PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) r c = t) ↔
+    (∃ r c, PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c ∧
+      PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) r c = t) ↔
       ¬ 2 ∣ t ∧ t < 2 * n :=
   PartIV.Ch18.exists_FerrersCell_hookLength_staircasePartition_iff n t
 
 theorem exercise18_mem_StaircaseHookCellsOfLength_iff {n t : Nat} {cell : Nat × Nat} :
     cell ∈ PartIV.Ch18.StaircaseHookCellsOfLength n t ↔
-      PartIV.Ch18.FerrersCell (PartI.Ch05.staircasePartition n) cell.1 cell.2 ∧
-        PartIV.Ch18.hookLength (PartI.Ch05.staircasePartition n) cell.1 cell.2 = t :=
+      PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.staircasePartition n) cell.1 cell.2 ∧
+        PartIV.Ch18.hookLength (PartI.Ch04Franklin.staircasePartition n) cell.1 cell.2 = t :=
   PartIV.Ch18.mem_StaircaseHookCellsOfLength_iff
 
 theorem exercise18_StaircaseHookCellsOfLength_odd_eq_antidiagonal {n k : Nat}
@@ -7087,7 +7087,7 @@ theorem exercise18_sum_StaircaseHookCellsOfLength_odd_cards (n : Nat) :
 theorem exercise18_sum_StaircaseHookCellsOfLength_odd_cards_eq_weight (n : Nat) :
     (Finset.range n).sum
         (fun k => (PartIV.Ch18.StaircaseHookCellsOfLength n (2 * k + 1)).card) =
-      partitionWeight (PartI.Ch05.staircasePartition n) :=
+      partitionWeight (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.sum_StaircaseHookCellsOfLength_odd_cards_eq_weight n
 
 theorem exercise18_StaircaseHookCellsOfLength_nonempty_iff (n t : Nat) :
@@ -7100,28 +7100,28 @@ theorem exercise18_StaircaseHookCellsOfLength_card_pos_iff (n t : Nat) :
   PartIV.Ch18.StaircaseHookCellsOfLength_card_pos_iff n t
 
 theorem exercise18_hasHookDivisibleBy_staircasePartition_iff (n t : Nat) :
-    PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch05.staircasePartition n) ↔
+    PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch04Franklin.staircasePartition n) ↔
       ¬ 2 ∣ t ∧ t < 2 * n :=
   PartIV.Ch18.hasHookDivisibleBy_staircasePartition_iff n t
 
 theorem exercise18_hasHookDivisibleBy_two_mul_sub_one_staircasePartition {n : Nat}
     (hn : 0 < n) :
-    PartIV.Ch18.HasHookDivisibleBy (2 * n - 1) (PartI.Ch05.staircasePartition n) :=
+    PartIV.Ch18.HasHookDivisibleBy (2 * n - 1) (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.hasHookDivisibleBy_two_mul_sub_one_staircasePartition hn
 
 theorem exercise18_hasHookDivisibleBy_staircasePartition_of_dvd_two_mul_sub_one
     {n t : Nat} (hn : 0 < n) (hdiv : t ∣ 2 * n - 1) :
-    PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch05.staircasePartition n) :=
+    PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.hasHookDivisibleBy_staircasePartition_of_dvd_two_mul_sub_one hn hdiv
 
 theorem exercise18_not_isTCoreByHooks_two_mul_sub_one_staircasePartition {n : Nat}
     (hn : 0 < n) :
-    ¬ PartIV.Ch18.IsTCoreByHooks (2 * n - 1) (PartI.Ch05.staircasePartition n) :=
+    ¬ PartIV.Ch18.IsTCoreByHooks (2 * n - 1) (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.not_isTCoreByHooks_two_mul_sub_one_staircasePartition hn
 
 theorem exercise18_not_isTCoreByHooks_staircasePartition_of_dvd_two_mul_sub_one
     {n t : Nat} (hn : 0 < n) (hdiv : t ∣ 2 * n - 1) :
-    ¬ PartIV.Ch18.IsTCoreByHooks t (PartI.Ch05.staircasePartition n) :=
+    ¬ PartIV.Ch18.IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) :=
   PartIV.Ch18.not_isTCoreByHooks_staircasePartition_of_dvd_two_mul_sub_one hn hdiv
 
 theorem exercise18_not_isTCoreByHooks_iff_hasHookDivisibleBy (t : Nat) (lam : List Nat) :
@@ -7258,13 +7258,13 @@ if hook lengths are preserved by cell transposition. -/
 theorem exercise18_hasHookDivisibleBy_FerrersConjugatePartition_iff_of_hookLength_eq
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam)
     (hforward : ∀ ⦃r c : Nat⦄, PartIV.Ch18.FerrersCell lam r c →
-      PartIV.Ch18.hookLength (PartI.Ch05.FerrersConjugatePartition lam) c r =
+      PartIV.Ch18.hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r =
       PartIV.Ch18.hookLength lam r c)
-    (hback : ∀ ⦃r c : Nat⦄, PartIV.Ch18.FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) r c →
+    (hback : ∀ ⦃r c : Nat⦄, PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c →
       PartIV.Ch18.hookLength lam c r =
-      PartIV.Ch18.hookLength (PartI.Ch05.FerrersConjugatePartition lam) r c) :
+      PartIV.Ch18.hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c) :
     PartIV.Ch18.HasHookDivisibleBy t lam ↔
-      PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch05.FerrersConjugatePartition lam) :=
+      PartIV.Ch18.HasHookDivisibleBy t (PartI.Ch04Franklin.FerrersConjugatePartition lam) :=
   PartIV.Ch18.hasHookDivisibleBy_FerrersConjugatePartition_iff_of_hookLength_eq
     hpart hforward hback
 
@@ -7273,13 +7273,13 @@ if hook lengths are preserved by cell transposition. -/
 theorem exercise18_isTCoreByHooks_FerrersConjugatePartition_iff_of_hookLength_eq
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam)
     (hforward : ∀ ⦃r c : Nat⦄, PartIV.Ch18.FerrersCell lam r c →
-      PartIV.Ch18.hookLength (PartI.Ch05.FerrersConjugatePartition lam) c r =
+      PartIV.Ch18.hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r =
       PartIV.Ch18.hookLength lam r c)
-    (hback : ∀ ⦃r c : Nat⦄, PartIV.Ch18.FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) r c →
+    (hback : ∀ ⦃r c : Nat⦄, PartIV.Ch18.FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c →
       PartIV.Ch18.hookLength lam c r =
-      PartIV.Ch18.hookLength (PartI.Ch05.FerrersConjugatePartition lam) r c) :
+      PartIV.Ch18.hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c) :
     PartIV.Ch18.IsTCoreByHooks t lam ↔
-      PartIV.Ch18.IsTCoreByHooks t (PartI.Ch05.FerrersConjugatePartition lam) :=
+      PartIV.Ch18.IsTCoreByHooks t (PartI.Ch04Franklin.FerrersConjugatePartition lam) :=
   PartIV.Ch18.isTCoreByHooks_FerrersConjugatePartition_iff_of_hookLength_eq
     hpart hforward hback
 

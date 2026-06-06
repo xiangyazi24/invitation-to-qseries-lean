@@ -34,9 +34,9 @@
     AUX   (real content, main result partial):    Ch08 Ch09 Ch11 Ch14 Ch17
                                                   Ch20
     SHADOW (only trunc_N boilerplate):            Ch10 Ch12 Ch13 Ch16
-    MISLABELED (file ≠ Chan's chapter content):   Ch05 Ch06 Ch15
+    (File names were normalized to content-true names in the 2026-06 release.)
 
-  Listing a theorem from a MISLABELED file (e.g. Ch05.franklinInv_*) below
+  Listing a theorem from a MISLABELED file (e.g. Ch04Franklin.franklinInv_*) below
   attests only that its axiom set is clean; it does NOT attest that the
   theorem is the chapter-main result for that chapter number.  Several
   entries below carry explicit comments to this effect.
@@ -146,7 +146,7 @@ import QseriesFormalization.Chapter11
 import QseriesFormalization.Chapter12
 import QseriesFormalization.Chapter13
 import QseriesFormalization.Chapter14
-import QseriesFormalization.Chapter15
+import QseriesFormalization.QCalculus
 import QseriesFormalization.Chapter16
 import QseriesFormalization.Chapter17
 import QseriesFormalization.Chapter18
@@ -204,14 +204,14 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.PartIV.Ch19.coeff_qPochInfPS_eq_signedStrictCount
 
 -- B1 Step 2 FINAL: Euler Pentagonal Number Theorem as formal PS
--- (Note: coeff_qPochInfPS_int_eq_pentagonalSign pulls in Lean.ofReduceBool
--- via Ch05's native_decide-based dependencies; this is the only theorem in
--- the audit not in the core-three-axioms set.)
+-- (Historical note: coeff_qPochInfPS_int_eq_pentagonalSign once routed through a
+-- native_decide dependency; that dependency was removed and the theorem is now
+-- core-three-axioms clean, like everything else in this audit.)
 #print axioms QseriesFormalization.PartIV.Ch19.coeff_finite_product_one_sub_X_pow_succ
 #print axioms QseriesFormalization.PartIV.Ch19.coeff_finite_product_eq_signedStrictPartitionCount
 #print axioms QseriesFormalization.PartIV.Ch19.coeff_qPochInfPS_int_eq_pentagonalSign
 #print axioms QseriesFormalization.PartIV.Ch19.coeff_qPochInfPS_eq_pentagonalSign
-#print axioms QseriesFormalization.PartI.Ch05.euler_pentagonal_combinatorial
+#print axioms QseriesFormalization.PartI.Ch04Franklin.euler_pentagonal_combinatorial
 
 -- B2 groundwork
 #print axioms QseriesFormalization.PartIV.Ch19.jacobiThetaPS
@@ -257,28 +257,28 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.PartII.Ch07.rogersRamanujan_first
 #print axioms QseriesFormalization.PartII.Ch07.rogersRamanujan_second
 
--- Ch05 Franklin Euler pentagonal (full combinatorial).
--- NOTE: These are in `QseriesFormalization.PartI.Ch05` namespace per the
+-- Ch04Franklin Franklin Euler pentagonal (full combinatorial).
+-- NOTE: These are in `QseriesFormalization.PartI.Ch04Franklin` namespace per the
 -- repo's historical numbering, but their content is the Franklin involution
 -- proof of Euler pentagonal, which is **Chan §4 combinatorial content**
 -- (NOT Chan §5 Boson-Fermion correspondence). See PLAYBOOK_AUDIT.md
 -- for the MISLABELED status of Chapter05.lean.
-#print axioms QseriesFormalization.PartI.Ch05.franklinInv_involutive
-#print axioms QseriesFormalization.PartI.Ch05.franklinInv_card
+#print axioms QseriesFormalization.PartI.Ch04Franklin.franklinInv_involutive
+#print axioms QseriesFormalization.PartI.Ch04Franklin.franklinInv_card
 
 -- Ch11 golden ratio (Rogers-Ramanujan continued fraction prerequisites)
 #print axioms QseriesFormalization.PartIII.Ch11.α_add_β
 #print axioms QseriesFormalization.PartIII.Ch11.α_mul_β
 #print axioms QseriesFormalization.PartIII.Ch11.α_sq
 
--- Ch15 q-Taylor / q-calculus.
+-- QCalc q-Taylor / q-calculus.
 -- NOTE: These are real q-calculus theorems but they are **NOT** Chan §15's
 -- chapter-main result (the differential equation for R(q), Thm 15.1).
 -- Chan §15's actual content is missing from the repo; see
 -- PLAYBOOK_AUDIT.md for the MISLABELED status of Chapter15.lean.
-#print axioms QseriesFormalization.PartIII.Ch15.qDeriv_qPoch
-#print axioms QseriesFormalization.PartIII.Ch15.qDerivIter_pow_aux
-#print axioms QseriesFormalization.PartIII.Ch15.qTaylorMonomialTopTerm_eq_pow
+#print axioms QseriesFormalization.PartIII.QCalc.qDeriv_qPoch
+#print axioms QseriesFormalization.PartIII.QCalc.qDerivIter_pow_aux
+#print axioms QseriesFormalization.PartIII.QCalc.qTaylorMonomialTopTerm_eq_pow
 
 -- Ch18 t-core / hook lengths (staircase partition theory)
 #print axioms QseriesFormalization.PartIV.Ch18.filter_staircasePartition_length
@@ -499,7 +499,7 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.Pending.Ch06Macdonald.macdonald_A1_identity
 #print axioms QseriesFormalization.Pending.Ch06Macdonald.coeff_macdonald_A1_triangular
 
--- Ch05 chapter-main: Jacobi Triple Product (Chan §5's main theorem)
+-- Ch04Franklin chapter-main: Jacobi Triple Product (Chan §5's main theorem)
 -- (re-export 2026-05-24 in Pending/Chapter05_JTP.lean; proved via finite-JTP, not Boson-Fermion)
 #print axioms QseriesFormalization.Pending.Ch05JTP.jacobi_triple_product
 
@@ -635,10 +635,10 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.PartII.Ch09.theorem91
 #print axioms QseriesFormalization.PartII.Ch09.theorem92
 -- Ch5 Boson-Fermion: finite evaluations + INFINITE fermionic Z=fermionicProduct + corrected JTP (1+z⁻¹)Z·bosonEuler=∑z^n q^{n(n+1)/2}
-#print axioms QseriesFormalization.PartI.Ch05.finiteZ_eq_fermionicProductPartial
-#print axioms QseriesFormalization.PartI.Ch05.finiteZ_eq_sum_zpow_chargeEnergySectors
-#print axioms QseriesFormalization.PartI.Ch05.Z_eq_fermionicProduct
-#print axioms QseriesFormalization.PartI.Ch05.bosonFermion_JTP
+#print axioms QseriesFormalization.PartI.Ch04Franklin.finiteZ_eq_fermionicProductPartial
+#print axioms QseriesFormalization.PartI.Ch04Franklin.finiteZ_eq_sum_zpow_chargeEnergySectors
+#print axioms QseriesFormalization.PartI.Ch04Franklin.Z_eq_fermionicProduct
+#print axioms QseriesFormalization.PartI.Ch04Franklin.bosonFermion_JTP
 -- MBI: keystone lifted to ℚ + conditional full-MBI via product bridges
 #print axioms QseriesFormalization.Pending.Ch16MBIProof.most_beautiful_identity_of_mod5_product_bridges
 
@@ -722,7 +722,7 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.Pending.Ch12SpecialValue.ramanujanRRCFSpecialValue
 
 -- ============================================================================
--- Ch15 CHAPTER-MAIN — Chan §15 / Theorem 11.7 (the Rogers–Ramanujan continued
+-- QCalc CHAPTER-MAIN — Chan §15 / Theorem 11.7 (the Rogers–Ramanujan continued
 -- fraction differential equation), closed 2026-06-03 via Dobbie's identity proved
 -- by the Gaussian-5-string telescoping (the S(5M)=-6S(M)-25S(M/5) recurrence).
 -- All clean-three, independently #print-axioms-verified on rebuilt oleans.

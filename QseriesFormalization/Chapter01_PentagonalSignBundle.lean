@@ -4,7 +4,7 @@ import QseriesFormalization.Chapter05_Franklin
 # Chapter 1 — Pre-computed pentagonal-sign bundle for indices 0..100
 
 This file consolidates the `decide` computations of
-`QseriesFormalization.PartI.Ch05.pentagonalSign m` for `m = 0, 1, …, 100`
+`QseriesFormalization.PartI.Ch04Franklin.pentagonalSign m` for `m = 0, 1, …, 100`
 into a single accessible bundle so that downstream
 `Chapter01_PartitionCount*.lean` files do not have to re-prove each
 sign-value individually.
@@ -19,7 +19,7 @@ Pentagonal numbers ≤ 100 are: 1, 2, 5, 7, 12, 15, 22, 26, 35, 40, 51, 57,
 namespace QseriesFormalization
 namespace Ch01
 
-open QseriesFormalization.PartI.Ch05
+open QseriesFormalization.PartI.Ch04Franklin
 
 /-! ## Per-index pentagonal sign values (0..100) -/
 

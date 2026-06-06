@@ -1645,7 +1645,7 @@ theorem chan1015RHSPS_eq_apProduct :
 
 /-- Integer coefficient of `(q;q)_∞`, via Euler's pentagonal theorem. -/
 def chan1015EtaCoeffZ (n : ℕ) : ℤ :=
-  QseriesFormalization.PartI.Ch05.pentagonalSign n
+  QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n
 
 /-- Coefficient of `(Q^d;Q^d)_∞`, i.e. `qPochInfPS` after `q ↦ Q^d`. -/
 def etaAtPowerCoeffZ (d n : ℕ) : ℤ :=

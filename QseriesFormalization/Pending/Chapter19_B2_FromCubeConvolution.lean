@@ -26,7 +26,7 @@ namespace QseriesFormalization
 namespace Pending
 namespace Ch19B2
 
-open QseriesFormalization.PartI.Ch05 (pentagonalSign)
+open QseriesFormalization.PartI.Ch04Franklin (pentagonalSign)
 open QseriesFormalization.PartIV.Ch19
 
 /-- **Sylvester/Jacobi cube convolution identity (double-antidiagonal form)** —

@@ -4,7 +4,7 @@ import QseriesFormalization.Chapter01
 import QseriesFormalization.Chapter02
 import QseriesFormalization.Chapter03
 import QseriesFormalization.Chapter04
-import QseriesFormalization.Chapter05
+import QseriesFormalization.Chapter04_FranklinPentagonal
 import QseriesFormalization.Chapter05_Franklin
 import QseriesFormalization.Chapter05_BosonFermion  -- §5 Boson-Fermion finite evaluations
 import QseriesFormalization.Chapter06
@@ -22,7 +22,7 @@ import QseriesFormalization.Chapter11
 import QseriesFormalization.Chapter12
 import QseriesFormalization.Chapter13
 import QseriesFormalization.Chapter14
-import QseriesFormalization.Chapter15
+import QseriesFormalization.QCalculus
 import QseriesFormalization.Chapter16
 import QseriesFormalization.Chapter17
 import QseriesFormalization.Chapter18

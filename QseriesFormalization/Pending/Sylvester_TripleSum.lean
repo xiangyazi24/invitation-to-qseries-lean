@@ -45,7 +45,7 @@ namespace QseriesFormalization
 namespace Pending
 namespace Sylvester
 
-open QseriesFormalization.PartI.Ch05 (StrictPartitionSet pentagonalSign
+open QseriesFormalization.PartI.Ch04Franklin (StrictPartitionSet pentagonalSign
   signedStrictPartitionCount euler_pentagonal_combinatorial)
 open QseriesFormalization.PartIV.Ch19 (jacobiTripleSign
   jacobiTripleSign_triangular jacobiTripleSign_of_not_triangular)

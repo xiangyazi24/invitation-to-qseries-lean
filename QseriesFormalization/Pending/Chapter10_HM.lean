@@ -403,6 +403,100 @@ theorem jCoeff_eq_sum_Icc_of_window_subset (a b e L U : ℤ) (hb : 0 < b)
       exact ⟨hleft, hright⟩
     · simp [hroot]
 
+/-- Target-window root bound: any theta root `n` of `j(Q^a;Q^b)` whose exponent
+`jExp a b n` is at most a target degree `y` has `|n| ≤ jCoeffWindow a b y`.  (The
+window constant `4(|a|+|b|+|y|+2)` dominates the quadratic root growth, so a
+fixed window for `y` captures every root contributing at or below `y`.) -/
+theorem jExp_root_le_target_window_right (a b y n : ℤ) (hb : 0 < b)
+    (hle : jExp a b n ≤ y) :
+    n ≤ jCoeffWindow a b y := by
+  have htw : jExpTwice a b n ≤ 2 * y := by
+    have := two_mul_jExp a b n; omega
+  unfold jExpTwice at htw
+  unfold jCoeffWindow
+  have hrw : 4 * ((a.natAbs : ℤ) + (b.natAbs : ℤ) + (y.natAbs : ℤ) + 2) =
+      4 * (|a| + |b| + |y| + 2) := by
+    rw [Int.natCast_natAbs, Int.natCast_natAbs, Int.natCast_natAbs]
+  rw [hrw]
+  by_contra hlt
+  have hn_gt : 4 * (|a| + |b| + |y| + 2) < n := by omega
+  have hb1 : 1 ≤ b := by omega
+  have hA : -|a| ≤ a := neg_abs_le a
+  have hy : y ≤ |y| := le_abs_self y
+  have hAn : 0 ≤ |a| := abs_nonneg a
+  have hBn : 0 ≤ |b| := abs_nonneg b
+  have hYn : 0 ≤ |y| := abs_nonneg y
+  have hn_pos : 0 < n := by nlinarith
+  have hbterm : n * (n - 1) ≤ b * (n * (n - 1)) := by nlinarith [mul_nonneg hn_pos.le (by omega : (0:ℤ) ≤ n - 1)]
+  nlinarith [sq_nonneg (n - (2 * |a| + 2)), hn_gt, mul_nonneg hAn hn_pos.le]
+
+theorem jExp_root_le_target_window_left (a b y n : ℤ) (hb : 0 < b)
+    (hle : jExp a b n ≤ y) :
+    -jCoeffWindow a b y ≤ n := by
+  have htw : jExpTwice a b n ≤ 2 * y := by
+    have := two_mul_jExp a b n; omega
+  unfold jExpTwice at htw
+  unfold jCoeffWindow
+  have hrw : 4 * ((a.natAbs : ℤ) + (b.natAbs : ℤ) + (y.natAbs : ℤ) + 2) =
+      4 * (|a| + |b| + |y| + 2) := by
+    rw [Int.natCast_natAbs, Int.natCast_natAbs, Int.natCast_natAbs]
+  rw [hrw]
+  by_contra hlt
+  have hn_lt : n < -(4 * (|a| + |b| + |y| + 2)) := by omega
+  have hb1 : 1 ≤ b := by omega
+  have hA : a ≤ |a| := le_abs_self a
+  have hy : y ≤ |y| := le_abs_self y
+  have hAn : 0 ≤ |a| := abs_nonneg a
+  have hBn : 0 ≤ |b| := abs_nonneg b
+  have hYn : 0 ≤ |y| := abs_nonneg y
+  have hn_neg : n < 0 := by nlinarith
+  have hbterm : n * (n - 1) ≤ b * (n * (n - 1)) := by
+    nlinarith [mul_nonneg_of_nonpos_of_nonpos hn_neg.le (by omega : n - 1 ≤ 0)]
+  nlinarith [sq_nonneg (n + (2 * |a| + 2)), hn_lt, mul_nonneg hAn (by omega : (0:ℤ) ≤ -n)]
+
+/-- Expand `jCoeff` on a fixed symmetric window that captures every root whose
+exponent is at most `y`: valid whenever `e ≤ y` and `jCoeffWindow a b y ≤ W`.
+Both the canonical `e`-window sum and the fixed `[-W,W]` sum equal the sum over
+roots, which lie in `[-W,W]` by the target-window root bound. -/
+theorem jCoeff_eq_sum_Icc_of_roots_le (a b e y W : ℤ) (hb : 0 < b)
+    (hey : e ≤ y) (hW : jCoeffWindow a b y ≤ W) :
+    jCoeff a b e =
+      ∑ n ∈ Finset.Icc (-W) W, if jExp a b n = e then negOnePowIntQ n else 0 := by
+  -- both sides reduce, over the union window, to the same root sum
+  set U : Finset ℤ :=
+    Finset.Icc (-(jCoeffWindow a b e)) (jCoeffWindow a b e) ∪ Finset.Icc (-W) W
+    with hU
+  have hroot_mem : ∀ n : ℤ, jExp a b n = e →
+      n ∈ Finset.Icc (-(jCoeffWindow a b e)) (jCoeffWindow a b e) ∧
+      n ∈ Finset.Icc (-W) W := by
+    intro n hroot
+    have hle : jExp a b n ≤ y := by rw [hroot]; exact hey
+    refine ⟨?_, ?_⟩
+    · rw [Finset.mem_Icc]
+      exact ⟨jExp_root_le_window_left a b e n hb hroot,
+        jExp_root_le_window_right a b e n hb hroot⟩
+    · rw [Finset.mem_Icc]
+      have hl := jExp_root_le_target_window_left a b y n hb hle
+      have hr := jExp_root_le_target_window_right a b y n hb hle
+      omega
+  have hleft : jCoeff a b e =
+      ∑ n ∈ U, if jExp a b n = e then negOnePowIntQ n else 0 := by
+    rw [jCoeff_eq_window_sum a b e hb]
+    refine Finset.sum_subset (Finset.subset_union_left) ?_
+    intro n _hn hnot
+    by_cases hroot : jExp a b n = e
+    · exact absurd (hroot_mem n hroot).1 hnot
+    · simp [hroot]
+  have hright : (∑ n ∈ Finset.Icc (-W) W,
+        if jExp a b n = e then negOnePowIntQ n else 0) =
+      ∑ n ∈ U, if jExp a b n = e then negOnePowIntQ n else 0 := by
+    refine Finset.sum_subset (Finset.subset_union_right) ?_
+    intro n _hn hnot
+    by_cases hroot : jExp a b n = e
+    · exact absurd (hroot_mem n hroot).2 hnot
+    · simp [hroot]
+  rw [hleft, hright]
+
 theorem jCoeff_symm (a b e : ℤ) (hb : 0 < b) :
     jCoeff a b e = jCoeff (b - a) b e := by
   let W : ℤ := max (jCoeffWindow a b e) (jCoeffWindow (b - a) b e)
@@ -6274,6 +6368,21 @@ theorem lcoeff_JOneLaurent_pow_three_of_not_dvd (e : ℤ)
       exact_mod_cast hn
     simp [hneg, hnat_dvd]
 
+/-- The cube `J^3` has nonnegative support: its Laurent coefficient vanishes at
+every negative exponent.  (It is the `expand 90` of an ordinary power series.) -/
+theorem lcoeff_JOneLaurent_pow_three_of_neg (e : ℤ) (he : e < 0) :
+    lcoeff (JOneLaurent ^ 3) e = 0 := by
+  rw [JOneLaurent_eq_expand_qPochInfPS]
+  rw [← PowerSeries.coe_pow]
+  rw [show (PowerSeries.expand 90 (by norm_num : (90 : ℕ) ≠ 0)
+        (QseriesFormalization.PartIV.Ch19.qPochInfPS ℚ)) ^ 3 =
+      PowerSeries.expand 90 (by norm_num : (90 : ℕ) ≠ 0)
+        ((QseriesFormalization.PartIV.Ch19.qPochInfPS ℚ) ^ 3) by
+        rw [map_pow]]
+  rw [lcoeff, PowerSeries.coeff_coe]
+  rw [PowerSeries.coeff_expand]
+  simp [he]
+
 theorem hm23_thetaMulPFRawCoeffPF_rat_eq_JOneCoeff_of_hPF
     (hPF :
       Chapter10PF.thetaMulPFSeriesCoeffPF =
@@ -7844,6 +7953,24 @@ theorem hm23IntegerCoreCanonical_eq_unified (N : ℕ) (z : ℤ) :
   rw [hm23IntegerCoreCanonical_eq_thetaMulPFCoeffPF,
     Chapter10PF.thetaMulPFCoeffPF_eq_unified]
 
+/-- Cube-coefficient bridge: under `hPF`, the Laurent coefficient of `J₁^3` at a
+nonnegative multiple `90 N` equals the rational cast of the unified PF
+coefficient `thetaMulPFUnifiedCoeffPF N 0`.  (The cube is the `u = 0` projection
+of `j(u;q)·PF(u)`.) -/
+theorem lcoeff_JOneLaurent_pow_three_eq_unified
+    (hPF :
+      Chapter10PF.thetaMulPFSeriesCoeffPF =
+        Chapter10PF.qPochInfPSCubeUPowerCoeffPF)
+    (N : ℕ) :
+    lcoeff (JOneLaurent ^ 3) ((90 * N : ℕ) : ℤ) =
+      ((Chapter10PF.thetaMulPFUnifiedCoeffPF N 0 : ℤ) : ℚ) := by
+  have hbridge :=
+    hm23_thetaMulPFRawCoeffPF_rat_eq_JOneCoeff_of_hPF hPF N 0
+  rw [if_pos rfl] at hbridge
+  rw [← hbridge]
+  rw [Chapter10PF.thetaMulPFRawCoeffPF_eq_thetaMulPFCoeffPF,
+    Chapter10PF.thetaMulPFCoeffPF_eq_unified]
+
 theorem hm23_linear90_pos_iff_cutoff (n c : ℤ) :
     (0 < 90 * n + c) ↔ -n ≤ (c - 1) / 90 := by
   rw [Int.le_ediv_iff_mul_le (show (0 : ℤ) < 90 by norm_num)]
@@ -8195,16 +8322,563 @@ theorem hm23ShearPreimageBox_sum_eq_canonical
   rw [hm23IntegerCoreFiberSumInt_cutoff_invariant W V N z A B hVA hVB hWB]
   exact hm23IntegerCoreFiberSumInt_eq_canonical W V N z hWc hVc
 
+/-- Forward extraction from `Psi1` window membership: every member arises from a
+filtered sigma tuple, so its source fields satisfy the four guard equations for
+some intermediate exponents `E, E₁, E₂`. -/
+theorem hm23_mem_Psi1WSS_imp
+    (a z0 z1 e : ℤ) (x : HM23Psi1Source)
+    (hx : x ∈ hm23Psi1WindowSourceSet a z0 z1 e) :
+    ∃ E E₁ E₂ : ℤ,
+      E - appellNumeratorExp z1 x.r = appellDenomExp a z1 x.r * x.k ∧
+        jExp z0 90 x.i = E₁ ∧
+        jExp (a + z0) 90 x.j = E₂ ∧
+        jExp (a + z1) 90 x.l = e - E - E₁ - E₂ := by
+  classical
+  unfold hm23Psi1WindowSourceSet at hx
+  rw [Finset.mem_image] at hx
+  rcases hx with ⟨σ, hσfilt, hσeq⟩
+  rw [Finset.mem_filter] at hσfilt
+  rcases hσfilt with ⟨_hmem, happ, h1, h2, h3⟩
+  refine ⟨hm23GW_E σ, hm23GW_E₁ σ, hm23GW_E₂ σ, ?_, ?_, ?_, ?_⟩
+  · have hr : hm23GW_r σ = x.r := by
+      rw [← hσeq]; rfl
+    have hk : hm23GW_k σ = x.k := by rw [← hσeq]; rfl
+    rw [← hr, ← hk]; exact happ
+  · have hi : hm23GW_n₁ σ = x.i := by rw [← hσeq]; rfl
+    rw [← hi]; exact h1
+  · have hj : hm23GW_n₂ σ = x.j := by rw [← hσeq]; rfl
+    rw [← hj]; exact h2
+  · have hl : hm23GW_n₃ σ = x.l := by rw [← hσeq]; rfl
+    rw [← hl]; exact h3
+
+/-- Forward extraction from `Psi0` window membership (mirror). -/
+theorem hm23_mem_Psi0WSS_imp
+    (a z0 z1 e : ℤ) (y : HM23Psi0Source)
+    (hy : y ∈ hm23Psi0WindowSourceSet a z0 z1 e) :
+    ∃ E E₁ E₂ : ℤ,
+      E - appellNumeratorExp z0 y.s = appellDenomExp a z0 y.s * y.k ∧
+        jExp z1 90 y.h = E₁ ∧
+        jExp (a + z0) 90 y.j = E₂ ∧
+        jExp (a + z1) 90 y.l = e - E - E₁ - E₂ := by
+  classical
+  unfold hm23Psi0WindowSourceSet at hy
+  rw [Finset.mem_image] at hy
+  rcases hy with ⟨σ, hσfilt, hσeq⟩
+  rw [Finset.mem_filter] at hσfilt
+  rcases hσfilt with ⟨_hmem, happ, h1, h2, h3⟩
+  refine ⟨hm23GW_E σ, hm23GW_E₁ σ, hm23GW_E₂ σ, ?_, ?_, ?_, ?_⟩
+  · have hr : hm23GW_r σ = y.s := by rw [← hσeq]; rfl
+    have hk : hm23GW_k σ = y.k := by rw [← hσeq]; rfl
+    rw [← hr, ← hk]; exact happ
+  · have hh : hm23GW_n₁ σ = y.h := by rw [← hσeq]; rfl
+    rw [← hh]; exact h1
+  · have hj : hm23GW_n₂ σ = y.j := by rw [← hσeq]; rfl
+    rw [← hj]; exact h2
+  · have hl : hm23GW_n₃ σ = y.l := by rw [← hσeq]; rfl
+    rw [← hl]; exact h3
+
+/-- Off-support direction (L1): if `T2Coord` is nonzero at a coordinate that lies
+in the `Psi1` coordinate image, then that coordinate also lies in the `Psi0`
+coordinate image.  Indeed nonvanishing of `T2Coord` forces the `z0`-side `Γ`
+factor to be nonzero, which (via `Φ`) lands the source in the `Psi0` window. -/
+theorem hm23Term2Coord_ne_zero_mem_Psi0Image
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1)
+    (x : HM23Psi1Source) (hx : x ∈ hm23Psi1WindowSourceSet a z0 z1 e)
+    (hT2 : hm23Term2CoordSummand a z0 z1 e (hm23Psi1Coord x) ≠ 0) :
+    hm23Psi1Coord x ∈
+      (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord := by
+  classical
+  obtain ⟨E, E₁, E₂, happ, h1, h2, h3⟩ := hm23_mem_Psi1WSS_imp a z0 z1 e x hx
+  -- extract the z0-side Γ ≠ 0 from `T2Coord ≠ 0`
+  have hGamma0 :
+      hm23Gamma (appellDenomExp a z0 (x.i - x.k)) x.k ≠ 0 := by
+    intro hzero
+    apply hT2
+    unfold hm23Term2CoordSummand
+    have hz :
+        (hm23Psi1Coord x).z + (hm23Psi1Coord x).p - (hm23Psi1Coord x).r + 1 -
+            (hm23Psi1Coord x).k = x.i - x.k := by
+      simp only [hm23Psi1Coord, hm23Psi1_z, hm23Psi1_p]; ring
+    have hk : (hm23Psi1Coord x).k = x.k := rfl
+    rw [hz, hk, hzero]
+    split_ifs <;> simp
+  -- membership of Φ x in the Psi0 window, with matching coordinate
+  have hmem :=
+    hm23Psi1_phi_mem_Psi0WindowSourceSet_of_Gamma_ne_zero
+      a z0 z1 e E E₁ E₂ x.l x.j x.i x.r x.k hreg happ h1 h2 h3 hGamma0
+  rw [Finset.mem_image]
+  refine ⟨{ s := x.i - x.k, k := x.k, h := x.r + x.k, j := x.j, l := x.l }, hmem, ?_⟩
+  have hphi := hm23Psi1Coord_eq_Psi0Coord_phi x
+  rw [hphi]
+  cases x with
+  | mk r k i j l => rfl
+
+/-- Off-support direction (L2, mirror): if `T1Coord` is nonzero at a coordinate
+in the `Psi0` coordinate image, then it lies in the `Psi1` coordinate image. -/
+theorem hm23Term1Coord_ne_zero_mem_Psi1Image
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1)
+    (y : HM23Psi0Source) (hy : y ∈ hm23Psi0WindowSourceSet a z0 z1 e)
+    (hT1 : hm23Term1CoordSummand a z0 z1 e (hm23Psi0Coord y) ≠ 0) :
+    hm23Psi0Coord y ∈
+      (hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord := by
+  classical
+  obtain ⟨E, E₁, E₂, happ, h1, h2, h3⟩ := hm23_mem_Psi0WSS_imp a z0 z1 e y hy
+  have hGamma1 :
+      hm23Gamma (appellDenomExp a z1 (y.h - y.k)) y.k ≠ 0 := by
+    intro hzero
+    apply hT1
+    unfold hm23Term1CoordSummand
+    have hr : (hm23Psi0Coord y).r = y.h - y.k := rfl
+    have hk : (hm23Psi0Coord y).k = y.k := rfl
+    rw [hr, hk, hzero]
+    split_ifs <;> simp
+  have hmem :=
+    hm23Psi0_phi_mem_Psi1WindowSourceSet_of_Gamma_ne_zero
+      a z0 z1 e E E₁ E₂ y.l y.j y.h y.s y.k hreg happ h1 h2 h3 hGamma1
+  rw [Finset.mem_image]
+  refine ⟨{ r := y.h - y.k, k := y.k, i := y.s + y.k, j := y.j, l := y.l }, hmem, ?_⟩
+  rw [hm23Psi1Coord_eq_Psi0Coord_phi
+    { r := y.h - y.k, k := y.k, i := y.s + y.k, j := y.j, l := y.l }]
+  show hm23Psi0Coord _ = hm23Psi0Coord y
+  congr 1
+  cases y with
+  | mk s k h j l => simp [hm23Phi]
+
+/-- Piece A assembled: the Γ-window difference is a single sum over the common
+coordinate index set (the union of the two coordinate images) of the per-coord
+difference `T1Coord − T2Coord`.  The off-support lemmas L1/L2 supply the two
+zero-extensions that put both sides on the shared index set. -/
+theorem hm23GammaWindowDifference_eq_coordImageSum
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) :
+    hm23GammaWindowFourFactorSum a z1 z0 (a + z0) (a + z1) e -
+        hm23GammaWindowFourFactorSum a z0 z1 (a + z0) (a + z1) e =
+      ∑ c ∈
+          ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+            (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord),
+        (hm23Term1CoordSummand a z0 z1 e c -
+          hm23Term2CoordSummand a z0 z1 e c) := by
+  classical
+  set I₁ := (hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord with hI₁
+  set I₀ := (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord with hI₀
+  -- Step 1: Γ(z1,z0) = Σ_{I₁} T1Coord
+  have hG1 :
+      hm23GammaWindowFourFactorSum a z1 z0 (a + z0) (a + z1) e =
+        ∑ c ∈ I₁, hm23Term1CoordSummand a z0 z1 e c := by
+    rw [hm23GammaWindowFourFactorSum_eq_Psi1Source]
+    rw [hm23Term1_transport_core a z0 z1 e (hm23Psi1WindowSourceSet a z0 z1 e)]
+  -- Step 2: Γ(z0,z1) = Σ_{I₀} T2Coord
+  have hG0 :
+      hm23GammaWindowFourFactorSum a z0 z1 (a + z0) (a + z1) e =
+        ∑ c ∈ I₀, hm23Term2CoordSummand a z0 z1 e c := by
+    rw [hm23GammaWindowFourFactorSum_eq_Psi0Source]
+    rw [hm23Term2_transport_core a z0 z1 e (hm23Psi0WindowSourceSet a z0 z1 e)]
+  -- Step 3: extend T1Coord sum from I₁ to I₁ ∪ I₀
+  have hext1 :
+      (∑ c ∈ I₁, hm23Term1CoordSummand a z0 z1 e c) =
+        ∑ c ∈ I₁ ∪ I₀, hm23Term1CoordSummand a z0 z1 e c := by
+    refine Finset.sum_subset (Finset.subset_union_left) ?_
+    intro c _hc hcnot
+    by_contra hne
+    -- c ∈ I₁ ∪ I₀ but ∉ I₁, with T1Coord c ≠ 0 ⇒ c ∈ I₁, contradiction
+    have hcI₀ : c ∈ I₀ := by
+      have := Finset.mem_union.mp _hc
+      tauto
+    rw [hI₀, Finset.mem_image] at hcI₀
+    obtain ⟨y, hy, rfl⟩ := hcI₀
+    have := hm23Term1Coord_ne_zero_mem_Psi1Image a z0 z1 e hreg y hy hne
+    exact hcnot (by rw [hI₁]; exact this)
+  -- Step 4: extend T2Coord sum from I₀ to I₁ ∪ I₀
+  have hext2 :
+      (∑ c ∈ I₀, hm23Term2CoordSummand a z0 z1 e c) =
+        ∑ c ∈ I₁ ∪ I₀, hm23Term2CoordSummand a z0 z1 e c := by
+    refine Finset.sum_subset (Finset.subset_union_right) ?_
+    intro c _hc hcnot
+    by_contra hne
+    have hcI₁ : c ∈ I₁ := by
+      have := Finset.mem_union.mp _hc
+      tauto
+    rw [hI₁, Finset.mem_image] at hcI₁
+    obtain ⟨x, hx, rfl⟩ := hcI₁
+    have := hm23Term2Coord_ne_zero_mem_Psi0Image a z0 z1 e hreg x hx hne
+    exact hcnot (by rw [hI₀]; exact this)
+  rw [hG1, hG0, hext1, hext2, ← Finset.sum_sub_distrib]
+
+/-- Piece B, stage 1: peel the monomial `Q^{z0}` and split off the cube `J^3`
+(supported on `≥ 0`) from the theta pair `j(z1−z0)·j(a+z0+z1)` (supported on
+`≥ jLow₂ + jLow₃`).  The RHS coefficient becomes a finite sum over the cube
+degree `eJ`, of the cube coefficient times the theta-pair coefficient. -/
+theorem lcoeff_RHS_eq_cube_theta_pair_sum (a z0 z1 e : ℤ) :
+    lcoeff (Qpow z0 * JOneLaurent ^ 3 * jLaurent (z1 - z0) 90 *
+        jLaurent (a + z0 + z1) 90) e =
+      ∑ eJ ∈ Finset.Icc (0 : ℤ)
+          (e - z0 - (jCoeffLower (z1 - z0) 90 + jCoeffLower (a + z0 + z1) 90)),
+        lcoeff (JOneLaurent ^ 3) eJ *
+          lcoeff (jLaurent (z1 - z0) 90 * jLaurent (a + z0 + z1) 90)
+            (e - z0 - eJ) := by
+  have hassoc :
+      Qpow z0 * JOneLaurent ^ 3 * jLaurent (z1 - z0) 90 *
+          jLaurent (a + z0 + z1) 90 =
+        Qpow z0 * (JOneLaurent ^ 3 *
+          (jLaurent (z1 - z0) 90 * jLaurent (a + z0 + z1) 90)) := by
+    ring
+  rw [hassoc, lcoeff_Qpow_mul]
+  rw [lcoeff_mul_eq_sum_Icc_of_coeff_zero_lt
+    (JOneLaurent ^ 3) (jLaurent (z1 - z0) 90 * jLaurent (a + z0 + z1) 90)
+    0 (jCoeffLower (z1 - z0) 90 + jCoeffLower (a + z0 + z1) 90) (e - z0)
+    (fun n hn => lcoeff_JOneLaurent_pow_three_of_neg n hn)
+    (fun n hn => lcoeff_mul_eq_zero_of_lt_add_lower
+      (jLaurent (z1 - z0) 90) (jLaurent (a + z0 + z1) 90)
+      (jCoeffLower (z1 - z0) 90) (jCoeffLower (a + z0 + z1) 90) n
+      (lcoeff_jLaurent_eq_zero_of_lt_lower (z1 - z0) 90)
+      (lcoeff_jLaurent_eq_zero_of_lt_lower (a + z0 + z1) 90) hn)]
+
+/-- The common `(m, p)`-fiber sum, the meeting point of HM 2.3 pieces C and B.
+For each pair of theta indices `m` (from `j(z1−z0;q)`) and `p` (from
+`j(a+z0+z1;q)`), the residual cube degree is `Ncube = (e − z0 − jExp(z1−z0) m −
+jExp(a+z0+z1) p) / 90`; the contribution is the cube coefficient
+`thetaMulPFUnifiedCoeffPF Ncube 0` (zero unless the residual is a nonnegative
+multiple of 90) weighted by the outer theta sign `(−1)^{m+p}`. -/
+def hm23FiberSum (a z0 z1 e : ℤ) : ℚ :=
+  ∑ m ∈ Finset.Icc (-(jCoeffWindow (z1 - z0) 90 (e - z0)))
+      (jCoeffWindow (z1 - z0) 90 (e - z0)),
+    ∑ p ∈ Finset.Icc (-(jCoeffWindow (a + z0 + z1) 90 (e - z0)))
+        (jCoeffWindow (a + z0 + z1) 90 (e - z0)),
+      let resid : ℤ := e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p
+      if (90 : ℤ) ∣ resid ∧ 0 ≤ resid then
+        negOnePowIntQ (m + p) *
+          ((Chapter10PF.thetaMulPFUnifiedCoeffPF (resid / 90).toNat 0 : ℤ) : ℚ)
+      else 0
+
+/-- Conditional form of the cube coefficient: under `hPF`, `lcoeff (J₁^3) eJ`
+equals the rational cast of `thetaMulPFUnifiedCoeffPF (eJ/90).toNat 0` when `eJ`
+is a nonnegative multiple of 90, and `0` otherwise.  Packages the three branch
+lemmas (`…_eq_unified`, `…_of_not_dvd`, `…_of_neg`). -/
+theorem lcoeff_JOneLaurent_pow_three_eq_ite_unified
+    (hPF :
+      Chapter10PF.thetaMulPFSeriesCoeffPF =
+        Chapter10PF.qPochInfPSCubeUPowerCoeffPF)
+    (eJ : ℤ) :
+    lcoeff (JOneLaurent ^ 3) eJ =
+      (if (90 : ℤ) ∣ eJ ∧ 0 ≤ eJ then
+        ((Chapter10PF.thetaMulPFUnifiedCoeffPF (eJ / 90).toNat 0 : ℤ) : ℚ)
+      else 0) := by
+  by_cases hdvd : (90 : ℤ) ∣ eJ
+  · by_cases hnn : 0 ≤ eJ
+    · rw [if_pos ⟨hdvd, hnn⟩]
+      obtain ⟨n, hn⟩ := hdvd
+      have hn_nonneg : 0 ≤ n := by nlinarith
+      have hcast : eJ = ((90 * n.toNat : ℕ) : ℤ) := by
+        rw [hn]; push_cast [Int.toNat_of_nonneg hn_nonneg]; ring
+      have hidx : (eJ / 90).toNat = n.toNat := by
+        rw [hn, Int.mul_ediv_cancel_left _ (by norm_num : (90 : ℤ) ≠ 0)]
+      rw [hidx]
+      rw [hcast, lcoeff_JOneLaurent_pow_three_eq_unified hPF n.toNat]
+    · rw [if_neg (by tauto)]
+      exact lcoeff_JOneLaurent_pow_three_of_neg eJ (by omega)
+  · rw [if_neg (by tauto)]
+    exact lcoeff_JOneLaurent_pow_three_of_not_dvd eJ hdvd
+
+/-- The common `(m,p)`-window intermediate, expressed with the cube coefficient
+in place of the unified PF coefficient.  Equals `hm23FiberSum` by the cube
+conditional helper. -/
+def hm23FiberSumCube (a z0 z1 e : ℤ) : ℚ :=
+  ∑ m ∈ Finset.Icc (-(jCoeffWindow (z1 - z0) 90 (e - z0)))
+      (jCoeffWindow (z1 - z0) 90 (e - z0)),
+    ∑ p ∈ Finset.Icc (-(jCoeffWindow (a + z0 + z1) 90 (e - z0)))
+        (jCoeffWindow (a + z0 + z1) 90 (e - z0)),
+      negOnePowIntQ (m + p) *
+        lcoeff (JOneLaurent ^ 3)
+          (e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p)
+
+theorem hm23FiberSum_eq_cube
+    (hPF :
+      Chapter10PF.thetaMulPFSeriesCoeffPF =
+        Chapter10PF.qPochInfPSCubeUPowerCoeffPF)
+    (a z0 z1 e : ℤ) :
+    hm23FiberSum a z0 z1 e = hm23FiberSumCube a z0 z1 e := by
+  unfold hm23FiberSum hm23FiberSumCube
+  refine Finset.sum_congr rfl ?_
+  intro m _hm
+  refine Finset.sum_congr rfl ?_
+  intro p _hp
+  rw [lcoeff_JOneLaurent_pow_three_eq_ite_unified hPF]
+  by_cases hc :
+      (90 : ℤ) ∣ (e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p) ∧
+        0 ≤ (e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p)
+  · rw [if_pos hc, if_pos hc]
+  · rw [if_neg hc, if_neg hc, mul_zero]
+
+/-- Open the `j(w)·G` Laurent coefficient on a symmetric theta window `W` wide
+enough to contain every theta root contributing to degree `y` (precisely: for
+each `e₁` in the convolution range, `jCoeffWindow w 90 e₁ ≤ W`).  At degree `y`
+it equals the sum over `Icc (-W) W` of `(−1)^m · lcoeff G (y − jExp w m)`. -/
+theorem lcoeff_jLaurent_90_mul_eq_window
+    (w y W : ℤ) (G : QLaurent) (LG : ℤ)
+    (hG : ∀ n : ℤ, n < LG → lcoeff G n = 0)
+    (hW : jCoeffWindow w 90 (y - LG) ≤ W) :
+    lcoeff (jLaurent w 90 * G) y =
+      ∑ m ∈ Finset.Icc (-W) W,
+        negOnePowIntQ m * lcoeff G (y - jExp w 90 m) := by
+  rw [lcoeff_mul_eq_sum_Icc_of_coeff_zero_lt (jLaurent w 90) G
+    (jCoeffLower w 90) LG y
+    (lcoeff_jLaurent_eq_zero_of_lt_lower w 90) hG]
+  simp_rw [coeff_jLaurent]
+  -- expand each jCoeff e₁ on the fixed window [-W, W] (root-capture)
+  have hexp : ∀ e₁ ∈ Finset.Icc (jCoeffLower w 90) (y - LG),
+      jCoeff w 90 e₁ =
+        ∑ n ∈ Finset.Icc (-W) W,
+          if jExp w 90 n = e₁ then negOnePowIntQ n else 0 := by
+    intro e₁ he₁
+    rw [Finset.mem_Icc] at he₁
+    exact jCoeff_eq_sum_Icc_of_roots_le w 90 e₁ (y - LG) W (by norm_num)
+      (by omega) hW
+  rw [Finset.sum_congr rfl (fun e₁ he₁ => by rw [hexp e₁ he₁])]
+  -- now: ∑ e₁ ∈ Icc, (∑ n ∈ box, [jExp n=e₁] sgn n) * lcoeff G (y-e₁)
+  -- push lcoeff inside and swap order
+  simp_rw [Finset.sum_mul]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl ?_
+  intro n _hn
+  -- ∑ e₁ ∈ Icc, (if jExp n=e₁ then sgn n else 0) * lcoeff G (y-e₁)
+  --   = sgn n * lcoeff G (y - jExp n)
+  by_cases hin : jExp w 90 n ∈ Finset.Icc (jCoeffLower w 90) (y - LG)
+  · rw [Finset.sum_eq_single (jExp w 90 n)]
+    · rw [if_pos rfl]
+    · intro e₁ _he₁ hne
+      rw [if_neg (by exact fun h => hne h.symm), zero_mul]
+    · intro hnotin; exact absurd hin hnotin
+  · -- jExp n ∉ Icc: every term zero, and RHS lcoeff G (y - jExp n) = 0
+    rw [Finset.sum_eq_zero]
+    · symm
+      rw [Finset.mem_Icc, not_and_or, not_le, not_le] at hin
+      rcases hin with hlt | hgt
+      · -- jExp n < jLow : impossible (theta exponent ≥ lower)
+        exfalso
+        have := jExp_lower_bound w 90 n (by norm_num)
+        omega
+      · -- jExp n > y - LG ⟹ y - jExp n < LG ⟹ lcoeff G = 0
+        rw [hG (y - jExp w 90 n) (by omega), mul_zero]
+    · intro e₁ he₁
+      by_cases hroot : jExp w 90 n = e₁
+      · exfalso; apply hin; rw [hroot]; exact he₁
+      · rw [if_neg hroot, zero_mul]
+
+/-- `j(w) · J₁^3` has its support bounded below by `jCoeffLower w 90`
+(theta lower bound plus nonnegative cube). -/
+theorem lcoeff_jLaurent_mul_cube_eq_zero_of_lt
+    (w n : ℤ) (hn : n < jCoeffLower w 90) :
+    lcoeff (jLaurent w 90 * JOneLaurent ^ 3) n = 0 := by
+  have h0 : (jCoeffLower w 90) + 0 = jCoeffLower w 90 := by ring
+  refine lcoeff_mul_eq_zero_of_lt_add_lower (jLaurent w 90) (JOneLaurent ^ 3)
+    (jCoeffLower w 90) 0 n
+    (lcoeff_jLaurent_eq_zero_of_lt_lower w 90)
+    (fun k hk => lcoeff_JOneLaurent_pow_three_of_neg k hk) ?_
+  rw [h0]; exact hn
+
+/-- Correctly-windowed RHS bridge.  Opens the two theta factors of the HM 2.3
+right-hand side against the cube `J₁^3` with the convolution-natural
+(`y − LG`)-windows — which scale with `|a|`, unlike `hm23FiberSum`.  The result
+is the double `(m, p)` sum of the outer sign times the cube coefficient at the
+residual cube degree.  This is the genuine meeting point for the final HM 2.3
+bridge (valid for all integer parameters). -/
+theorem lcoeff_RHS_eq_correct_fiber (a z0 z1 e : ℤ) :
+    lcoeff (Qpow z0 * JOneLaurent ^ 3 * jLaurent (z1 - z0) 90 *
+        jLaurent (a + z0 + z1) 90) e =
+      ∑ m ∈ Finset.Icc
+          (-(jCoeffWindow (z1 - z0) 90
+              (e - z0 - jCoeffLower (a + z0 + z1) 90)))
+          (jCoeffWindow (z1 - z0) 90
+              (e - z0 - jCoeffLower (a + z0 + z1) 90)),
+        ∑ p ∈ Finset.Icc
+            (-(jCoeffWindow (a + z0 + z1) 90
+                (e - z0 - jExp (z1 - z0) 90 m)))
+            (jCoeffWindow (a + z0 + z1) 90
+                (e - z0 - jExp (z1 - z0) 90 m)),
+          negOnePowIntQ (m + p) *
+            lcoeff (JOneLaurent ^ 3)
+              (e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p) := by
+  have hassoc :
+      Qpow z0 * JOneLaurent ^ 3 * jLaurent (z1 - z0) 90 *
+          jLaurent (a + z0 + z1) 90 =
+        Qpow z0 * (jLaurent (z1 - z0) 90 *
+          (jLaurent (a + z0 + z1) 90 * JOneLaurent ^ 3)) := by ring
+  rw [hassoc, lcoeff_Qpow_mul]
+  rw [lcoeff_jLaurent_90_mul_eq_window (z1 - z0) (e - z0)
+      (jCoeffWindow (z1 - z0) 90
+        (e - z0 - jCoeffLower (a + z0 + z1) 90))
+      (jLaurent (a + z0 + z1) 90 * JOneLaurent ^ 3)
+      (jCoeffLower (a + z0 + z1) 90)
+      (fun n hn => lcoeff_jLaurent_mul_cube_eq_zero_of_lt (a + z0 + z1) n hn)
+      (le_refl _)]
+  refine Finset.sum_congr rfl ?_
+  intro m _hm
+  rw [show negOnePowIntQ m *
+        lcoeff (jLaurent (a + z0 + z1) 90 * JOneLaurent ^ 3)
+          (e - z0 - jExp (z1 - z0) 90 m) =
+      negOnePowIntQ m *
+        ∑ p ∈ Finset.Icc
+            (-(jCoeffWindow (a + z0 + z1) 90
+                (e - z0 - jExp (z1 - z0) 90 m)))
+            (jCoeffWindow (a + z0 + z1) 90
+                (e - z0 - jExp (z1 - z0) 90 m)),
+          negOnePowIntQ p *
+            lcoeff (JOneLaurent ^ 3)
+              ((e - z0 - jExp (z1 - z0) 90 m) - jExp (a + z0 + z1) 90 p)
+      from by
+        rw [lcoeff_jLaurent_90_mul_eq_window (a + z0 + z1)
+          (e - z0 - jExp (z1 - z0) 90 m)
+          (jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m))
+          (JOneLaurent ^ 3) 0
+          (fun n hn => lcoeff_JOneLaurent_pow_three_of_neg n hn)
+          (by rw [sub_zero])]]
+  rw [Finset.mul_sum]
+  refine Finset.sum_congr rfl ?_
+  intro p _hp
+  rw [← mul_assoc, ← negOnePowIntQ_add]
+
+/-- Piece A + per-coord difference lemma combined: the Γ-window difference equals
+the sum, over the common coordinate index set, of the guarded outer-sign times
+the integer-core summand at the sheared coordinates. -/
+theorem hm23GammaWindowDifference_eq_coordImageSum_integerCore
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) :
+    hm23GammaWindowFourFactorSum a z1 z0 (a + z0) (a + z1) e -
+        hm23GammaWindowFourFactorSum a z0 z1 (a + z0) (a + z1) e =
+      ∑ c ∈
+          ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+            (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord),
+        (if hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e ∧
+            c.N = hm23Ncoord c.m c.p c.z c.r c.k then
+          negOnePowIntQ (c.m + c.p) *
+            ((hm23IntegerCoreSummandInt (hm23Ncoord c.m c.p c.z c.r c.k) c.z
+              (c.p + (a + z1 - 1) / 90)
+              (c.z + c.p - c.m + (a + z0 - 1) / 90)
+              (2 * c.r + c.k - c.m - c.p - 1)
+              (c.r - c.m + c.k) : ℤ) : ℚ)
+        else 0) := by
+  rw [hm23GammaWindowDifference_eq_coordImageSum a z0 z1 e hreg]
+  refine Finset.sum_congr rfl ?_
+  intro c _hc
+  exact hm23Term1_sub_Term2_CoordSummand a z0 z1 e hreg c
+
+/-- ISOLATED REMAINING GAP (HM 2.3 piece C + piece B stage 2 + final match).
+
+After piece A, the Γ-window difference equals the coordinate-union sum of the
+guarded `sign · integerCoreSummand(sheared)`
+(`hm23GammaWindowDifference_eq_coordImageSum_integerCore`).  After piece B
+stage 1, the RHS coefficient equals the cube/theta-pair convolution
+(`lcoeff_RHS_eq_cube_theta_pair_sum`).  This lemma is the remaining bridge: both
+finite sums regroup, fiber by `(m,p,z,N)`, into
+`∑_{(m,p,z,N): TermOut=e} (-1)^{m+p} · thetaMulPFUnifiedCoeffPF N z`, using
+`hm23ShearPreimageBox_sum_eq_canonical` (collapse of the `(r,k)` shear box to the
+canonical integer-core sum) and `hm23_thetaMulPFRawCoeffPF_rat_eq_JOneCoeff_of_hPF`
+(identification of the cube coefficient with the canonical sum via `hPF`).
+
+Numerically verified TRUE on random nonsingular `(a,z0,z1,e)` (see model2/modelB2,
+both sides agreed including nonzero cases).  The mathematical content is the
+converse support fact that the window coordinate images capture, fiber by fiber,
+exactly the shear-preimage box of contributing `(r,k)` points.
+
+IMPLEMENTATION NOTE (Opus, this session).  The intended meeting point
+`hm23FiberSum` is NOT a valid bridge for this lemma as a free-integer statement:
+its `(m,p)` windows `jCoeffWindow (z1-z0) 90 (e-z0)` and
+`jCoeffWindow (a+z0+z1) 90 (e-z0)` depend only on `z1-z0`, `a+z0+z1` and `e-z0`,
+and are too small once `|a|` is large.  Concretely, for `a=186079, z0=z1=0,
+e=52` the residual `e - z0 - jExp(z1-z0) m - jExp(a+z0+z1) p` is a NONNEGATIVE
+multiple of `90` with NONZERO cube coefficient at `m = 996`, while the fiber
+`m`-window is only `732`; that term is dropped, so
+`lcoeff(RHS) = hm23FiberSum` FAILS (verified, both numerically and by the
+`nlinarith` rejection of the would-be coupled support bound
+`theta_pair_resid_nonneg_m_bound`).  The cube residual `resid >= 0` does NOT
+force `|m|` into the `(e-z0)`-window because the partner theta exponent
+`jExp(a+z0+z1) 90 p` can be as negative as `-(a+z0+z1)^2/180`, allowing
+`jExp(z1-z0) 90 m` up to `(e-z0) + (a+z0+z1)^2/180`.
+
+Consequence: the RHS side is now available CORRECTLY-windowed (all integers) as
+`lcoeff_RHS_eq_correct_fiber`, which rewrites `lcoeff(RHS)` as the double sum
+  `∑_{m ∈ Icc(-Wm)(Wm)} ∑_{p ∈ Icc(-Wp(m))(Wp(m))}
+      (-1)^{m+p} · lcoeff(J₁^3) (e - z0 - jExp(z1-z0) m - jExp(a+z0+z1) p)`
+with `Wm = jCoeffWindow (z1-z0) 90 (e - z0 - jCoeffLower (a+z0+z1) 90)` and
+`Wp(m) = jCoeffWindow (a+z0+z1) 90 (e - z0 - jExp(z1-z0) m)`.  This was built
+from the verified bricks `lcoeff_jLaurent_90_mul_eq_window`,
+`lcoeff_jLaurent_mul_cube_eq_zero_of_lt`, `jExp_root_le_target_window_left/right`,
+`jCoeff_eq_sum_Icc_of_roots_le`, `lcoeff_JOneLaurent_pow_three_of_neg`.
+
+REMAINING WORK (the LHS converse-support direction, unfinished): rewrite the
+`coordUnion` sum so that it equals the above double sum.  Per `(m,p)` fiber:
+(i) the `(z,N,r,k)` inner sum collapses via `hm23ShearPreimageBox_sum_eq_canonical`
+to `canonical(N,z) = thetaMulPFUnifiedCoeffPF N z`, which vanishes for `z ≠ 0`
+(`Chapter10PF.thetaMulPFUnifiedCoeffPF_nonconstant_vanish`), leaving only `z = 0`;
+(ii) at `z = 0`, `lcoeff(J₁^3) resid = thetaMulPFUnifiedCoeffPF (resid/90) 0`
+(`lcoeff_JOneLaurent_pow_three_eq_ite_unified`).
+
+INDEX RECONCILIATION (resolved, Opus, this session — the earlier "(m+p) shift"
+note was a sign/algebra error and is RETRACTED).  At `z = 0` the guard
+`hm23TermOutExp a z0 z1 m p 0 N = e` gives EXACTLY `90 N = resid`, i.e.
+`N = resid / 90`, with NO `(m + p)` shift.  Proof: expand
+`resid = e - z0 - jExp (z1-z0) 90 m - jExp (a+z0+z1) 90 p`
+using `jExp w 90 n = 90·hmTri n + w·n`, so
+`resid = e - z0 - 90·hmTri m - (z1-z0)·m - 90·hmTri p - (a+z0+z1)·p`,
+while the guard at `z = 0` reads
+`90·(hmTri m + hmTri p + N) + z0·(1 - m + p) + z1·(m + p) + a·p = e`,
+i.e. `90 N = e - 90·hmTri m - 90·hmTri p - z0·(1 - m + p) - z1·(m + p) - a·p`.
+Subtracting, `90 N - resid = z0 + (z1-z0)·m + (a+z0+z1)·p - z0·(1-m+p)
+- z1·(m+p) - a·p = 0` (verified by `ring`).  Hence at `z = 0`,
+`thetaMulPFUnifiedCoeffPF N 0 = lcoeff (J₁^3) (90 N) = lcoeff (J₁^3) resid`
+lines up DIRECTLY through `lcoeff_JOneLaurent_pow_three_eq_unified`, no reindex.
+
+NUMERICALLY VERIFIED TRUE (this session), including nonzero cases: for random
+nonsingular `(a,z0,z1,e)`, the guarded `coordUnion` sum equals the
+`lcoeff_RHS_eq_correct_fiber` double `(m,p)` sum (matched on e.g.
+`a=7,z0=1,z1=2` at `e ∈ {1,2,11,12,81,82,90,91,…}` with nonzero values
+`1,-1,-1,1,-1,1,-1,-3`).  Per-fiber check: for each `(m,p,z,N)` the
+guard-passing `(r,k)` of the `coordUnion` image SUM (against
+`hm23IntegerCoreSummandInt` at the sheared coordinates) equals
+`hm23IntegerCoreCanonicalSumInt N z` exactly (window-independent), confirming the
+converse-capture below.
+
+The genuine REMAINING content is the converse capture as a `Finset` identity:
+for each fiber, the guard-passing `(r,k)` of `coordUnion` SUM to the
+shear-preimage-box value.  The forward support bound (every guard-passing `(r,k)`
+with nonzero `hm23IntegerCoreSummandInt` lies in the box) and the surjectivity
+membership (`hm23Psi1_phi_mem_Psi0WindowSourceSet_of_Gamma_ne_zero` and its
+mirror put every box `(r,k)` with nonzero summand into the window image) are the
+two halves of a `Finset.sum_subset`-in-both-directions argument; assembling them
+through the `(m,p,z,N)` `Finset.sum_fiberwise`/`sigma` regrouping is the unwritten
+step.  `hm23FiberSum` is only valid in the bounded fundamental-domain regime
+`0 ≤ a < 90` with bounded `z0, z1`. -/
+theorem hm23CoordUnion_integerCore_eq_lcoeff_RHS
+    (hPF :
+      Chapter10PF.thetaMulPFSeriesCoeffPF =
+        Chapter10PF.qPochInfPSCubeUPowerCoeffPF)
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) :
+    (∑ c ∈
+        ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+          (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord),
+      (if hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e ∧
+          c.N = hm23Ncoord c.m c.p c.z c.r c.k then
+        negOnePowIntQ (c.m + c.p) *
+          ((hm23IntegerCoreSummandInt (hm23Ncoord c.m c.p c.z c.r c.k) c.z
+            (c.p + (a + z1 - 1) / 90)
+            (c.z + c.p - c.m + (a + z0 - 1) / 90)
+            (2 * c.r + c.k - c.m - c.p - 1)
+            (c.r - c.m + c.k) : ℤ) : ℚ)
+      else 0)) =
+      lcoeff (Qpow z0 * JOneLaurent ^ 3 * jLaurent (z1 - z0) 90 *
+        jLaurent (a + z0 + z1) 90) e := by
+  sorry
+
 theorem hm23GammaWindowDifference_residual
     (hPF :
       Chapter10PF.thetaMulPFSeriesCoeffPF =
         Chapter10PF.qPochInfPSCubeUPowerCoeffPF)
-    (a z0 z1 e : ℤ) (_hreg : hm23Nonsingular a z0 z1) :
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) :
     hm23GammaWindowFourFactorSum a z1 z0 (a + z0) (a + z1) e -
       hm23GammaWindowFourFactorSum a z0 z1 (a + z0) (a + z1) e -
         lcoeff (Qpow z0 * JOneLaurent ^ 3 * jLaurent (z1 - z0) 90 *
           jLaurent (a + z0 + z1) 90) e = 0 := by
-  sorry
+  rw [hm23GammaWindowDifference_eq_coordImageSum_integerCore a z0 z1 e hreg]
+  rw [hm23CoordUnion_integerCore_eq_lcoeff_RHS hPF a z0 z1 e hreg]
+  ring
 
 
 

@@ -15,7 +15,7 @@ mock theta identity that closes the book's hardest chapter.
 | Theorems and lemmas | 26,504 |
 | Definitions | 1,151 |
 | Audit | `QseriesFormalization/Audit.lean`: 8,012 modules compile with zero errors, **351 `#print axioms` checks** |
-| Axiom discipline | every audited theorem depends only on `[propext, Classical.choice, Quot.sound]` (one documented exception, see *Caveats*) |
+| Axiom discipline | **every** audited theorem depends only on `[propext, Classical.choice, Quot.sound]` |
 
 No `sorry`, no custom axioms, no `native_decide` in any audited result.
 
@@ -43,7 +43,7 @@ import QseriesFormalization.Pending.Chapter10_Bridge
 | Topic (book chapter) | Result | Where |
 |---|---|---|
 | Partitions, explicit values | `p(12)=77`, `p(13)=101` via the Euler-pentagonal recurrence on formal power series | `Chapter01_*` |
-| Euler's pentagonal number theorem | combinatorial (Franklin's involution) **and** formal-power-series proofs | `Chapter05.lean`, `Pending/JTP_FormalPS_Pentagonal.lean` |
+| Euler's pentagonal number theorem | combinatorial (Franklin's involution) **and** formal-power-series proofs | `Chapter04_FranklinPentagonal.lean`, `Pending/JTP_FormalPS_Pentagonal.lean` |
 | Jacobi triple product | analytic over ℂ and as a formal Laurent identity via AP-Pochhammer products | `Chapter03/04`, `Pending/Chapter10_HM.lean` (`jLaurent_eq_tripleProductInf`) |
 | Rogers–Ramanujan identities | both identities, Schur's 1917 proof | `Chapter07*` |
 | Rogers–Ramanujan continued fraction | golden-ratio values; the differential equation via **Dobbie's identity** (Gaussian-integer strings over ℤ[i]) | `Chapter11.lean`, `Pending/Chapter15_WronskianIndependent.lean`, `Pending/Chapter15_R_ODE.lean` |
@@ -71,15 +71,11 @@ verified but not yet closed).
   reports), kept for provenance.
 - `PLAYBOOK_AUDIT.md` — audit conventions and known file-labeling caveats.
 
-## Caveats (documented honestly)
+## Notes
 
-- One pentagonal-coefficient lemma (`coeff_qPochInfPS_int_eq_pentagonalSign`) still routes
-  through a legacy `native_decide` dependency and therefore carries `Lean.ofReduceBool`. It is
-  flagged in `Audit.lean`, quarantined from everything else, and scheduled for replacement.
-- Two files carry historical names that do not match their content (`Chapter05.lean` holds
-  Franklin-involution material that is Chan §4 content; `Chapter15.lean` holds q-calculus
-  material, while Chan §15's actual chapter-main lives in `Pending/Chapter15_*.lean`).
-  See `PLAYBOOK_AUDIT.md`.
+- File names were normalized to content-true names for this release (e.g. the Franklin-involution
+  development, which proves Chan §4 content, lives in `Chapter04_FranklinPentagonal.lean`).
+  A few internal namespace names retain historical numbering where renaming would add no clarity.
 
 ## Method
 

@@ -8,11 +8,11 @@ namespace Ch01
 open QseriesFormalization.PartIV.Ch19
 
 private theorem pentagonalSign_at_13_to_17 :
-    QseriesFormalization.PartI.Ch05.pentagonalSign 13 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 14 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 15 = -1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 16 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 17 = 0 := by
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 13 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 14 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 15 = -1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 16 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 17 = 0 := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;> decide
 
 theorem partitionCount_seventeen : partitionCount 17 = 297 := by
@@ -24,7 +24,7 @@ theorem partitionCount_seventeen : partitionCount 17 = 297 := by
   have h_pg : ∀ k, (partitionGenFun ℤ).coeff k = (partitionCount k : ℤ) :=
     coeff_partitionGenFun
   have h_qp : ∀ m, (qPochInfPS ℤ).coeff m =
-      QseriesFormalization.PartI.Ch05.pentagonalSign m :=
+      QseriesFormalization.PartI.Ch04Franklin.pentagonalSign m :=
     fun m => coeff_qPochInfPS_int_eq_pentagonalSign m
   simp only [h_pg, h_qp] at h17
   rw [show (Finset.antidiagonal 17 :

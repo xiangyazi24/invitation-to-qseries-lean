@@ -37,7 +37,7 @@ repo instead proves JTP via the Chan §3 finite-JTP limit.
 
 namespace QseriesFormalization
 namespace PartI
-namespace Ch05
+namespace Ch04Franklin
 
 /-- An admissible "fermion sea" configuration, modelled as the finset
 of levels (offset from ℤ+1/2 to ℤ for Lean simplicity) that DIFFER
@@ -272,7 +272,7 @@ theorem partitionWeight_tail_add_head (n : Nat) (lam : List Nat) :
     partitionWeight lam + n = partitionWeight (n :: lam) := by
   simp [partitionWeight, Nat.add_comm]
 
-/-- Appending list partitions adds their weights. This Ch05 wrapper keeps the
+/-- Appending list partitions adds their weights. This Ch04Franklin wrapper keeps the
 weight accounting close to the Franklin-involution infrastructure. -/
 theorem partitionWeight_append_parts (lam mu : List Nat) :
     partitionWeight (lam ++ mu) = partitionWeight lam + partitionWeight mu := by
@@ -3776,6 +3776,6 @@ theorem energy_six_particles :
     energy ⟨{0, 1, 2, 3, 4, 5}, ∅⟩ = 21 := by
   simp [energy]
 
-end Ch05
+end Ch04Franklin
 end PartI
 end QseriesFormalization

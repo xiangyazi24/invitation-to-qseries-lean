@@ -178,7 +178,7 @@ def chan15CoeffVerified : Nat → Int
   | _ => 0
 
 private theorem pentagonalSign_eq_qPochLowCoeff (n : Nat) (hn : n ≤ 40) :
-    QseriesFormalization.PartI.Ch05.pentagonalSign n = qPochLowCoeff n := by
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n = qPochLowCoeff n := by
   interval_cases n <;> decide
 
 private theorem coeff_qPochInfPS_low (R : Type*) [CommRing R] (n : Nat) (hn : n ≤ 40) :

@@ -31,7 +31,7 @@ namespace Pending
 namespace Ch17p11
 
 open QseriesFormalization.PartIV.Ch19
-open QseriesFormalization.PartI.Ch05 (pentagonalSign)
+open QseriesFormalization.PartI.Ch04Franklin (pentagonalSign)
 
 /-- **Mod-11 Ramanujan convolution vanishing**, n ≤ 20, by direct computation. -/
 theorem jts_cubed_qPoch_conv_zero_mod_11_le_twenty :

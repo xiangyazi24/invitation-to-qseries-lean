@@ -23,7 +23,7 @@ open QseriesFormalization.PartIV.Ch19
 /-- Pentagonal sign at index 13.  All m < 13 already covered by
 `Chapter01_PartitionCount12.pentagonalSign_values`. -/
 private theorem pentagonalSign_at_13 :
-    QseriesFormalization.PartI.Ch05.pentagonalSign 13 = 0 := by
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 13 = 0 := by
   decide
 
 /-- **Chan §1: `p(13) = 101`**. -/
@@ -36,7 +36,7 @@ theorem partitionCount_thirteen : partitionCount 13 = 101 := by
   have h_pg : ∀ k, (partitionGenFun ℤ).coeff k = (partitionCount k : ℤ) :=
     coeff_partitionGenFun
   have h_qp : ∀ m, (qPochInfPS ℤ).coeff m =
-      QseriesFormalization.PartI.Ch05.pentagonalSign m :=
+      QseriesFormalization.PartI.Ch04Franklin.pentagonalSign m :=
     fun m => coeff_qPochInfPS_int_eq_pentagonalSign m
   simp only [h_pg, h_qp] at h13
   rw [show (Finset.antidiagonal 13 :

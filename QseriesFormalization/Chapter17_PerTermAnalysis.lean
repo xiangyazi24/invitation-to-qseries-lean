@@ -22,7 +22,7 @@ namespace PartIV
 namespace Ch17
 
 open QseriesFormalization.PartIV.Ch19
-open QseriesFormalization.PartI.Ch05
+open QseriesFormalization.PartI.Ch04Franklin
 
 /-- When `jacobiTripleSign n ≠ 0`, we can extract a witness `k ≤ n`
 with `n = k * (k + 1) / 2` and the sign formula. -/
@@ -193,12 +193,12 @@ in `Pending/Chapter17_Ramanujan5Conditional.lean`. -/
 theorem jacobiPentagonal_per_term_zero_mod_5
     (i j m : Nat) (h_sum : i + j = 5 * m + 4) :
     ((jacobiTripleSign i : ℤ) : ZMod 5) *
-      ((QseriesFormalization.PartI.Ch05.pentagonalSign j : ℤ) : ZMod 5) = 0 := by
+      ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign j : ℤ) : ZMod 5) = 0 := by
   -- Case 1: jacobiTripleSign i = 0.
   by_cases h_jac_zero : jacobiTripleSign i = 0
   · rw [h_jac_zero]; simp
   -- Case 2: pentagonalSign j = 0.
-  by_cases h_pent_zero : QseriesFormalization.PartI.Ch05.pentagonalSign j = 0
+  by_cases h_pent_zero : QseriesFormalization.PartI.Ch04Franklin.pentagonalSign j = 0
   · rw [h_pent_zero]; simp
   -- Case 3: both nonzero.  Extract k, l witnesses.
   obtain ⟨k, hk_le, hk_eq, hk_sign⟩ :=

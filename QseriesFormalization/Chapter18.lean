@@ -1,5 +1,5 @@
 import QseriesFormalization.Basic
-import QseriesFormalization.Chapter05
+import QseriesFormalization.Chapter04_FranklinPentagonal
 
 namespace QseriesFormalization
 namespace PartIV
@@ -9,7 +9,7 @@ section HookLengths
 
 /-- Ferrers cells reused from Chapter 5, with rows and columns zero-indexed. -/
 abbrev FerrersCell (lam : List Nat) (r c : Nat) : Prop :=
-  PartI.Ch05.FerrersCell lam r c
+  PartI.Ch04Franklin.FerrersCell lam r c
 
 /-- Number of cells to the right of `(r,c)` in a Ferrers row. -/
 def armLength (lam : List Nat) (r c : Nat) : Nat :=
@@ -29,7 +29,7 @@ theorem armLength_add_one_of_FerrersCell {lam : List Nat} {r c : Nat}
     (hcell : FerrersCell lam r c) :
     armLength lam r c + 1 = lam.getD r 0 - c := by
   unfold armLength
-  unfold FerrersCell PartI.Ch05.FerrersCell at hcell
+  unfold FerrersCell PartI.Ch04Franklin.FerrersCell at hcell
   omega
 
 /-- At a Ferrers cell, the arm length is strictly shorter than the row length. -/
@@ -37,7 +37,7 @@ theorem armLength_lt_rowLength_of_FerrersCell {lam : List Nat} {r c : Nat}
     (hcell : FerrersCell lam r c) :
     armLength lam r c < lam.getD r 0 := by
   have h := armLength_add_one_of_FerrersCell hcell
-  unfold FerrersCell PartI.Ch05.FerrersCell at hcell
+  unfold FerrersCell PartI.Ch04Franklin.FerrersCell at hcell
   omega
 
 /-- At a Ferrers cell, hook length can be written as remaining row length plus
@@ -153,28 +153,28 @@ preserved by Ferrers conjugation. -/
 theorem hasHookDivisibleBy_FerrersConjugatePartition_iff_of_hookLength_eq
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam)
     (hforward : ∀ ⦃r c : Nat⦄, FerrersCell lam r c →
-      hookLength (PartI.Ch05.FerrersConjugatePartition lam) c r = hookLength lam r c)
-    (hback : ∀ ⦃r c : Nat⦄, FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) r c →
-      hookLength lam c r = hookLength (PartI.Ch05.FerrersConjugatePartition lam) r c) :
+      hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r = hookLength lam r c)
+    (hback : ∀ ⦃r c : Nat⦄, FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c →
+      hookLength lam c r = hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c) :
     HasHookDivisibleBy t lam ↔
-      HasHookDivisibleBy t (PartI.Ch05.FerrersConjugatePartition lam) := by
+      HasHookDivisibleBy t (PartI.Ch04Franklin.FerrersConjugatePartition lam) := by
   apply hasHookDivisibleBy_iff_of_hookLength_maps
   · intro r c hcell
-    exact ⟨c, r, (PartI.Ch05.FerrersCell_FerrersConjugatePartition_iff hpart).2 hcell,
+    exact ⟨c, r, (PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_iff hpart).2 hcell,
       hforward hcell⟩
   · intro r c hcell
-    exact ⟨c, r, (PartI.Ch05.FerrersCell_FerrersConjugatePartition_iff hpart).1 hcell,
+    exact ⟨c, r, (PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_iff hpart).1 hcell,
       hback hcell⟩
 
 /-- The corresponding t-core packaging lemma for Ferrers conjugation. -/
 theorem isTCoreByHooks_FerrersConjugatePartition_iff_of_hookLength_eq
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam)
     (hforward : ∀ ⦃r c : Nat⦄, FerrersCell lam r c →
-      hookLength (PartI.Ch05.FerrersConjugatePartition lam) c r = hookLength lam r c)
-    (hback : ∀ ⦃r c : Nat⦄, FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) r c →
-      hookLength lam c r = hookLength (PartI.Ch05.FerrersConjugatePartition lam) r c) :
+      hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r = hookLength lam r c)
+    (hback : ∀ ⦃r c : Nat⦄, FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c →
+      hookLength lam c r = hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) r c) :
     IsTCoreByHooks t lam ↔
-      IsTCoreByHooks t (PartI.Ch05.FerrersConjugatePartition lam) := by
+      IsTCoreByHooks t (PartI.Ch04Franklin.FerrersConjugatePartition lam) := by
   unfold IsTCoreByHooks
   rw [hasHookDivisibleBy_FerrersConjugatePartition_iff_of_hookLength_eq
     hpart hforward hback]
@@ -182,20 +182,20 @@ theorem isTCoreByHooks_FerrersConjugatePartition_iff_of_hookLength_eq
 /-- Ferrers columns of a cons list split into the optional new top cell and
 the shifted old column. -/
 theorem FerrersColumnCells_cons (n : Nat) (tail : List Nat) (c : Nat) :
-    PartI.Ch05.FerrersColumnCells (n :: tail) c =
+    PartI.Ch04Franklin.FerrersColumnCells (n :: tail) c =
       (if c < n then ({0} : Finset Nat) else ∅) ∪
-        (PartI.Ch05.FerrersColumnCells tail c).image Nat.succ := by
+        (PartI.Ch04Franklin.FerrersColumnCells tail c).image Nat.succ := by
   ext r
   cases r with
   | zero =>
-      by_cases hc : c < n <;> simp [PartI.Ch05.FerrersColumnCells, hc]
+      by_cases hc : c < n <;> simp [PartI.Ch04Franklin.FerrersColumnCells, hc]
   | succ r =>
-      by_cases hc : c < n <;> simp [PartI.Ch05.FerrersColumnCells, hc]
+      by_cases hc : c < n <;> simp [PartI.Ch04Franklin.FerrersColumnCells, hc]
 
 /-- Cardinal form of `FerrersColumnCells_cons`. -/
 theorem FerrersColumnCells_card_cons (n : Nat) (tail : List Nat) (c : Nat) :
-    (PartI.Ch05.FerrersColumnCells (n :: tail) c).card =
-      (if c < n then 1 else 0) + (PartI.Ch05.FerrersColumnCells tail c).card := by
+    (PartI.Ch04Franklin.FerrersColumnCells (n :: tail) c).card =
+      (if c < n then 1 else 0) + (PartI.Ch04Franklin.FerrersColumnCells tail c).card := by
   rw [FerrersColumnCells_cons]
   have hinj : Function.Injective Nat.succ := by
     intro a b h
@@ -211,10 +211,10 @@ theorem FerrersColumnCells_card_cons (n : Nat) (tail : List Nat) (c : Nat) :
 the Ferrers column cells in that column. -/
 theorem filter_length_eq_FerrersColumnCells_card (lam : List Nat) (c : Nat) :
     (lam.filter (fun rowLength => c < rowLength)).length =
-      (PartI.Ch05.FerrersColumnCells lam c).card := by
+      (PartI.Ch04Franklin.FerrersColumnCells lam c).card := by
   induction lam with
   | nil =>
-      simp [PartI.Ch05.FerrersColumnCells]
+      simp [PartI.Ch04Franklin.FerrersColumnCells]
   | cons n tail ih =>
       rw [FerrersColumnCells_card_cons]
       by_cases hc : c < n
@@ -226,7 +226,7 @@ theorem filter_length_eq_FerrersColumnCells_card (lam : List Nat) (c : Nat) :
 rows through `r`. -/
 theorem legLength_eq_FerrersColumnCells_drop_card (lam : List Nat) (r c : Nat) :
     legLength lam r c =
-      (PartI.Ch05.FerrersColumnCells (lam.drop (r + 1)) c).card := by
+      (PartI.Ch04Franklin.FerrersColumnCells (lam.drop (r + 1)) c).card := by
   unfold legLength
   rw [filter_length_eq_FerrersColumnCells_card]
 
@@ -234,39 +234,39 @@ theorem legLength_eq_FerrersColumnCells_drop_card (lam : List Nat) (r c : Nat) :
 original column height minus the rows through that cell. -/
 theorem FerrersColumnCells_drop_card_of_FerrersCell {lam : List Nat}
     (hpart : IsPartition lam) {r c : Nat} (hcell : FerrersCell lam r c) :
-    (PartI.Ch05.FerrersColumnCells (lam.drop (r + 1)) c).card =
-      (PartI.Ch05.FerrersColumnCells lam c).card - (r + 1) := by
-  have hcol := PartI.Ch05.FerrersColumnCells_eq_range_card hpart c
-  have hrmem : r ∈ PartI.Ch05.FerrersColumnCells lam c := by
-    rw [PartI.Ch05.mem_FerrersColumnCells_iff]
+    (PartI.Ch04Franklin.FerrersColumnCells (lam.drop (r + 1)) c).card =
+      (PartI.Ch04Franklin.FerrersColumnCells lam c).card - (r + 1) := by
+  have hcol := PartI.Ch04Franklin.FerrersColumnCells_eq_range_card hpart c
+  have hrmem : r ∈ PartI.Ch04Franklin.FerrersColumnCells lam c := by
+    rw [PartI.Ch04Franklin.mem_FerrersColumnCells_iff]
     exact hcell
-  have hrcol : r < (PartI.Ch05.FerrersColumnCells lam c).card := by
+  have hrcol : r < (PartI.Ch04Franklin.FerrersColumnCells lam c).card := by
     rwa [hcol, Finset.mem_range] at hrmem
-  have hdrop_eq : PartI.Ch05.FerrersColumnCells (lam.drop (r + 1)) c =
-      Finset.range ((PartI.Ch05.FerrersColumnCells lam c).card - (r + 1)) := by
+  have hdrop_eq : PartI.Ch04Franklin.FerrersColumnCells (lam.drop (r + 1)) c =
+      Finset.range ((PartI.Ch04Franklin.FerrersColumnCells lam c).card - (r + 1)) := by
     ext s
-    rw [PartI.Ch05.mem_FerrersColumnCells_iff, Finset.mem_range]
+    rw [PartI.Ch04Franklin.mem_FerrersColumnCells_iff, Finset.mem_range]
     constructor
     · intro hs
       have hslen : r + 1 + s < lam.length := by
-        rw [PartI.Ch05.FerrersCell, List.length_drop] at hs
+        rw [PartI.Ch04Franklin.FerrersCell, List.length_drop] at hs
         omega
-      have hscell : PartI.Ch05.FerrersCell lam (r + 1 + s) c := by
+      have hscell : PartI.Ch04Franklin.FerrersCell lam (r + 1 + s) c := by
         refine ⟨hslen, ?_⟩
         have hsdrop_len := hs.1
         have hsdrop_col := hs.2
         rw [List.getD_eq_getElem (l := lam.drop (r + 1)) (d := 0) hsdrop_len,
           List.getElem_drop] at hsdrop_col
         simpa [List.getD_eq_getElem?_getD, hslen] using hsdrop_col
-      have hmem : r + 1 + s ∈ PartI.Ch05.FerrersColumnCells lam c := by
-        rwa [PartI.Ch05.mem_FerrersColumnCells_iff]
+      have hmem : r + 1 + s ∈ PartI.Ch04Franklin.FerrersColumnCells lam c := by
+        rwa [PartI.Ch04Franklin.mem_FerrersColumnCells_iff]
       rw [hcol, Finset.mem_range] at hmem
       exact Nat.lt_sub_iff_add_lt'.2 hmem
     · intro hs
-      have hmem : r + 1 + s ∈ PartI.Ch05.FerrersColumnCells lam c := by
+      have hmem : r + 1 + s ∈ PartI.Ch04Franklin.FerrersColumnCells lam c := by
         rw [hcol, Finset.mem_range]
         omega
-      rw [PartI.Ch05.mem_FerrersColumnCells_iff] at hmem
+      rw [PartI.Ch04Franklin.mem_FerrersColumnCells_iff] at hmem
       refine ⟨?_, ?_⟩
       · rw [List.length_drop]
         exact Nat.lt_sub_iff_add_lt'.2 hmem.1
@@ -283,7 +283,7 @@ theorem FerrersColumnCells_drop_card_of_FerrersCell {lam : List Nat}
 through `r`. -/
 theorem legLength_eq_column_card_sub_succ_of_FerrersCell {lam : List Nat}
     (hpart : IsPartition lam) {r c : Nat} (hcell : FerrersCell lam r c) :
-    legLength lam r c = (PartI.Ch05.FerrersColumnCells lam c).card - (r + 1) := by
+    legLength lam r c = (PartI.Ch04Franklin.FerrersColumnCells lam c).card - (r + 1) := by
   rw [legLength_eq_FerrersColumnCells_drop_card,
     FerrersColumnCells_drop_card_of_FerrersCell hpart hcell]
 
@@ -291,18 +291,18 @@ theorem legLength_eq_column_card_sub_succ_of_FerrersCell {lam : List Nat}
 Ferrers conjugate. -/
 theorem FerrersColumnCells_FerrersConjugatePartition_card_eq_getD {lam : List Nat}
     (hpart : IsPartition lam) {r : Nat} (hr : r < lam.length) :
-    (PartI.Ch05.FerrersColumnCells (PartI.Ch05.FerrersConjugatePartition lam) r).card =
+    (PartI.Ch04Franklin.FerrersColumnCells (PartI.Ch04Franklin.FerrersConjugatePartition lam) r).card =
       lam.getD r 0 := by
   have hcol_eq :
-      PartI.Ch05.FerrersColumnCells (PartI.Ch05.FerrersConjugatePartition lam) r =
+      PartI.Ch04Franklin.FerrersColumnCells (PartI.Ch04Franklin.FerrersConjugatePartition lam) r =
         Finset.range (lam.getD r 0) := by
     ext c
-    rw [PartI.Ch05.mem_FerrersColumnCells_iff, Finset.mem_range]
+    rw [PartI.Ch04Franklin.mem_FerrersColumnCells_iff, Finset.mem_range]
     constructor
     · intro hc
-      exact ((PartI.Ch05.FerrersCell_FerrersConjugatePartition_iff hpart).1 hc).2
+      exact ((PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_iff hpart).1 hc).2
     · intro hc
-      exact (PartI.Ch05.FerrersCell_FerrersConjugatePartition_iff hpart).2 ⟨hr, hc⟩
+      exact (PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_iff hpart).2 ⟨hr, hc⟩
   rw [hcol_eq]
   simp
 
@@ -310,28 +310,28 @@ theorem FerrersColumnCells_FerrersConjugatePartition_card_eq_getD {lam : List Na
 cell of every partition. -/
 theorem hookLength_FerrersConjugatePartition_cell {lam : List Nat}
     (hpart : IsPartition lam) {r c : Nat} (hcell : FerrersCell lam r c) :
-    FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) c r ∧
-      hookLength (PartI.Ch05.FerrersConjugatePartition lam) c r = hookLength lam r c := by
-  have hcell' : FerrersCell (PartI.Ch05.FerrersConjugatePartition lam) c r :=
-    (PartI.Ch05.FerrersCell_FerrersConjugatePartition_iff hpart).2 hcell
+    FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r ∧
+      hookLength (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r = hookLength lam r c := by
+  have hcell' : FerrersCell (PartI.Ch04Franklin.FerrersConjugatePartition lam) c r :=
+    (PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_iff hpart).2 hcell
   refine ⟨hcell', ?_⟩
   have hcfirst : c < lam.getD 0 0 :=
-    Nat.lt_of_lt_of_le hcell.2 (PartI.Ch05.IsPartition.getD_le_first hpart hcell.1)
-  have hrcol : r < (PartI.Ch05.FerrersColumnCells lam c).card := by
-    have hmem : r ∈ PartI.Ch05.FerrersColumnCells lam c := by
-      rw [PartI.Ch05.mem_FerrersColumnCells_iff]
+    Nat.lt_of_lt_of_le hcell.2 (PartI.Ch04Franklin.IsPartition.getD_le_first hpart hcell.1)
+  have hrcol : r < (PartI.Ch04Franklin.FerrersColumnCells lam c).card := by
+    have hmem : r ∈ PartI.Ch04Franklin.FerrersColumnCells lam c := by
+      rw [PartI.Ch04Franklin.mem_FerrersColumnCells_iff]
       exact hcell
-    rwa [PartI.Ch05.FerrersColumnCells_eq_range_card hpart c, Finset.mem_range] at hmem
+    rwa [PartI.Ch04Franklin.FerrersColumnCells_eq_range_card hpart c, Finset.mem_range] at hmem
   rw [hookLength_eq_row_sub_col_add_leg_of_FerrersCell hcell',
     hookLength_eq_row_sub_col_add_leg_of_FerrersCell hcell,
-    PartI.Ch05.FerrersConjugatePartition_getD_of_lt (lam := lam) hcfirst,
+    PartI.Ch04Franklin.FerrersConjugatePartition_getD_of_lt (lam := lam) hcfirst,
     legLength_eq_column_card_sub_succ_of_FerrersCell hpart hcell,
     legLength_eq_column_card_sub_succ_of_FerrersCell
-      (PartI.Ch05.IsPartition_FerrersConjugatePartition lam) hcell',
+      (PartI.Ch04Franklin.IsPartition_FerrersConjugatePartition lam) hcell',
     FerrersColumnCells_FerrersConjugatePartition_card_eq_getD hpart hcell.1]
   have hrow : c < lam.getD r 0 := hcell.2
-  have hA : (PartI.Ch05.FerrersColumnCells lam c).card - r =
-      ((PartI.Ch05.FerrersColumnCells lam c).card - (r + 1)) + 1 := by
+  have hA : (PartI.Ch04Franklin.FerrersColumnCells lam c).card - r =
+      ((PartI.Ch04Franklin.FerrersColumnCells lam c).card - (r + 1)) + 1 := by
     omega
   have hB : lam.getD r 0 - c = lam.getD r 0 - (c + 1) + 1 := by
     omega
@@ -342,20 +342,20 @@ theorem hookLength_FerrersConjugatePartition_cell {lam : List Nat}
 theorem hasHookDivisibleBy_FerrersConjugatePartition_iff
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam) :
     HasHookDivisibleBy t lam ↔
-      HasHookDivisibleBy t (PartI.Ch05.FerrersConjugatePartition lam) := by
+      HasHookDivisibleBy t (PartI.Ch04Franklin.FerrersConjugatePartition lam) := by
   apply hasHookDivisibleBy_FerrersConjugatePartition_iff_of_hookLength_eq hpart
   · intro r c hcell
     exact (hookLength_FerrersConjugatePartition_cell hpart hcell).2
   · intro r c hcell
     have hcell_orig : FerrersCell lam c r :=
-      (PartI.Ch05.FerrersCell_FerrersConjugatePartition_iff hpart).1 hcell
+      (PartI.Ch04Franklin.FerrersCell_FerrersConjugatePartition_iff hpart).1 hcell
     exact (hookLength_FerrersConjugatePartition_cell hpart hcell_orig).2.symm
 
 /-- The hook-length `t`-core predicate is invariant under Ferrers conjugation. -/
 theorem isTCoreByHooks_FerrersConjugatePartition_iff
     {t : Nat} {lam : List Nat} (hpart : IsPartition lam) :
     IsTCoreByHooks t lam ↔
-      IsTCoreByHooks t (PartI.Ch05.FerrersConjugatePartition lam) := by
+      IsTCoreByHooks t (PartI.Ch04Franklin.FerrersConjugatePartition lam) := by
   unfold IsTCoreByHooks
   rw [hasHookDivisibleBy_FerrersConjugatePartition_iff hpart]
 
@@ -629,7 +629,7 @@ theorem nilCoreByHooks (t : Nat) :
     IsTCoreByHooks t [] := by
   rw [tCore_hookLength_characterization]
   intro r c hcell _hdiv
-  simp [FerrersCell, PartI.Ch05.FerrersCell] at hcell
+  simp [FerrersCell, PartI.Ch04Franklin.FerrersCell] at hcell
 
 /-- In the hook-length characterization, `1`-cores are exactly partitions with
 no Ferrers cells. This isolates the boundary case where every hook length is
@@ -646,7 +646,7 @@ theorem oneCoreByHooks_iff_no_FerrersCell (lam : List Nat) :
 /-- For list partitions with positive displayed parts, being a `1`-core is
 equivalent to being the empty partition. -/
 theorem oneCoreByHooks_iff_eq_nil_of_positive {lam : List Nat}
-    (hpos : PartI.Ch05.PositiveParts lam) :
+    (hpos : PartI.Ch04Franklin.PositiveParts lam) :
     IsTCoreByHooks 1 lam ↔ lam = [] := by
   constructor
   · intro hcore
@@ -656,7 +656,7 @@ theorem oneCoreByHooks_iff_eq_nil_of_positive {lam : List Nat}
     | cons n tail =>
         have hn : 0 < n := hpos n (by simp)
         have hcell : FerrersCell (n :: tail) 0 0 := by
-          exact ⟨by simp, by simpa [FerrersCell, PartI.Ch05.FerrersCell] using hn⟩
+          exact ⟨by simp, by simpa [FerrersCell, PartI.Ch04Franklin.FerrersCell] using hn⟩
         exact False.elim (hcore (hasHookDivisibleBy_of_cell hcell (Nat.one_dvd _)))
   · intro hnil
     rw [hnil]
@@ -682,7 +682,7 @@ theorem not_oneCoreByHooks_of_FerrersCell {lam : List Nat} {r c : Nat}
 /-- A positive first row gives the top-left Ferrers cell. -/
 theorem FerrersCell_cons_zero_zero {n : Nat} {tail : List Nat} (hn : 0 < n) :
     FerrersCell (n :: tail) 0 0 := by
-  exact ⟨by simp, by simpa [FerrersCell, PartI.Ch05.FerrersCell] using hn⟩
+  exact ⟨by simp, by simpa [FerrersCell, PartI.Ch04Franklin.FerrersCell] using hn⟩
 
 /-- Any list-partition with positive first part is not a `1`-core in the
 hook-length sense. -/
@@ -706,73 +706,73 @@ theorem not_oneCoreByHooks_iff_exists_FerrersCell (lam : List Nat) :
 /-- The number of staircase rows whose length is greater than a fixed column
 index `c`. This is the row-count input for general staircase hook lengths. -/
 theorem filter_staircasePartition_length (n c : Nat) :
-    ((PartI.Ch05.staircasePartition n).filter (fun rowLength => c < rowLength)).length =
+    ((PartI.Ch04Franklin.staircasePartition n).filter (fun rowLength => c < rowLength)).length =
       n - c := by
   induction n with
   | zero =>
       simp
   | succ n ih =>
       by_cases hc : c < n + 1
-      · simp [PartI.Ch05.staircasePartition, hc, ih]
+      · simp [PartI.Ch04Franklin.staircasePartition, hc, ih]
         omega
-      · simp [PartI.Ch05.staircasePartition, hc, ih]
+      · simp [PartI.Ch04Franklin.staircasePartition, hc, ih]
         omega
 
 /-- In a staircase partition, the leg below `(r,c)` has the expected
 triangular length. -/
 theorem legLength_staircasePartition (n r c : Nat)
-    (hcell : FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    legLength (PartI.Ch05.staircasePartition n) r c = n - c - (r + 1) := by
+    (hcell : FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    legLength (PartI.Ch04Franklin.staircasePartition n) r c = n - c - (r + 1) := by
   induction n generalizing r c with
   | zero =>
-      simp [FerrersCell, PartI.Ch05.FerrersCell] at hcell
+      simp [FerrersCell, PartI.Ch04Franklin.FerrersCell] at hcell
   | succ n ih =>
       cases r with
       | zero =>
-          simp [legLength, PartI.Ch05.staircasePartition, filter_staircasePartition_length]
-          rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-            PartI.Ch05.staircasePartition_getD_of_lt hcell.1] at hcell
+          simp [legLength, PartI.Ch04Franklin.staircasePartition, filter_staircasePartition_length]
+          rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+            PartI.Ch04Franklin.staircasePartition_getD_of_lt hcell.1] at hcell
           omega
       | succ r =>
-          have htail : FerrersCell (PartI.Ch05.staircasePartition n) r c := by
-            simpa [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition] using hcell
+          have htail : FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c := by
+            simpa [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition] using hcell
           have ih' := ih r c htail
-          simp [legLength, PartI.Ch05.staircasePartition] at ih' ⊢
+          simp [legLength, PartI.Ch04Franklin.staircasePartition] at ih' ⊢
           rw [ih']
           have hc : c < n - r := by
-            rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-              PartI.Ch05.staircasePartition_getD_of_lt htail.1] at htail
+            rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+              PartI.Ch04Franklin.staircasePartition_getD_of_lt htail.1] at htail
             exact htail.2
           omega
 
 /-- General hook-length formula for staircase Ferrers diagrams. -/
 theorem hookLength_staircasePartition (n r c : Nat)
-    (hcell : FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    hookLength (PartI.Ch05.staircasePartition n) r c = 2 * (n - r - c) - 1 := by
+    (hcell : FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    hookLength (PartI.Ch04Franklin.staircasePartition n) r c = 2 * (n - r - c) - 1 := by
   rw [hookLength_eq_row_sub_col_add_leg_of_FerrersCell hcell,
     legLength_staircasePartition n r c hcell]
-  have hrn : r < n := by simpa [PartI.Ch05.staircasePartition_length] using hcell.1
-  have hrow := PartI.Ch05.staircasePartition_getD_of_lt (n := n) (r := r) hrn
+  have hrn : r < n := by simpa [PartI.Ch04Franklin.staircasePartition_length] using hcell.1
+  have hrow := PartI.Ch04Franklin.staircasePartition_getD_of_lt (n := n) (r := r) hrn
   rw [hrow]
-  rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-    PartI.Ch05.staircasePartition_getD_of_lt hrn] at hcell
+  rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+    PartI.Ch04Franklin.staircasePartition_getD_of_lt hrn] at hcell
   omega
 
 /-- Staircase Ferrers diagrams preserve hook lengths under transposition of a
 cell. This is the general version of the `[3,2,1]` transpose check. -/
 theorem hookLength_staircasePartition_transpose_cell (n r c : Nat)
-    (hcell : FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    FerrersCell (PartI.Ch05.staircasePartition n) c r ∧
-      hookLength (PartI.Ch05.staircasePartition n) c r =
-        hookLength (PartI.Ch05.staircasePartition n) r c := by
-  have hcell' : FerrersCell (PartI.Ch05.staircasePartition n) c r := by
-    rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-      PartI.Ch05.staircasePartition_getD_of_lt]
-    · rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-        PartI.Ch05.staircasePartition_getD_of_lt hcell.1] at hcell
+    (hcell : FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    FerrersCell (PartI.Ch04Franklin.staircasePartition n) c r ∧
+      hookLength (PartI.Ch04Franklin.staircasePartition n) c r =
+        hookLength (PartI.Ch04Franklin.staircasePartition n) r c := by
+  have hcell' : FerrersCell (PartI.Ch04Franklin.staircasePartition n) c r := by
+    rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+      PartI.Ch04Franklin.staircasePartition_getD_of_lt]
+    · rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+        PartI.Ch04Franklin.staircasePartition_getD_of_lt hcell.1] at hcell
       constructor <;> omega
-    · rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-        PartI.Ch05.staircasePartition_getD_of_lt hcell.1] at hcell
+    · rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+        PartI.Ch04Franklin.staircasePartition_getD_of_lt hcell.1] at hcell
       omega
   refine ⟨hcell', ?_⟩
   rw [hookLength_staircasePartition n c r hcell',
@@ -782,33 +782,33 @@ theorem hookLength_staircasePartition_transpose_cell (n r c : Nat)
 /-- Every hook in the staircase partition of height `n` has length less than
 `2 * n`. -/
 theorem hookLength_staircasePartition_lt_two_mul (n r c : Nat)
-    (hcell : FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    hookLength (PartI.Ch05.staircasePartition n) r c < 2 * n := by
+    (hcell : FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    hookLength (PartI.Ch04Franklin.staircasePartition n) r c < 2 * n := by
   rw [hookLength_staircasePartition n r c hcell]
-  rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-    PartI.Ch05.staircasePartition_getD_of_lt hcell.1] at hcell
+  rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+    PartI.Ch04Franklin.staircasePartition_getD_of_lt hcell.1] at hcell
   omega
 
 /-- Equivalently, every staircase hook length is at most `2n - 1`. -/
 theorem hookLength_staircasePartition_le_two_mul_sub_one (n r c : Nat)
-    (hcell : FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    hookLength (PartI.Ch05.staircasePartition n) r c ≤ 2 * n - 1 := by
+    (hcell : FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    hookLength (PartI.Ch04Franklin.staircasePartition n) r c ≤ 2 * n - 1 := by
   have hlt := hookLength_staircasePartition_lt_two_mul n r c hcell
   have hn : 0 < n := by
     have hrn : r < n := by
-      simpa [PartI.Ch05.staircasePartition_length] using hcell.1
+      simpa [PartI.Ch04Franklin.staircasePartition_length] using hcell.1
     omega
   omega
 
 /-- Every hook length in a staircase partition is odd; in particular it is not
 divisible by `2`. -/
 theorem not_two_dvd_hookLength_staircasePartition (n r c : Nat)
-    (hcell : FerrersCell (PartI.Ch05.staircasePartition n) r c) :
-    ¬ 2 ∣ hookLength (PartI.Ch05.staircasePartition n) r c := by
+    (hcell : FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c) :
+    ¬ 2 ∣ hookLength (PartI.Ch04Franklin.staircasePartition n) r c := by
   have hcell_orig := hcell
   have hpos : 0 < n - r - c := by
-    rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-      PartI.Ch05.staircasePartition_getD_of_lt hcell.1] at hcell
+    rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+      PartI.Ch04Franklin.staircasePartition_getD_of_lt hcell.1] at hcell
     omega
   rw [hookLength_staircasePartition n r c hcell_orig]
   intro hdiv
@@ -817,7 +817,7 @@ theorem not_two_dvd_hookLength_staircasePartition (n r c : Nat)
 
 /-- Every staircase partition is a `2`-core in the hook-length sense. -/
 theorem isTCoreByHooks_two_staircasePartition (n : Nat) :
-    IsTCoreByHooks 2 (PartI.Ch05.staircasePartition n) := by
+    IsTCoreByHooks 2 (PartI.Ch04Franklin.staircasePartition n) := by
   rw [tCore_hookLength_characterization]
   intro r c hcell hdiv
   exact not_two_dvd_hookLength_staircasePartition n r c hcell hdiv
@@ -825,7 +825,7 @@ theorem isTCoreByHooks_two_staircasePartition (n : Nat) :
 /-- More generally, every staircase partition is a `t`-core whenever `t` is
 even, since all staircase hooks are odd. -/
 theorem isTCoreByHooks_staircasePartition_of_two_dvd {n t : Nat} (ht : 2 ∣ t) :
-    IsTCoreByHooks t (PartI.Ch05.staircasePartition n) := by
+    IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) := by
   rw [tCore_hookLength_characterization]
   intro r c hcell hdiv
   exact not_two_dvd_hookLength_staircasePartition n r c hcell (dvd_trans ht hdiv)
@@ -833,22 +833,22 @@ theorem isTCoreByHooks_staircasePartition_of_two_dvd {n t : Nat} (ht : 2 ∣ t) 
 /-- A staircase partition of height `n` is automatically a `t`-core by hooks
 whenever `t ≥ 2n`, because all its hook lengths are smaller than `t`. -/
 theorem isTCoreByHooks_staircasePartition_of_two_mul_le {n t : Nat} (ht : 2 * n ≤ t) :
-    IsTCoreByHooks t (PartI.Ch05.staircasePartition n) := by
+    IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) := by
   apply isTCoreByHooks_of_hookLength_lt
   intro r c hcell
   exact Nat.lt_of_lt_of_le (hookLength_staircasePartition_lt_two_mul n r c hcell) ht
 
 /-- The upper-left cell exists in every positive-height staircase. -/
 theorem FerrersCell_staircasePartition_zero_zero {n : Nat} (hn : 0 < n) :
-    FerrersCell (PartI.Ch05.staircasePartition n) 0 0 := by
-  rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-    PartI.Ch05.staircasePartition_getD_of_lt hn]
+    FerrersCell (PartI.Ch04Franklin.staircasePartition n) 0 0 := by
+  rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+    PartI.Ch04Franklin.staircasePartition_getD_of_lt hn]
   constructor <;> omega
 
 /-- The largest hook in the staircase of positive height `n` is the upper-left
 hook of length `2n - 1`. -/
 theorem hookLength_staircasePartition_zero_zero {n : Nat} (hn : 0 < n) :
-    hookLength (PartI.Ch05.staircasePartition n) 0 0 = 2 * n - 1 := by
+    hookLength (PartI.Ch04Franklin.staircasePartition n) 0 0 = 2 * n - 1 := by
   have hcell := FerrersCell_staircasePartition_zero_zero hn
   rw [hookLength_staircasePartition n 0 0 hcell]
   omega
@@ -856,16 +856,16 @@ theorem hookLength_staircasePartition_zero_zero {n : Nat} (hn : 0 < n) :
 /-- The top row of a staircase contains a cell whose hook length is
 `2k + 1`, for every `k < n`. -/
 theorem FerrersCell_staircasePartition_zero_sub_succ {n k : Nat} (hk : k < n) :
-    FerrersCell (PartI.Ch05.staircasePartition n) 0 (n - (k + 1)) := by
+    FerrersCell (PartI.Ch04Franklin.staircasePartition n) 0 (n - (k + 1)) := by
   have hn : 0 < n := by omega
-  rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-    PartI.Ch05.staircasePartition_getD_of_lt hn]
+  rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+    PartI.Ch04Franklin.staircasePartition_getD_of_lt hn]
   constructor <;> omega
 
 /-- The staircase hook lengths realize every positive odd number up to
 `2n - 1` along the first row. -/
 theorem hookLength_staircasePartition_zero_sub_succ {n k : Nat} (hk : k < n) :
-    hookLength (PartI.Ch05.staircasePartition n) 0 (n - (k + 1)) = 2 * k + 1 := by
+    hookLength (PartI.Ch04Franklin.staircasePartition n) 0 (n - (k + 1)) = 2 * k + 1 := by
   have hcell := FerrersCell_staircasePartition_zero_sub_succ (n := n) (k := k) hk
   rw [hookLength_staircasePartition n 0 (n - (k + 1)) hcell]
   omega
@@ -873,7 +873,7 @@ theorem hookLength_staircasePartition_zero_sub_succ {n k : Nat} (hk : k < n) :
 /-- Every positive odd number `2k+1` with `k < n` is itself a staircase hook,
 so it supplies a hook-divisibility obstruction. -/
 theorem hasHookDivisibleBy_odd_staircasePartition_of_lt {n k : Nat} (hk : k < n) :
-    HasHookDivisibleBy (2 * k + 1) (PartI.Ch05.staircasePartition n) := by
+    HasHookDivisibleBy (2 * k + 1) (PartI.Ch04Franklin.staircasePartition n) := by
   rw [← hookLength_staircasePartition_zero_sub_succ (n := n) (k := k) hk]
   exact hasHookDivisibleBy_hookLength_of_cell
     (FerrersCell_staircasePartition_zero_sub_succ (n := n) (k := k) hk)
@@ -881,14 +881,14 @@ theorem hasHookDivisibleBy_odd_staircasePartition_of_lt {n k : Nat} (hk : k < n)
 /-- Consequently, a staircase of height `n` is not a `(2k+1)`-core when
 `k < n`. -/
 theorem not_isTCoreByHooks_odd_staircasePartition_of_lt {n k : Nat} (hk : k < n) :
-    ¬ IsTCoreByHooks (2 * k + 1) (PartI.Ch05.staircasePartition n) :=
+    ¬ IsTCoreByHooks (2 * k + 1) (PartI.Ch04Franklin.staircasePartition n) :=
   not_isTCoreByHooks_of_hasHook
     (hasHookDivisibleBy_odd_staircasePartition_of_lt (n := n) (k := k) hk)
 
 /-- For odd moduli written as `2k+1`, the staircase core condition is exactly
 the absence of the corresponding first-row hook. -/
 theorem isTCoreByHooks_odd_staircasePartition_iff_le (n k : Nat) :
-    IsTCoreByHooks (2 * k + 1) (PartI.Ch05.staircasePartition n) ↔ n ≤ k := by
+    IsTCoreByHooks (2 * k + 1) (PartI.Ch04Franklin.staircasePartition n) ↔ n ≤ k := by
   constructor
   · intro hcore
     by_contra hnot
@@ -901,7 +901,7 @@ theorem isTCoreByHooks_odd_staircasePartition_iff_le (n k : Nat) :
 /-- Complete hook-length criterion for staircase partitions: a staircase of
 height `n` is a `t`-core exactly when `t` is even or no hook can reach `t`. -/
 theorem isTCoreByHooks_staircasePartition_iff (n t : Nat) :
-    IsTCoreByHooks t (PartI.Ch05.staircasePartition n) ↔ 2 ∣ t ∨ 2 * n ≤ t := by
+    IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) ↔ 2 ∣ t ∨ 2 * n ≤ t := by
   constructor
   · intro hcore
     by_cases ht_even : 2 ∣ t
@@ -918,7 +918,7 @@ theorem isTCoreByHooks_staircasePartition_iff (n t : Nat) :
       have hk : k < n := by
         omega
       have hcore_odd :
-          IsTCoreByHooks (2 * k + 1) (PartI.Ch05.staircasePartition n) := by
+          IsTCoreByHooks (2 * k + 1) (PartI.Ch04Franklin.staircasePartition n) := by
         simpa [ht_eq] using hcore
       exact not_isTCoreByHooks_odd_staircasePartition_of_lt
         (n := n) (k := k) hk hcore_odd
@@ -929,8 +929,8 @@ theorem isTCoreByHooks_staircasePartition_iff (n t : Nat) :
 /-- Exact hook-length spectrum of a staircase, ignoring multiplicities: a
 number appears as a hook length iff it is odd and below `2n`. -/
 theorem exists_FerrersCell_hookLength_staircasePartition_iff (n t : Nat) :
-    (∃ r c, FerrersCell (PartI.Ch05.staircasePartition n) r c ∧
-      hookLength (PartI.Ch05.staircasePartition n) r c = t) ↔
+    (∃ r c, FerrersCell (PartI.Ch04Franklin.staircasePartition n) r c ∧
+      hookLength (PartI.Ch04Franklin.staircasePartition n) r c = t) ↔
       ¬ 2 ∣ t ∧ t < 2 * n := by
   constructor
   · rintro ⟨r, c, hcell, hhook⟩
@@ -953,17 +953,17 @@ theorem exists_FerrersCell_hookLength_staircasePartition_iff (n t : Nat) :
 
 /-- Cells in a staircase whose hook length is exactly `t`. -/
 def StaircaseHookCellsOfLength (n t : Nat) : Finset (Nat × Nat) :=
-  (PartI.Ch05.FerrersDiagramCells (PartI.Ch05.staircasePartition n)).filter
-    (fun cell => hookLength (PartI.Ch05.staircasePartition n) cell.1 cell.2 = t)
+  (PartI.Ch04Franklin.FerrersDiagramCells (PartI.Ch04Franklin.staircasePartition n)).filter
+    (fun cell => hookLength (PartI.Ch04Franklin.staircasePartition n) cell.1 cell.2 = t)
 
 /-- Membership in `StaircaseHookCellsOfLength` is exactly the Ferrers-cell
 predicate together with the requested hook length. -/
 theorem mem_StaircaseHookCellsOfLength_iff {n t : Nat} {cell : Nat × Nat} :
     cell ∈ StaircaseHookCellsOfLength n t ↔
-      FerrersCell (PartI.Ch05.staircasePartition n) cell.1 cell.2 ∧
-        hookLength (PartI.Ch05.staircasePartition n) cell.1 cell.2 = t := by
+      FerrersCell (PartI.Ch04Franklin.staircasePartition n) cell.1 cell.2 ∧
+        hookLength (PartI.Ch04Franklin.staircasePartition n) cell.1 cell.2 = t := by
   unfold StaircaseHookCellsOfLength
-  rw [Finset.mem_filter, PartI.Ch05.mem_FerrersDiagramCells_iff]
+  rw [Finset.mem_filter, PartI.Ch04Franklin.mem_FerrersDiagramCells_iff]
 
 /-- The cells with staircase hook length `2k+1` lie on one antidiagonal. -/
 theorem StaircaseHookCellsOfLength_odd_eq_antidiagonal {n k : Nat} (hk : k < n) :
@@ -975,15 +975,15 @@ theorem StaircaseHookCellsOfLength_odd_eq_antidiagonal {n k : Nat} (hk : k < n) 
   · rintro ⟨hcell, hhook⟩
     have hformula := hookLength_staircasePartition n cell.1 cell.2 hcell
     have hsum_lt : cell.1 + cell.2 < n := by
-      rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-        PartI.Ch05.staircasePartition_getD_of_lt hcell.1] at hcell
+      rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+        PartI.Ch04Franklin.staircasePartition_getD_of_lt hcell.1] at hcell
       omega
     rw [hformula] at hhook
     omega
   · intro hsum
-    have hcell : FerrersCell (PartI.Ch05.staircasePartition n) cell.1 cell.2 := by
-      rw [FerrersCell, PartI.Ch05.FerrersCell, PartI.Ch05.staircasePartition_length,
-        PartI.Ch05.staircasePartition_getD_of_lt]
+    have hcell : FerrersCell (PartI.Ch04Franklin.staircasePartition n) cell.1 cell.2 := by
+      rw [FerrersCell, PartI.Ch04Franklin.FerrersCell, PartI.Ch04Franklin.staircasePartition_length,
+        PartI.Ch04Franklin.staircasePartition_getD_of_lt]
       · constructor <;> omega
       · omega
     refine ⟨hcell, ?_⟩
@@ -1148,9 +1148,9 @@ partition. -/
 theorem sum_StaircaseHookCellsOfLength_odd_cards_eq_weight (n : Nat) :
     (Finset.range n).sum
         (fun k => (StaircaseHookCellsOfLength n (2 * k + 1)).card) =
-      partitionWeight (PartI.Ch05.staircasePartition n) := by
+      partitionWeight (PartI.Ch04Franklin.staircasePartition n) := by
   rw [sum_StaircaseHookCellsOfLength_odd_cards,
-    PartI.Ch05.partitionWeight_staircasePartition]
+    PartI.Ch04Franklin.partitionWeight_staircasePartition]
 
 /-- A hook-length layer in a staircase is nonempty exactly for odd lengths
 below the largest hook bound. -/
@@ -1177,12 +1177,12 @@ theorem StaircaseHookCellsOfLength_card_pos_iff (n t : Nat) :
 a hook divisible by `t` exactly when `t` is odd and below the largest hook
 bound `2n`. -/
 theorem hasHookDivisibleBy_staircasePartition_iff (n t : Nat) :
-    HasHookDivisibleBy t (PartI.Ch05.staircasePartition n) ↔
+    HasHookDivisibleBy t (PartI.Ch04Franklin.staircasePartition n) ↔
       ¬ 2 ∣ t ∧ t < 2 * n := by
   constructor
   · intro hhook
     have hnotcore :
-        ¬ IsTCoreByHooks t (PartI.Ch05.staircasePartition n) :=
+        ¬ IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) :=
       not_isTCoreByHooks_of_hasHook hhook
     have hnotcrit : ¬ (2 ∣ t ∨ 2 * n ≤ t) := by
       intro hcrit
@@ -1193,39 +1193,39 @@ theorem hasHookDivisibleBy_staircasePartition_iff (n t : Nat) :
     · exact Nat.lt_of_not_ge (by intro hge; exact hnotcrit (Or.inr hge))
   · rintro ⟨htodd, hlt⟩
     have hnotcore :
-        ¬ IsTCoreByHooks t (PartI.Ch05.staircasePartition n) := by
+        ¬ IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) := by
       intro hcore
       have hcrit := (isTCoreByHooks_staircasePartition_iff n t).1 hcore
       rcases hcrit with ht_even | hge
       · exact htodd ht_even
       · omega
     exact (not_isTCoreByHooks_iff_hasHookDivisibleBy t
-      (PartI.Ch05.staircasePartition n)).1 hnotcore
+      (PartI.Ch04Franklin.staircasePartition n)).1 hnotcore
 
 /-- The positive-height staircase has a hook divisible by `2n - 1`, namely its
 upper-left hook. -/
 theorem hasHookDivisibleBy_two_mul_sub_one_staircasePartition {n : Nat} (hn : 0 < n) :
-    HasHookDivisibleBy (2 * n - 1) (PartI.Ch05.staircasePartition n) := by
+    HasHookDivisibleBy (2 * n - 1) (PartI.Ch04Franklin.staircasePartition n) := by
   rw [← hookLength_staircasePartition_zero_zero hn]
   exact hasHookDivisibleBy_hookLength_of_cell (FerrersCell_staircasePartition_zero_zero hn)
 
 /-- Any divisor of the top-left staircase hook gives a hook obstruction. -/
 theorem hasHookDivisibleBy_staircasePartition_of_dvd_two_mul_sub_one
     {n t : Nat} (hn : 0 < n) (hdiv : t ∣ 2 * n - 1) :
-    HasHookDivisibleBy t (PartI.Ch05.staircasePartition n) :=
+    HasHookDivisibleBy t (PartI.Ch04Franklin.staircasePartition n) :=
   hasHookDivisibleBy_of_dvd hdiv (hasHookDivisibleBy_two_mul_sub_one_staircasePartition hn)
 
 /-- The bound `t ≥ 2n` for staircases is sharp in the hook model: a
 positive-height staircase is not a `(2n - 1)`-core. -/
 theorem not_isTCoreByHooks_two_mul_sub_one_staircasePartition {n : Nat} (hn : 0 < n) :
-    ¬ IsTCoreByHooks (2 * n - 1) (PartI.Ch05.staircasePartition n) :=
+    ¬ IsTCoreByHooks (2 * n - 1) (PartI.Ch04Franklin.staircasePartition n) :=
   not_isTCoreByHooks_of_hasHook (hasHookDivisibleBy_two_mul_sub_one_staircasePartition hn)
 
 /-- Any divisor of `2n - 1` rules out the corresponding t-core property for a
 positive-height staircase. -/
 theorem not_isTCoreByHooks_staircasePartition_of_dvd_two_mul_sub_one
     {n t : Nat} (hn : 0 < n) (hdiv : t ∣ 2 * n - 1) :
-    ¬ IsTCoreByHooks t (PartI.Ch05.staircasePartition n) :=
+    ¬ IsTCoreByHooks t (PartI.Ch04Franklin.staircasePartition n) :=
   not_isTCoreByHooks_of_hasHook
     (hasHookDivisibleBy_staircasePartition_of_dvd_two_mul_sub_one hn hdiv)
 
@@ -1309,14 +1309,14 @@ theorem hookLength_two_two_one_one_three_zero :
 theorem hasHookDivisibleBy_three_three_two_one :
     HasHookDivisibleBy 3 [3, 2, 1] := by
   refine ⟨0, 1, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_three_two_one_zero_one]
 
 /-- The partition `[3,2,1]` has a hook length divisible by `5`. -/
 theorem hasHookDivisibleBy_five_three_two_one :
     HasHookDivisibleBy 5 [3, 2, 1] := by
   refine ⟨0, 0, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_three_two_one_zero_zero]
 
 /-- The nonempty partition `[3,2,1]` has a hook length divisible by `1`. -/
@@ -1328,7 +1328,7 @@ theorem hasHookDivisibleBy_one_three_two_one :
 theorem hasHookDivisibleBy_two_four_two :
     HasHookDivisibleBy 2 [4, 2] := by
   refine ⟨0, 1, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_four_two_zero_one]
     norm_num
 
@@ -1336,14 +1336,14 @@ theorem hasHookDivisibleBy_two_four_two :
 theorem hasHookDivisibleBy_four_four_two :
     HasHookDivisibleBy 4 [4, 2] := by
   refine ⟨0, 1, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_four_two_zero_one]
 
 /-- The partition `[4,2]` has a hook length divisible by `5`. -/
 theorem hasHookDivisibleBy_five_four_two :
     HasHookDivisibleBy 5 [4, 2] := by
   refine ⟨0, 0, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_four_two_zero_zero]
 
 /-- The nonempty partition `[4,2]` has a hook length divisible by `1`. -/
@@ -1356,7 +1356,7 @@ divisible by `2`. -/
 theorem hasHookDivisibleBy_two_two_one_one :
     HasHookDivisibleBy 2 [2, 2, 1, 1] := by
   refine ⟨0, 1, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_two_two_one_one_zero_one]
 
 /-- The conjugate partition `[2,2,1,1]` of `[4,2]` has a hook length
@@ -1364,7 +1364,7 @@ divisible by `4`. -/
 theorem hasHookDivisibleBy_four_two_two_one_one :
     HasHookDivisibleBy 4 [2, 2, 1, 1] := by
   refine ⟨1, 0, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_two_two_one_one_one_zero]
 
 /-- The conjugate partition `[2,2,1,1]` of `[4,2]` has a hook length
@@ -1372,7 +1372,7 @@ divisible by `5`. -/
 theorem hasHookDivisibleBy_five_two_two_one_one :
     HasHookDivisibleBy 5 [2, 2, 1, 1] := by
   refine ⟨0, 0, ?_, ?_⟩
-  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch05.FerrersCell]⟩
+  · exact ⟨by norm_num, by norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell]⟩
   · rw [hookLength_two_two_one_one_zero_zero]
 
 /-- The nonempty conjugate partition `[2,2,1,1]` has a hook length divisible
@@ -1428,13 +1428,13 @@ theorem hookLength_four_two_conjugate_cell {r c : Nat}
     FerrersCell [2, 2, 1, 1] c r ∧
       hookLength [2, 2, 1, 1] c r = hookLength [4, 2] r c := by
   rcases hcell with ⟨hr, hc⟩
-  norm_num [FerrersCell, PartI.Ch05.FerrersCell] at hr hc
+  norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell] at hr hc
   interval_cases r
   · norm_num at hc
-    interval_cases c <;> norm_num [FerrersCell, PartI.Ch05.FerrersCell,
+    interval_cases c <;> norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell,
       hookLength, armLength, legLength]
   · norm_num at hc
-    interval_cases c <;> norm_num [FerrersCell, PartI.Ch05.FerrersCell,
+    interval_cases c <;> norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell,
       hookLength, armLength, legLength]
 
 /-- Every hook cell of `[2,2,1,1]` has the same hook length at the transposed
@@ -1444,22 +1444,22 @@ theorem hookLength_two_two_one_one_conjugate_cell {r c : Nat}
     FerrersCell [4, 2] c r ∧
       hookLength [4, 2] c r = hookLength [2, 2, 1, 1] r c := by
   rcases hcell with ⟨hr, hc⟩
-  norm_num [FerrersCell, PartI.Ch05.FerrersCell] at hr hc
+  norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell] at hr hc
   interval_cases r
   · norm_num at hc
-    interval_cases c <;> norm_num [FerrersCell, PartI.Ch05.FerrersCell,
+    interval_cases c <;> norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell,
       hookLength, armLength, legLength]
   · norm_num at hc
-    interval_cases c <;> norm_num [FerrersCell, PartI.Ch05.FerrersCell,
+    interval_cases c <;> norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell,
       hookLength, armLength, legLength]
   · norm_num at hc
     have hc0 : c = 0 := by omega
     subst c
-    norm_num [FerrersCell, PartI.Ch05.FerrersCell, hookLength, armLength, legLength]
+    norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell, hookLength, armLength, legLength]
   · norm_num at hc
     have hc0 : c = 0 := by omega
     subst c
-    norm_num [FerrersCell, PartI.Ch05.FerrersCell, hookLength, armLength, legLength]
+    norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell, hookLength, armLength, legLength]
 
 /-- Hook obstructions are preserved between `[4,2]` and its conjugate
 `[2,2,1,1]`. -/
@@ -1492,18 +1492,18 @@ theorem hookLength_three_two_one_transpose_cell {r c : Nat}
     FerrersCell [3, 2, 1] c r ∧
       hookLength [3, 2, 1] c r = hookLength [3, 2, 1] r c := by
   rcases hcell with ⟨hr, hc⟩
-  norm_num [FerrersCell, PartI.Ch05.FerrersCell] at hr hc
+  norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell] at hr hc
   interval_cases r
   · norm_num at hc
-    interval_cases c <;> norm_num [FerrersCell, PartI.Ch05.FerrersCell,
+    interval_cases c <;> norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell,
       hookLength, armLength, legLength]
   · norm_num at hc
-    interval_cases c <;> norm_num [FerrersCell, PartI.Ch05.FerrersCell,
+    interval_cases c <;> norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell,
       hookLength, armLength, legLength]
   · norm_num at hc
     have hc0 : c = 0 := by omega
     subst c
-    norm_num [FerrersCell, PartI.Ch05.FerrersCell, hookLength, armLength, legLength]
+    norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell, hookLength, armLength, legLength]
 
 /-- Hook obstructions are invariant under transposition for the self-conjugate
 staircase `[3,2,1]`. -/
@@ -1539,7 +1539,7 @@ theorem hookLength_lt_six_three_two_one {r c : Nat}
     (hcell : FerrersCell [3, 2, 1] r c) :
     hookLength [3, 2, 1] r c < 6 := by
   rcases hcell with ⟨hr, hc⟩
-  norm_num [FerrersCell, PartI.Ch05.FerrersCell] at hr hc
+  norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell] at hr hc
   interval_cases r
   · norm_num at hc
     interval_cases c
@@ -1588,7 +1588,7 @@ theorem hookLength_lt_six_four_two {r c : Nat}
     (hcell : FerrersCell [4, 2] r c) :
     hookLength [4, 2] r c < 6 := by
   rcases hcell with ⟨hr, hc⟩
-  norm_num [FerrersCell, PartI.Ch05.FerrersCell] at hr hc
+  norm_num [FerrersCell, PartI.Ch04Franklin.FerrersCell] at hr hc
   interval_cases r
   · norm_num at hc
     interval_cases c

@@ -1457,19 +1457,19 @@ theorem coeff_finite_product_one_sub_X_pow_succ (R : Type*) [CommRing R] (n N : 
   · have h' : n ≠ ∑ i ∈ t, (i + 1) := fun habs => h habs.symm
     simp [h, h']
 
-/-- **Bridge to Ch05's signedStrictPartitionCount**: the subset-sum form
-`∑_{t ⊆ range (n+1), ∑_{i∈t}(i+1) = n} (-1)^|t|` equals `Ch05.signedStrictPartitionCount n`
+/-- **Bridge to Ch04Franklin's signedStrictPartitionCount**: the subset-sum form
+`∑_{t ⊆ range (n+1), ∑_{i∈t}(i+1) = n} (-1)^|t|` equals `Ch04Franklin.signedStrictPartitionCount n`
 in `ℤ`.
 
 Bijection: `t ↦ t.image (· + 1)` between subsets of `range(n+1)` (i.e., {0,...,n})
-summing `(i+1)` to `n`, and subsets of `{1,...,n}` summing to `n` (Ch05's
+summing `(i+1)` to `n`, and subsets of `{1,...,n}` summing to `n` (Ch04Franklin's
 `StrictPartitionSet n`). -/
 theorem coeff_finite_product_eq_signedStrictPartitionCount (n : Nat) :
     (∑ t ∈ ((Finset.range (n + 1)).powerset).filter (fun t => ∑ i ∈ t, (i + 1) = n),
         (-1 : ℤ) ^ t.card) =
-      QseriesFormalization.PartI.Ch05.signedStrictPartitionCount n := by
-  unfold QseriesFormalization.PartI.Ch05.signedStrictPartitionCount
-  unfold QseriesFormalization.PartI.Ch05.StrictPartitionSet
+      QseriesFormalization.PartI.Ch04Franklin.signedStrictPartitionCount n := by
+  unfold QseriesFormalization.PartI.Ch04Franklin.signedStrictPartitionCount
+  unfold QseriesFormalization.PartI.Ch04Franklin.StrictPartitionSet
   refine Finset.sum_nbij' (fun t => t.image (· + 1)) (fun S => S.image (· - 1))
     ?hi ?hj ?h_li ?h_ri ?h_val
   case hi =>
@@ -1565,14 +1565,14 @@ this gives `(qPochInfPS R).coeff n = (pentagonalSign n : R)` for any commutative
 Proof chain:
 1. `coeff_qPochInfPS_eq_coeff_finite_product`: coeff via finite product
 2. `coeff_finite_product_one_sub_X_pow_succ`: subset sum form
-3. `coeff_finite_product_eq_signedStrictPartitionCount`: bridge to Ch05 (Finset bijection)
-4. `Ch05.euler_pentagonal_combinatorial`: Franklin involution → pentagonalSign -/
+3. `coeff_finite_product_eq_signedStrictPartitionCount`: bridge to Ch04Franklin (Finset bijection)
+4. `Ch04Franklin.euler_pentagonal_combinatorial`: Franklin involution → pentagonalSign -/
 theorem coeff_qPochInfPS_int_eq_pentagonalSign (n : Nat) :
-    (qPochInfPS ℤ).coeff n = QseriesFormalization.PartI.Ch05.pentagonalSign n := by
+    (qPochInfPS ℤ).coeff n = QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n := by
   rw [coeff_qPochInfPS_eq_coeff_finite_product ℤ n,
       coeff_finite_product_one_sub_X_pow_succ ℤ n (n + 1),
       coeff_finite_product_eq_signedStrictPartitionCount n,
-      QseriesFormalization.PartI.Ch05.euler_pentagonal_combinatorial n]
+      QseriesFormalization.PartI.Ch04Franklin.euler_pentagonal_combinatorial n]
 
 /-- **Euler Pentagonal in any commutative ring**: `(qPochInfPS R).coeff n = (pentagonalSign n : R)`.
 
@@ -1580,7 +1580,7 @@ Derived from the ℤ case via the cast naturality `map_qPochInfPS`. -/
 theorem coeff_qPochInfPS_eq_pentagonalSign
     (R : Type*) [CommRing R] (n : Nat) :
     (qPochInfPS R).coeff n =
-      ((QseriesFormalization.PartI.Ch05.pentagonalSign n : ℤ) : R) := by
+      ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n : ℤ) : R) := by
   rw [← coeff_qPochInfPS_int_eq_pentagonalSign n]
   rw [← map_qPochInfPS (Int.castRingHom R)]
   rw [PowerSeries.coeff_map]
@@ -1596,47 +1596,47 @@ in earlier sections. -/
 theorem coeff_twelve_qPochInfPS (R : Type*) [CommRing R] :
     (qPochInfPS R).coeff 12 = -1 := by
   rw [coeff_qPochInfPS_eq_pentagonalSign]
-  show ((QseriesFormalization.PartI.Ch05.pentagonalSign 12 : ℤ) : R) = -1
-  rw [show (QseriesFormalization.PartI.Ch05.pentagonalSign 12 : ℤ) = -1 from by decide]
+  show ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 12 : ℤ) : R) = -1
+  rw [show (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 12 : ℤ) = -1 from by decide]
   norm_cast
 
 /-- `(qPochInfPS R).coeff 15 = -1` (15 = 3·(3·3+1)/2 is pentagonal, sign (-1)^3 = -1). -/
 theorem coeff_fifteen_qPochInfPS (R : Type*) [CommRing R] :
     (qPochInfPS R).coeff 15 = -1 := by
   rw [coeff_qPochInfPS_eq_pentagonalSign]
-  show ((QseriesFormalization.PartI.Ch05.pentagonalSign 15 : ℤ) : R) = -1
-  rw [show (QseriesFormalization.PartI.Ch05.pentagonalSign 15 : ℤ) = -1 from by decide]
+  show ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 15 : ℤ) : R) = -1
+  rw [show (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 15 : ℤ) = -1 from by decide]
   norm_cast
 
 /-- `(qPochInfPS R).coeff 22 = 1` (22 = 4·(3·4-1)/2 is pentagonal, sign (-1)^4 = 1). -/
 theorem coeff_twentytwo_qPochInfPS (R : Type*) [CommRing R] :
     (qPochInfPS R).coeff 22 = 1 := by
   rw [coeff_qPochInfPS_eq_pentagonalSign]
-  show ((QseriesFormalization.PartI.Ch05.pentagonalSign 22 : ℤ) : R) = 1
-  rw [show (QseriesFormalization.PartI.Ch05.pentagonalSign 22 : ℤ) = 1 from by decide]
+  show ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 22 : ℤ) : R) = 1
+  rw [show (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 22 : ℤ) = 1 from by decide]
   norm_cast
 
 /-- `(qPochInfPS R).coeff 9 = 0` (9 not pentagonal). -/
 theorem coeff_nine_qPochInfPS' (R : Type*) [CommRing R] :
     (qPochInfPS R).coeff 9 = 0 := by
   rw [coeff_qPochInfPS_eq_pentagonalSign]
-  show ((QseriesFormalization.PartI.Ch05.pentagonalSign 9 : ℤ) : R) = 0
-  rw [show (QseriesFormalization.PartI.Ch05.pentagonalSign 9 : ℤ) = 0 from by decide]
+  show ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 9 : ℤ) : R) = 0
+  rw [show (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 9 : ℤ) = 0 from by decide]
   norm_cast
 
 /-- `(qPochInfPS R).coeff 10 = 0`, `coeff 11 = 0` (10, 11 not pentagonal). -/
 theorem coeff_ten_qPochInfPS (R : Type*) [CommRing R] :
     (qPochInfPS R).coeff 10 = 0 := by
   rw [coeff_qPochInfPS_eq_pentagonalSign]
-  show ((QseriesFormalization.PartI.Ch05.pentagonalSign 10 : ℤ) : R) = 0
-  rw [show (QseriesFormalization.PartI.Ch05.pentagonalSign 10 : ℤ) = 0 from by decide]
+  show ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 10 : ℤ) : R) = 0
+  rw [show (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 10 : ℤ) = 0 from by decide]
   norm_cast
 
 theorem coeff_eleven_qPochInfPS (R : Type*) [CommRing R] :
     (qPochInfPS R).coeff 11 = 0 := by
   rw [coeff_qPochInfPS_eq_pentagonalSign]
-  show ((QseriesFormalization.PartI.Ch05.pentagonalSign 11 : ℤ) : R) = 0
-  rw [show (QseriesFormalization.PartI.Ch05.pentagonalSign 11 : ℤ) = 0 from by decide]
+  show ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 11 : ℤ) : R) = 0
+  rw [show (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 11 : ℤ) = 0 from by decide]
   norm_cast
 
 /-- **`qPochInfPS` as the formal pentagonal series**:
@@ -1646,7 +1646,7 @@ This is the FORMAL series version of Euler's pentagonal identity. Combined with
 the cube convolution form, it reduces the B2 Jacobi target to the integer convolution
 identity `∑_{a+b+c=n} pent(a)·pent(b)·pent(c) = jacobiTripleSign n`. -/
 theorem qPochInfPS_eq_mk_pentagonalSign (R : Type*) [CommRing R] :
-    qPochInfPS R = PowerSeries.mk (fun n => ((QseriesFormalization.PartI.Ch05.pentagonalSign n : ℤ) : R)) := by
+    qPochInfPS R = PowerSeries.mk (fun n => ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n : ℤ) : R)) := by
   ext n
   rw [PowerSeries.coeff_mk]
   exact coeff_qPochInfPS_eq_pentagonalSign R n
@@ -1661,7 +1661,7 @@ theorem coeff_qPochInfPS_pow_p_in_ZMod_p
     (p : Nat) [Fact (Nat.Prime p)] (hp : p ≠ 0) (n : Nat) :
     ((qPochInfPS (ZMod p)) ^ p).coeff n =
       if p ∣ n then
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign (n / p) : ℤ) : ZMod p)
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign (n / p) : ℤ) : ZMod p)
       else 0 := by
   rw [qPochInfPS_pow_eq_expand p hp]
   rw [PowerSeries.coeff_expand]
@@ -2143,7 +2143,7 @@ theorem coeff_qPochInfPS_pow_pred_at_AP
     ((qPochInfPS (ZMod p)) ^ (p - 1)).coeff (p * n + r) =
       ∑ k ∈ Finset.range (n + 1),
         ((partitionCount (p * (n - k) + r) : Nat) : ZMod p) *
-          ((QseriesFormalization.PartI.Ch05.pentagonalSign k : ℤ) : ZMod p) := by
+          ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign k : ℤ) : ZMod p) := by
   have h1 := coeff_eq_of_key_identity p hp (p * n + r)
   have h2 := coeff_mul_expand_of_lt (ZMod p) p hp
     (partitionGenFun (ZMod p)) (qPochInfPS (ZMod p)) n r hr
@@ -2296,7 +2296,7 @@ theorem coeff_pochInfPow_eq_partitionCount_of_lt
 
 1. **Euler pentagonal** as formal power series:
    `(q;q)∞ = ∑_{n ∈ ℤ} (-1)^n X^{n(3n-1)/2}`
-   Reference: Ch05's `euler_pentagonal_combinatorial` (Franklin involution),
+   Reference: Ch04Franklin's `euler_pentagonal_combinatorial` (Franklin involution),
    bridged via `signedStrictPartitionCount n = qPochInfPS.coeff n` (cast).
 
 2. **Jacobi identity** as formal power series:

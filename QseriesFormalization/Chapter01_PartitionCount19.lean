@@ -8,13 +8,13 @@ namespace Ch01
 open QseriesFormalization.PartIV.Ch19
 
 private theorem pentagonalSign_at_13_to_19 :
-    QseriesFormalization.PartI.Ch05.pentagonalSign 13 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 14 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 15 = -1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 16 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 17 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 18 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 19 = 0 := by
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 13 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 14 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 15 = -1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 16 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 17 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 18 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 19 = 0 := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> decide
 
 theorem partitionCount_nineteen : partitionCount 19 = 490 := by

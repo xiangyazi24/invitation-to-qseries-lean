@@ -216,9 +216,9 @@ theorem coeff_qPochInfPS_pow_three_int_eq_cubeConvolution (n : ℕ) :
     ((qPochInfPS ℤ)^3).coeff n =
       ∑ pq ∈ Finset.antidiagonal n,
         (∑ ab ∈ Finset.antidiagonal pq.1,
-          (QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) *
-          (QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ)) *
-        (QseriesFormalization.PartI.Ch05.pentagonalSign pq.2 : ℤ) := by
+          (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) *
+          (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ)) *
+        (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign pq.2 : ℤ) := by
   rw [show (qPochInfPS ℤ) ^ 3 = qPochInfPS ℤ * qPochInfPS ℤ * qPochInfPS ℤ from by ring]
   rw [PowerSeries.coeff_mul]
   apply Finset.sum_congr rfl
@@ -235,7 +235,7 @@ theorem coeff_qPochInfPS_pow_three_int_eq_cubeConvolution (n : ℕ) :
 For the analytic→formal bridge on the LHS of the cube identity, we also
 need bounds and summability for `(pentagonalSign n : ℂ) * q^n`. -/
 
-open QseriesFormalization.PartI.Ch05 (pentagonalSign)
+open QseriesFormalization.PartI.Ch04Franklin (pentagonalSign)
 
 /-- `|pentagonalSign n| ≤ 1` — `pentagonalSign` is `(-1)^k` or `0`. -/
 theorem natAbs_pentagonalSign_le_one (n : ℕ) :
@@ -751,27 +751,27 @@ The bridge from Ch04's ℤ-indexed bilateral form to the formal-Taylor
 theorem eulerPentagonalInfiniteProduct_eq_tsum_pentagonalSign
     (q : ℂ) (hqnorm : ‖q‖ < 1) :
     QseriesFormalization.PartI.Ch04.eulerPentagonalInfiniteProduct q =
-      ∑' n : ℕ, ((QseriesFormalization.PartI.Ch05.pentagonalSign n : ℤ) : ℂ) * q^n := by
+      ∑' n : ℕ, ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n : ℤ) : ℂ) * q^n := by
   rw [QseriesFormalization.PartI.Ch04.eulerPentagonalInfiniteProduct_eq_tsum' q hqnorm]
   symm
   have h_inj : Function.Injective pentagonalIndex := pentagonalIndex_injective
   have h_supp : Function.support
-      (fun n : ℕ => ((QseriesFormalization.PartI.Ch05.pentagonalSign n : ℤ) : ℂ) * q^n) ⊆
+      (fun n : ℕ => ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n : ℤ) : ℂ) * q^n) ⊆
       Set.range pentagonalIndex := by
     intro n hn
     simp only [Function.mem_support, ne_eq, mul_eq_zero, not_or] at hn
     obtain ⟨hsig, _⟩ := hn
-    have h_sig_ne : QseriesFormalization.PartI.Ch05.pentagonalSign n ≠ 0 := by
+    have h_sig_ne : QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n ≠ 0 := by
       intro h; apply hsig
       rw [h]; simp
     exact pentagonalSign_ne_zero_imp_mem_range n h_sig_ne
   have h_reindex := h_inj.tsum_eq
     (f := fun n : ℕ =>
-      ((QseriesFormalization.PartI.Ch05.pentagonalSign n : ℤ) : ℂ) * q^n) h_supp
+      ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n : ℤ) : ℂ) * q^n) h_supp
   rw [← h_reindex]
   congr 1
   ext j
-  show ((QseriesFormalization.PartI.Ch05.pentagonalSign (pentagonalIndex j) : ℤ) : ℂ)
+  show ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign (pentagonalIndex j) : ℤ) : ℂ)
         * q^(pentagonalIndex j) =
        (-1 : ℂ)^j * q^(j * (3 * j + 1) / 2)
   rw [pentagonalSign_pentagonalIndex_eq j]
@@ -792,14 +792,14 @@ open QseriesFormalization.PartI.Ch04 (eulerPentagonalInfiniteProduct)
 /-- Norm-summability of `(σ(n) : ℂ) * q^n` for `‖q‖ < 1`. -/
 theorem summable_norm_pentagonalSign_mul_pow (q : ℂ) (hq : ‖q‖ < 1) :
     Summable (fun n : ℕ =>
-      ‖((QseriesFormalization.PartI.Ch05.pentagonalSign n : ℤ) : ℂ) * q^n‖) :=
+      ‖((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n : ℤ) : ℂ) * q^n‖) :=
   (summable_pentagonalSign_mul_pow q hq).norm
 
 /-- The convolution sequence `n ↦ ∑_{a+b=n} σ(a) q^a · σ(b) q^b`. -/
 noncomputable def sigmaQConv (q : ℂ) (n : ℕ) : ℂ :=
   ∑ ab ∈ Finset.antidiagonal n,
-    ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) * q^ab.1 *
-    (((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ) * q^ab.2)
+    ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) * q^ab.1 *
+    (((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ) * q^ab.2)
 
 theorem summable_norm_sigmaQConv (q : ℂ) (hq : ‖q‖ < 1) :
     Summable (fun n : ℕ => ‖sigmaQConv q n‖) := by
@@ -829,7 +829,7 @@ theorem eulerPentagonalInfiniteProduct_cube_eq_tsum
     (eulerPentagonalInfiniteProduct q)^3 =
       ∑' n : ℕ, ∑ mk ∈ Finset.antidiagonal n,
         sigmaQConv q mk.1 *
-        (((QseriesFormalization.PartI.Ch05.pentagonalSign mk.2 : ℤ) : ℂ) * q^mk.2) := by
+        (((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign mk.2 : ℤ) : ℂ) * q^mk.2) := by
   rw [show (eulerPentagonalInfiniteProduct q)^3 =
       (eulerPentagonalInfiniteProduct q)^2 * eulerPentagonalInfiniteProduct q from by ring]
   rw [eulerPentagonalInfiniteProduct_sq_eq_tsum_sigmaQConv q hqnorm]
@@ -843,16 +843,16 @@ Mirror of `Pending/Sylvester_TripleSum.cubeConvolution`. -/
 noncomputable def cubeConvolution (n : ℕ) : ℤ :=
   ∑ pq ∈ Finset.antidiagonal n,
     (∑ ab ∈ Finset.antidiagonal pq.1,
-      (QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) *
-      (QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ)) *
-    (QseriesFormalization.PartI.Ch05.pentagonalSign pq.2 : ℤ)
+      (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) *
+      (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ)) *
+    (QseriesFormalization.PartI.Ch04Franklin.pentagonalSign pq.2 : ℤ)
 
 /-- `sigmaQConv q m = q^m · ∑_{a+b=m} σ(a)·σ(b)`: extract the `q^m` factor. -/
 theorem sigmaQConv_eq_qpow_mul (q : ℂ) (m : ℕ) :
     sigmaQConv q m = q^m *
       (∑ ab ∈ Finset.antidiagonal m,
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) *
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ)) := by
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) *
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ)) := by
   unfold sigmaQConv
   rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
@@ -860,22 +860,22 @@ theorem sigmaQConv_eq_qpow_mul (q : ℂ) (m : ℕ) :
   rw [Finset.mem_antidiagonal] at hab
   have h_pow : q^ab.1 * q^ab.2 = q^m := by
     rw [← pow_add, hab]
-  calc ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) * q^ab.1 *
-        (((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ) * q^ab.2)
-      = ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) *
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ) *
+  calc ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) * q^ab.1 *
+        (((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ) * q^ab.2)
+      = ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) *
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ) *
         (q^ab.1 * q^ab.2) := by ring
-    _ = ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) *
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ) * q^m := by
+    _ = ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) *
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ) * q^m := by
         rw [h_pow]
-    _ = q^m * (((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) *
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ)) := by ring
+    _ = q^m * (((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) *
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ)) := by ring
 
 /-- The double-antidiagonal sum collapses: `q^n · cubeConvolution n`. -/
 theorem double_antidiagonal_eq_qpow_mul_cube (q : ℂ) (n : ℕ) :
     (∑ mk ∈ Finset.antidiagonal n,
       sigmaQConv q mk.1 *
-      (((QseriesFormalization.PartI.Ch05.pentagonalSign mk.2 : ℤ) : ℂ) * q^mk.2))
+      (((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign mk.2 : ℤ) : ℂ) * q^mk.2))
     = q^n * ((cubeConvolution n : ℤ) : ℂ) := by
   unfold cubeConvolution
   push_cast
@@ -887,18 +887,18 @@ theorem double_antidiagonal_eq_qpow_mul_cube (q : ℂ) (n : ℕ) :
   have h_pow : q^mk.1 * q^mk.2 = q^n := by
     rw [← pow_add, hmk]
   calc q^mk.1 * (∑ ab ∈ Finset.antidiagonal mk.1,
-          ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) *
-          ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ)) *
-        (((QseriesFormalization.PartI.Ch05.pentagonalSign mk.2 : ℤ) : ℂ) * q^mk.2)
+          ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) *
+          ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ)) *
+        (((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign mk.2 : ℤ) : ℂ) * q^mk.2)
       = (q^mk.1 * q^mk.2) *
         ((∑ ab ∈ Finset.antidiagonal mk.1,
-          ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) *
-          ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ)) *
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign mk.2 : ℤ) : ℂ)) := by ring
+          ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) *
+          ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ)) *
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign mk.2 : ℤ) : ℂ)) := by ring
     _ = q^n * ((∑ ab ∈ Finset.antidiagonal mk.1,
-          ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.1 : ℤ) : ℂ) *
-          ((QseriesFormalization.PartI.Ch05.pentagonalSign ab.2 : ℤ) : ℂ)) *
-        ((QseriesFormalization.PartI.Ch05.pentagonalSign mk.2 : ℤ) : ℂ)) := by rw [h_pow]
+          ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.1 : ℤ) : ℂ) *
+          ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign ab.2 : ℤ) : ℂ)) *
+        ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign mk.2 : ℤ) : ℂ)) := by rw [h_pow]
 
 /-- **(epp q)^3 = ∑' n, q^n · cubeConvolution n** for ‖q‖ < 1.
 

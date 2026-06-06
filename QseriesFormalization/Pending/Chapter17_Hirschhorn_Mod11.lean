@@ -653,11 +653,11 @@ theorem pentagonal_kind_two_mod_11 (k : ℕ) :
 Used to show `(expand 11 qPoch · qPoch) ZMod 11` has zero coefficient at
 residues `{3, 6, 8, 9, 10}`. -/
 theorem pentagonalSign_mod_11_residue (n : ℕ)
-    (h : ((QseriesFormalization.PartI.Ch05.pentagonalSign n : ℤ) : ZMod 11) ≠ 0) :
+    (h : ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n : ℤ) : ZMod 11) ≠ 0) :
     (n : ZMod 11) = 0 ∨ (n : ZMod 11) = 1 ∨ (n : ZMod 11) = 2 ∨
     (n : ZMod 11) = 4 ∨ (n : ZMod 11) = 5 ∨ (n : ZMod 11) = 7 := by
   -- Unfold the def: pentagonalSign n ≠ 0 forces one of two finds to succeed.
-  unfold QseriesFormalization.PartI.Ch05.pentagonalSign at h
+  unfold QseriesFormalization.PartI.Ch04Franklin.pentagonalSign at h
   -- Case on the outer match.
   cases h_find1 : (List.range (n + 1)).find? (fun k => decide (n = k * (3 * k - 1) / 2)) with
   | some k =>

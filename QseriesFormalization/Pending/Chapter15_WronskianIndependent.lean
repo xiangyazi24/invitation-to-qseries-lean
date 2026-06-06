@@ -611,7 +611,7 @@ def qPochPowPentagonalCoeffIndependent : ℕ → ℕ → ℤ
   | e + 1 => fun n =>
       ∑ k ∈ Finset.range (n + 1),
         qPochPowPentagonalCoeffIndependent e k *
-          QseriesFormalization.PartI.Ch05.pentagonalSign (n - k)
+          QseriesFormalization.PartI.Ch04Franklin.pentagonalSign (n - k)
 
 /-- Coefficients of `(q;q)_∞^e` are computed by
 `qPochPowPentagonalCoeffIndependent`. -/
@@ -635,7 +635,7 @@ theorem coeff_qPochInfPS_pow_pentagonal_independent (e n : ℕ) :
 
 /-- Integer coefficients of `(X^5;X^5)_∞ = expand 5 (X;X)_∞`. -/
 def expandFiveQpochCoeffZ (n : ℕ) : ℤ :=
-  if 5 ∣ n then QseriesFormalization.PartI.Ch05.pentagonalSign (n / 5) else 0
+  if 5 ∣ n then QseriesFormalization.PartI.Ch04Franklin.pentagonalSign (n / 5) else 0
 
 /-- Coefficients of `expandFiveQpochRat` in executable integer form. -/
 theorem coeff_expandFiveQpochRat (n : ℕ) :

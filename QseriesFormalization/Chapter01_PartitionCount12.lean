@@ -31,19 +31,19 @@ open QseriesFormalization.PartIV.Ch19
 Made public so downstream `Chapter01_PartitionCount{13,14,...}.lean` files
 can re-use the same bundle of small `decide` checks without re-doing them. -/
 theorem pentagonalSign_values :
-    QseriesFormalization.PartI.Ch05.pentagonalSign 0 = 1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 1 = -1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 2 = -1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 3 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 4 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 5 = 1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 6 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 7 = 1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 8 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 9 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 10 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 11 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 12 = -1 := by
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 0 = 1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 1 = -1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 2 = -1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 3 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 4 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 5 = 1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 6 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 7 = 1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 8 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 9 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 10 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 11 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 12 = -1 := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
     decide
 
@@ -66,7 +66,7 @@ theorem partitionCount_twelve : partitionCount 12 = 77 := by
   have h_pg : ∀ k, (partitionGenFun ℤ).coeff k = (partitionCount k : ℤ) :=
     coeff_partitionGenFun
   have h_qp : ∀ m, (qPochInfPS ℤ).coeff m =
-      QseriesFormalization.PartI.Ch05.pentagonalSign m :=
+      QseriesFormalization.PartI.Ch04Franklin.pentagonalSign m :=
     fun m => coeff_qPochInfPS_int_eq_pentagonalSign m
   -- Step 4: simplify the convolution sum using h_pg + h_qp.
   simp only [h_pg, h_qp] at h12

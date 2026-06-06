@@ -18,7 +18,7 @@ open Filter
 open PowerSeries
 open scoped Topology PowerSeries PowerSeries.WithPiTopology
 open QseriesFormalization.PartIV.Ch19
-open QseriesFormalization.PartI.Ch05 (pentagonalSign)
+open QseriesFormalization.PartI.Ch04Franklin (pentagonalSign)
 open QseriesFormalization.Pending.JTPFormalPSPentagonal
 
 /-- The residue-`r` mod 5 section of a formal power series. -/

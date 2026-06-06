@@ -2219,7 +2219,7 @@ set_option maxRecDepth 100000
 set_option linter.unusedSimpArgs false
 
 /-- Integer coefficient of `(q;q)_inf`, via Euler's pentagonal theorem. -/
-def tauEtaCoeffZ (n : Nat) : Int := QseriesFormalization.PartI.Ch05.pentagonalSign n
+def tauEtaCoeffZ (n : Nat) : Int := QseriesFormalization.PartI.Ch04Franklin.pentagonalSign n
 
 theorem coeff_etaPS_eq_tauEtaCoeffZ (R : Type*) [CommRing R] (n : Nat) :
     (etaPS R).coeff n = (tauEtaCoeffZ n : R) := by

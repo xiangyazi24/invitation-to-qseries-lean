@@ -1,10 +1,10 @@
-import QseriesFormalization.Chapter05
+import QseriesFormalization.Chapter04_FranklinPentagonal
 import Mathlib.Tactic.Linarith
 
 /-!
 # Franklin Involution → Euler Pentagonal Number Theorem (Combinatorial)
 
-The final assembly: use the Franklin involution (Ch05 infrastructure) to prove
+The final assembly: use the Franklin involution (Ch04Franklin infrastructure) to prove
 the combinatorial form of Euler's pentagonal number theorem.
 
 ## Strategy
@@ -19,9 +19,9 @@ The only unpaired partitions are the pentagonal fixed shapes
 Result: ∑ (-1)^|S| = (-1)^k if n = k(3k±1)/2, else 0.
 -/
 
-open QseriesFormalization PartI Ch05
+open QseriesFormalization PartI Ch04Franklin
 
-namespace QseriesFormalization.PartI.Ch05
+namespace QseriesFormalization.PartI.Ch04Franklin
 
 /-- A strict partition of n as a Finset of positive naturals summing to n. -/
 def StrictPartitionSet (n : Nat) : Finset (Finset Nat) :=
@@ -1375,4 +1375,4 @@ theorem euler_pentagonal_combinatorial (n : Nat) :
   rw [this]; simp only [ne_eq, not_not]
   exact fixed_sum_eq_pentagonalSign n
 
-end QseriesFormalization.PartI.Ch05
+end QseriesFormalization.PartI.Ch04Franklin

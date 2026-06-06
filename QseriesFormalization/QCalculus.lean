@@ -32,7 +32,7 @@ just doesn't belong under the chapter number "15".
 
 namespace QseriesFormalization
 namespace PartIII
-namespace Ch15
+namespace QCalc
 
 section Field
 
@@ -3165,6 +3165,6 @@ theorem R_trunc_nesting_fourhundred (q : ℂ) :
 
 end Field
 
-end Ch15
+end QCalc
 end PartIII
 end QseriesFormalization

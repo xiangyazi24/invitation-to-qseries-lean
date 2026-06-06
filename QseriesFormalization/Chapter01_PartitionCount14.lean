@@ -15,8 +15,8 @@ namespace Ch01
 open QseriesFormalization.PartIV.Ch19
 
 private theorem pentagonalSign_at_13_14 :
-    QseriesFormalization.PartI.Ch05.pentagonalSign 13 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 14 = 0 := by
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 13 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 14 = 0 := by
   refine ⟨?_, ?_⟩ <;> decide
 
 /-- **Chan §1: `p(14) = 135`**. -/
@@ -29,7 +29,7 @@ theorem partitionCount_fourteen : partitionCount 14 = 135 := by
   have h_pg : ∀ k, (partitionGenFun ℤ).coeff k = (partitionCount k : ℤ) :=
     coeff_partitionGenFun
   have h_qp : ∀ m, (qPochInfPS ℤ).coeff m =
-      QseriesFormalization.PartI.Ch05.pentagonalSign m :=
+      QseriesFormalization.PartI.Ch04Franklin.pentagonalSign m :=
     fun m => coeff_qPochInfPS_int_eq_pentagonalSign m
   simp only [h_pg, h_qp] at h14
   rw [show (Finset.antidiagonal 14 :

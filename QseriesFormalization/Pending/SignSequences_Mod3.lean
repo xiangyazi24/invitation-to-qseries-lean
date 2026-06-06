@@ -34,7 +34,7 @@ theorem jacobiThetaPS_eq_expand_qPochInfPS :
 pentagonal sign stretched by 3, modulo 3. -/
 theorem jacobiTripleSign_mod3 (n : ℕ) :
     ((jacobiTripleSign n : ℤ) : ZMod 3) =
-      if 3 ∣ n then ((QseriesFormalization.PartI.Ch05.pentagonalSign (n / 3) : ℤ) : ZMod 3)
+      if 3 ∣ n then ((QseriesFormalization.PartI.Ch04Franklin.pentagonalSign (n / 3) : ℤ) : ZMod 3)
       else 0 := by
   have h := congrArg (fun φ => PowerSeries.coeff (R := ZMod 3) n φ)
     jacobiThetaPS_eq_expand_qPochInfPS

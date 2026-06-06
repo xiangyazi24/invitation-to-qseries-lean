@@ -18,7 +18,7 @@ namespace ASDMod5
 open PowerSeries
 open QseriesFormalization.PartIV.Ch19
 open QseriesFormalization.PartIV.Ch17
-open QseriesFormalization.PartI.Ch05
+open QseriesFormalization.PartI.Ch04Franklin
 
 /-- The 5-residue section of a formal power series over `R`: keep only
 coefficients at indices `≡ r (mod 5)`, set the rest to zero. -/

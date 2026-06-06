@@ -1,5 +1,5 @@
 import QseriesFormalization.Chapter03
-import QseriesFormalization.Chapter05
+import QseriesFormalization.Chapter04_FranklinPentagonal
 
 /-!
 # Chapter 5 Boson-Fermion partition function
@@ -18,7 +18,7 @@ mode `n` contributes `n + 1`, avoiding half-powers.
 
 namespace QseriesFormalization
 namespace PartI
-namespace Ch05
+namespace Ch04Franklin
 
 open scoped BigOperators
 open Filter
@@ -857,6 +857,6 @@ theorem stateMonomial_negativeChargeGroundState (q z : ℂ) (m : Nat) :
       z ^ (-(m : Int)) * q ^ triangular m := by
   simp [stateMonomial]
 
-end Ch05
+end Ch04Franklin
 end PartI
 end QseriesFormalization

@@ -10,41 +10,41 @@ namespace Ch01
 open QseriesFormalization.PartIV.Ch19
 
 private theorem pentagonalSign_at_13_to_47 :
-    QseriesFormalization.PartI.Ch05.pentagonalSign 13 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 14 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 15 = -1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 16 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 17 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 18 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 19 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 20 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 21 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 22 = 1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 23 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 24 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 25 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 26 = 1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 27 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 28 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 29 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 30 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 31 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 32 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 33 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 34 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 35 = -1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 36 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 37 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 38 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 39 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 40 = -1 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 41 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 42 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 43 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 44 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 45 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 46 = 0 ∧
-    QseriesFormalization.PartI.Ch05.pentagonalSign 47 = 0 := by
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 13 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 14 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 15 = -1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 16 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 17 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 18 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 19 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 20 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 21 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 22 = 1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 23 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 24 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 25 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 26 = 1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 27 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 28 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 29 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 30 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 31 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 32 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 33 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 34 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 35 = -1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 36 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 37 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 38 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 39 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 40 = -1 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 41 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 42 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 43 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 44 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 45 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 46 = 0 ∧
+    QseriesFormalization.PartI.Ch04Franklin.pentagonalSign 47 = 0 := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_⟩ <;> decide
