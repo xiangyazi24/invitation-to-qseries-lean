@@ -1,0 +1,116 @@
+import QseriesFormalization.Chapter14
+
+/-!
+# Chapter 14 — Crank hits all 5 residues mod 5 for partitions of 9
+
+The `n = 1` case of the Dyson–Garvan crank theorem for `p = 5` (`9 = 5·1 + 4`),
+companion to `Chapter14_CrankN4.lean`.  We exhibit five partitions of 9 whose
+cranks cover all residues mod 5:
+
+  `[9]`      crank = 9 ≡ 4
+  `[8,1]`    crank = 0
+  `[7,2]`    crank = 7 ≡ 2
+  `[6,3]`    crank = 6 ≡ 1
+  `[3,3,3]`  crank = 3 ≡ 3
+
+For the parts with `1 ∉ parts` the crank is the largest part; for `[8,1]`,
+`ω = 1` one and `μ = 1` (just `[8] > 1`), so crank `= 1 − 1 = 0`.
+
+The full Dyson–Garvan equidistribution theorem is still OPEN; this adds the
+`n = 1`, `p = 5` surjectivity case to the `n = 0` case already in
+`Chapter14_CrankN4.lean`.
+-/
+
+namespace QseriesFormalization
+namespace PartIII
+namespace Ch14
+
+open Multiset
+
+/-- Partition `[8, 1]` of 9. -/
+def partitionNineEightOne : Nat.Partition 9 where
+  parts := {8, 1}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- Partition `[7, 2]` of 9. -/
+def partitionNineSevenTwo : Nat.Partition 9 where
+  parts := {7, 2}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- Partition `[6, 3]` of 9. -/
+def partitionNineSixThree : Nat.Partition 9 where
+  parts := {6, 3}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- Partition `[3, 3, 3]` of 9. -/
+def partitionNineThreeThreeThree : Nat.Partition 9 where
+  parts := {3, 3, 3}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- `crank([8,1]) = 0`: `1 ∈ parts`, `ω = 1`, `μ = 1` (only `[8] > 1`). -/
+theorem crank_partitionNineEightOne : crank partitionNineEightOne = 0 := by
+  show (if (1 : ℕ) ∈ ({8, 1} : Multiset ℕ) then
+          ((crankMu partitionNineEightOne : Int) - (crankOnes partitionNineEightOne : Int))
+        else (crankLargest partitionNineEightOne : Int)) = 0
+  rw [if_pos (by decide : (1 : ℕ) ∈ ({8, 1} : Multiset ℕ))]
+  have h_ones : crankOnes partitionNineEightOne = 1 := by
+    show ({8, 1} : Multiset ℕ).count 1 = 1
+    decide
+  have h_mu : crankMu partitionNineEightOne = 1 := by
+    show (({8, 1} : Multiset ℕ).filter (fun x => x > crankOnes partitionNineEightOne)).card = 1
+    rw [h_ones]; decide
+  rw [h_ones, h_mu]; rfl
+
+/-- `crank([7,2]) = 7`: `1 ∉ parts`, largest = 7. -/
+theorem crank_partitionNineSevenTwo : crank partitionNineSevenTwo = 7 := by
+  show (if (1 : ℕ) ∈ ({7, 2} : Multiset ℕ) then
+          ((crankMu partitionNineSevenTwo : Int) - (crankOnes partitionNineSevenTwo : Int))
+        else (crankLargest partitionNineSevenTwo : Int)) = 7
+  rw [if_neg (by decide : (1 : ℕ) ∉ ({7, 2} : Multiset ℕ))]
+  show ((({7, 2} : Multiset ℕ).fold max 0 : Nat) : Int) = 7
+  decide
+
+/-- `crank([6,3]) = 6`: `1 ∉ parts`, largest = 6. -/
+theorem crank_partitionNineSixThree : crank partitionNineSixThree = 6 := by
+  show (if (1 : ℕ) ∈ ({6, 3} : Multiset ℕ) then
+          ((crankMu partitionNineSixThree : Int) - (crankOnes partitionNineSixThree : Int))
+        else (crankLargest partitionNineSixThree : Int)) = 6
+  rw [if_neg (by decide : (1 : ℕ) ∉ ({6, 3} : Multiset ℕ))]
+  show ((({6, 3} : Multiset ℕ).fold max 0 : Nat) : Int) = 6
+  decide
+
+/-- `crank([3,3,3]) = 3`: `1 ∉ parts`, largest = 3. -/
+theorem crank_partitionNineThreeThreeThree : crank partitionNineThreeThreeThree = 3 := by
+  show (if (1 : ℕ) ∈ ({3, 3, 3} : Multiset ℕ) then
+          ((crankMu partitionNineThreeThreeThree : Int) - (crankOnes partitionNineThreeThreeThree : Int))
+        else (crankLargest partitionNineThreeThreeThree : Int)) = 3
+  rw [if_neg (by decide : (1 : ℕ) ∉ ({3, 3, 3} : Multiset ℕ))]
+  show ((({3, 3, 3} : Multiset ℕ).fold max 0 : Nat) : Int) = 3
+  decide
+
+/-- **Chan §14 (Dyson–Garvan), `n = 1`, `p = 5` case.**
+
+For every `r : ZMod 5`, there is a partition `p` of `9` with `crank p ≡ r (mod 5)`.
+Witnesses: `[8,1]→0, [6,3]→1, [7,2]→2, [3,3,3]→3, [9]→4`. -/
+theorem crank_n9_surjective_mod_five :
+    ∀ r : ZMod 5, ∃ p : Nat.Partition 9, ((crank p : Int) : ZMod 5) = r := by
+  intro r
+  fin_cases r
+  · exact ⟨partitionNineEightOne, by rw [crank_partitionNineEightOne]; rfl⟩
+  · exact ⟨partitionNineSixThree, by rw [crank_partitionNineSixThree]; rfl⟩
+  · exact ⟨partitionNineSevenTwo, by rw [crank_partitionNineSevenTwo]; rfl⟩
+  · exact ⟨partitionNineThreeThreeThree, by rw [crank_partitionNineThreeThreeThree]; rfl⟩
+  · -- r = 4: use [9] via crank_singleton
+    refine ⟨{
+      parts := {9}
+      parts_pos := by intro a ha; rw [Multiset.mem_singleton] at ha; omega
+      parts_sum := by rw [Multiset.sum_singleton] }, ?_⟩
+    rw [crank_singleton 9 (by omega)]; rfl
+
+end Ch14
+end PartIII
+end QseriesFormalization

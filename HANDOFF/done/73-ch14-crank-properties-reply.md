@@ -1,0 +1,1 @@
+Completed Task 73: Setup basic placeholder properties for the crank function in `Chapter14.lean`. Build verified.

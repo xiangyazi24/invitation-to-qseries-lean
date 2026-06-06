@@ -1,0 +1,38 @@
+q-WZ CERTIFICATE for general q-Pfaff–Saalschütz hstep (delivered 2026-05-16).
+
+Let A := a*q,  b := A/(ρ₁*ρ₂).
+S_j(k) := coeff(n,k) / (qPochhammer q (k-j) * qPoch A q (k+j)).
+
+G(n,j) =
+  (ρ₁ - A q^j)(ρ₂ - A q^j)(1 - A q^{n+j})
+  / [ A (1 - ρ₁ q^j)(1 - ρ₂ q^j)(1 - q^{n-j}) ].
+
+Boundary-safe Gosper certificate, for j+1 ≤ k ≤ n+1:
+  W(n,j,k) = S_j(k-1) *
+    [ (1-ρ₁ q^{k-1})(1-ρ₂ q^{k-1})(1-A q^{2j})(1-q^{n+1-k}) ]
+    / [ (1-ρ₁ q^j)(1-ρ₂ q^j)(1-q^{n-j})(1-A q^{j+k-1}) ].
+
+Equivalent Gosper form, for j+1 ≤ k ≤ n:
+  W(n,j,k) = S_j(k) *
+    [ (1-q^{k-j})(1-A q^{2j})(1-b q^{n-k}) ]
+    / [ b (1-ρ₁ q^j)(1-ρ₂ q^j)(1-q^{n-j}) ].
+
+Telescoping identity, for j+1 ≤ k ≤ n:
+  S_j(k) - G(n,j) S_{j+1}(k) = W(n,j,k+1) - W(n,j,k).
+
+Boundary terms:
+  W(n,j,n+1) = 0           (factor 1 - q^{(n+1)-(n+1)} = 1-q^0 = 0)
+  W(n,j,j+1) = S_j(j) = coeff(n,j) / qPoch A q (2j).
+
+Closing (downward induction step, IH: KSum(n,j+1)=KTgt(n,j+1)):
+  KSum(n,j) = S_j(j) + Σ_{k=j+1}^n S_j(k)
+            = S_j(j) + G·KSum(n,j+1) + W(n+1) - W(j+1)
+            = S_j(j) + G·KTgt(n,j+1) + 0 - S_j(j)
+            = G·KTgt(n,j+1)
+            = KTgt(n,j)            [by TGT_SHIFT: KTgt(n,j) = G(n,j)·KTgt(n,j+1)]
+peel head S_j(j) cancels -W(j+1); top boundary W(n+1)=0.
+
+Two remaining pure algebraic identities to formalize:
+ (A) per-term telescoping: S_j(k) - G S_{j+1}(k) = W(k+1) - W(k)  [j+1≤k≤n]
+ (B) TGT_SHIFT:  KTgt(n,j) = G(n,j) · KTgt(n,j+1)
+Everything else (peel, peelTail_telescope, induction architecture) is verified.

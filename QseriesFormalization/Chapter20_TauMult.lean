@@ -1,0 +1,1 @@
+-- Moved to QseriesFormalization/Chapter20.lean.

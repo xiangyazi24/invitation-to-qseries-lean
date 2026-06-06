@@ -1,0 +1,1 @@
+Completed Task 74: Added $N=3$ truncation evaluations for the Rogers-Ramanujan RHS for $a=0$ and $a=1$ in `Chapter07.lean`. Build verified.

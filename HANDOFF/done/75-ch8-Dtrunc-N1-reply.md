@@ -1,0 +1,1 @@
+Completed Task 75: Added $N=1$ closed forms for `D_partialSum` and `D_trunc` (including $a=0$ and $a=1$ specializations) in `Chapter08.lean`. Build verified.

@@ -1,0 +1,38 @@
+Channel: research (explicit; tmux window: research)
+Task 1f40890b [#1] submitted, pipe waiting (timeout 1190s)...
+I’ll give a compact Lean proof-engineering recipe: cancel shared opaque products first, keep large factors opaque, and only run normalization on the small residual.
+
+Rank: 1 > 3 > 4 > 2. Use 1.
+
+lean
+  rw [qPoch_succ, qPochhammer_succ]     -- only needed recurrences
+  field_simp [hden₁, hden₂, hden₃]      -- no `ring`/`ring_nf` yet
+  have hK : K ≠ 0 := by
+    unfold K
+    repeat' apply mul_ne_zero <;> assumption
+  change K * smallL = K * smallR
+  rw [mul_right_inj' hK]                -- cancels left factor `K`
+  -- if arranged as `smallL * K = smallR * K`, use:
+  -- rw [mul_left_inj' hK]
+  ring
+
+For ratio-level cancellation before clearing:
+
+lean
+  simp only [qPoch_succ, qPochhammer_succ]
+  simp only [mul_div_mul_left, mul_div_mul_right, div_self, hP, hQ]
+  ring
+
+linear_combination: no, default normalizer is ring1/ring-normalization. 
+Lean Community
+
+set abstraction: works, but secondary:
+
+lean
+  set t₁ := 1 - c₁
+  set t₂ := 1 - c₂
+  ...
+  ring_nf
+
+Finset.prod congruence: only if the statement is already product-indexed; otherwise more work than cancellation.
+EXIT=0

@@ -1,0 +1,1 @@
+Completed Task 64: Implemented Fibonacci-like recurrences for $\alpha^n$ and $\beta^n$ powers in `Chapter11.lean`. Build verified.

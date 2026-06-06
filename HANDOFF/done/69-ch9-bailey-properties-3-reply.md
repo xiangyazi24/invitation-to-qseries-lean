@@ -1,0 +1,1 @@
+Completed Task 69: Added simplification logic for `BaileyTerm` at $k=n$ in `Chapter09.lean`. Build verified.

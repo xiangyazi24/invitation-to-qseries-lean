@@ -1,0 +1,1 @@
+Completed Task 71: Added $N=2$ truncation for Ramanujan's mock theta function $f(q)$ in `Chapter10.lean`. Build verified.

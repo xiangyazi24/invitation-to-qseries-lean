@@ -1,0 +1,1 @@
+Completed Task 70: Implemented extensionality for `AdmissibleState` and characterization for zero charge in `Chapter05.lean`. Build verified.

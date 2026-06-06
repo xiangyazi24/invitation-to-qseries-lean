@@ -1,0 +1,132 @@
+import QseriesFormalization.Chapter14
+
+/-!
+# Chapter 14 - Crank hits all 5 residues mod 5 for partitions of 14
+
+The `n = 2` case of the Dyson-Garvan crank theorem for `p = 5`
+(`14 = 5*2 + 4`), companion to `Chapter14_CrankN4.lean` and
+`Chapter14_CrankN9.lean`. We exhibit five partitions of 14 whose cranks cover
+all residues mod 5:
+
+  `[14]`      crank = 14 ≡ 4
+  `[13,1]`    crank = 0
+  `[12,2]`    crank = 12 ≡ 2
+  `[11,3]`    crank = 11 ≡ 1
+  `[8,3,3]`   crank = 8 ≡ 3
+
+For the parts with `1 ∉ parts` the crank is the largest part; for `[13,1]`,
+`omega = 1` one and `mu = 1` (just `[13] > 1`), so crank `= 1 - 1 = 0`.
+
+The full Dyson-Garvan equidistribution theorem is still OPEN; this adds the
+`n = 2`, `p = 5` surjectivity case to the `n = 0` and `n = 1` cases already in
+`Chapter14_CrankN4.lean` and `Chapter14_CrankN9.lean`.
+-/
+
+namespace QseriesFormalization
+namespace PartIII
+namespace Ch14
+
+open Multiset
+
+/-- Partition `[14]` of 14. -/
+def partitionFourteenFourteen : Nat.Partition 14 where
+  parts := {14}
+  parts_pos := by intro a ha; rw [Multiset.mem_singleton] at ha; omega
+  parts_sum := by rw [Multiset.sum_singleton]
+
+/-- Partition `[13, 1]` of 14. -/
+def partitionFourteenThirteenOne : Nat.Partition 14 where
+  parts := {13, 1}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- Partition `[12, 2]` of 14. -/
+def partitionFourteenTwelveTwo : Nat.Partition 14 where
+  parts := {12, 2}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- Partition `[11, 3]` of 14. -/
+def partitionFourteenElevenThree : Nat.Partition 14 where
+  parts := {11, 3}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- Partition `[8, 3, 3]` of 14. -/
+def partitionFourteenEightThreeThree : Nat.Partition 14 where
+  parts := {8, 3, 3}
+  parts_pos := by intro a ha; fin_cases ha <;> omega
+  parts_sum := by decide
+
+/-- `crank([14]) = 14`: `1 ∉ parts`, largest = 14. -/
+theorem crank_partitionFourteenFourteen : crank partitionFourteenFourteen = 14 := by
+  show (if (1 : ℕ) ∈ ({14} : Multiset ℕ) then
+          ((crankMu partitionFourteenFourteen : Int) - (crankOnes partitionFourteenFourteen : Int))
+        else (crankLargest partitionFourteenFourteen : Int)) = 14
+  rw [if_neg (by decide : (1 : ℕ) ∉ ({14} : Multiset ℕ))]
+  show ((({14} : Multiset ℕ).fold max 0 : Nat) : Int) = 14
+  decide
+
+/-- `crank([13,1]) = 0`: `1 ∈ parts`, `omega = 1`, `mu = 1` (only `[13] > 1`). -/
+theorem crank_partitionFourteenThirteenOne : crank partitionFourteenThirteenOne = 0 := by
+  show (if (1 : ℕ) ∈ ({13, 1} : Multiset ℕ) then
+          ((crankMu partitionFourteenThirteenOne : Int) -
+            (crankOnes partitionFourteenThirteenOne : Int))
+        else (crankLargest partitionFourteenThirteenOne : Int)) = 0
+  rw [if_pos (by decide : (1 : ℕ) ∈ ({13, 1} : Multiset ℕ))]
+  have h_ones : crankOnes partitionFourteenThirteenOne = 1 := by
+    show ({13, 1} : Multiset ℕ).count 1 = 1
+    decide
+  have h_mu : crankMu partitionFourteenThirteenOne = 1 := by
+    show (({13, 1} : Multiset ℕ).filter
+      (fun x => x > crankOnes partitionFourteenThirteenOne)).card = 1
+    rw [h_ones]; decide
+  rw [h_ones, h_mu]; rfl
+
+/-- `crank([12,2]) = 12`: `1 ∉ parts`, largest = 12. -/
+theorem crank_partitionFourteenTwelveTwo : crank partitionFourteenTwelveTwo = 12 := by
+  show (if (1 : ℕ) ∈ ({12, 2} : Multiset ℕ) then
+          ((crankMu partitionFourteenTwelveTwo : Int) - (crankOnes partitionFourteenTwelveTwo : Int))
+        else (crankLargest partitionFourteenTwelveTwo : Int)) = 12
+  rw [if_neg (by decide : (1 : ℕ) ∉ ({12, 2} : Multiset ℕ))]
+  show ((({12, 2} : Multiset ℕ).fold max 0 : Nat) : Int) = 12
+  decide
+
+/-- `crank([11,3]) = 11`: `1 ∉ parts`, largest = 11. -/
+theorem crank_partitionFourteenElevenThree : crank partitionFourteenElevenThree = 11 := by
+  show (if (1 : ℕ) ∈ ({11, 3} : Multiset ℕ) then
+          ((crankMu partitionFourteenElevenThree : Int) -
+            (crankOnes partitionFourteenElevenThree : Int))
+        else (crankLargest partitionFourteenElevenThree : Int)) = 11
+  rw [if_neg (by decide : (1 : ℕ) ∉ ({11, 3} : Multiset ℕ))]
+  show ((({11, 3} : Multiset ℕ).fold max 0 : Nat) : Int) = 11
+  decide
+
+/-- `crank([8,3,3]) = 8`: `1 ∉ parts`, largest = 8. -/
+theorem crank_partitionFourteenEightThreeThree :
+    crank partitionFourteenEightThreeThree = 8 := by
+  show (if (1 : ℕ) ∈ ({8, 3, 3} : Multiset ℕ) then
+          ((crankMu partitionFourteenEightThreeThree : Int) -
+            (crankOnes partitionFourteenEightThreeThree : Int))
+        else (crankLargest partitionFourteenEightThreeThree : Int)) = 8
+  rw [if_neg (by decide : (1 : ℕ) ∉ ({8, 3, 3} : Multiset ℕ))]
+  show ((({8, 3, 3} : Multiset ℕ).fold max 0 : Nat) : Int) = 8
+  decide
+
+/-- **Chan §14 (Dyson-Garvan), `n = 2`, `p = 5` case.**
+
+For every `r : ZMod 5`, there is a partition `p` of `14` with `crank p ≡ r (mod 5)`.
+Witnesses: `[13,1]→0, [11,3]→1, [12,2]→2, [8,3,3]→3, [14]→4`. -/
+theorem crank_n14_surjective_mod_five :
+    ∀ r : ZMod 5, ∃ p : Nat.Partition 14, ((crank p : Int) : ZMod 5) = r := by
+  intro r
+  fin_cases r
+  · exact ⟨partitionFourteenThirteenOne, by rw [crank_partitionFourteenThirteenOne]; rfl⟩
+  · exact ⟨partitionFourteenElevenThree, by rw [crank_partitionFourteenElevenThree]; rfl⟩
+  · exact ⟨partitionFourteenTwelveTwo, by rw [crank_partitionFourteenTwelveTwo]; rfl⟩
+  · exact ⟨partitionFourteenEightThreeThree, by rw [crank_partitionFourteenEightThreeThree]; rfl⟩
+  · exact ⟨partitionFourteenFourteen, by rw [crank_partitionFourteenFourteen]; rfl⟩
+
+end Ch14
+end PartIII
+end QseriesFormalization

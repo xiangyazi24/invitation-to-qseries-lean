@@ -1,0 +1,1 @@
+Completed Task 67: Formulated `etaPolyPart_two` and `discriminantPolyPart_two` explicit definitions for $N=2$ in `Chapter20.lean`. Build verified.

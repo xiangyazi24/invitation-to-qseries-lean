@@ -1,0 +1,1 @@
+Completed Task 68: Added fundamental boundary identities for `qBinomialTerm` (zero, one, and n-n terms) in `Chapter03.lean`. Build verified.

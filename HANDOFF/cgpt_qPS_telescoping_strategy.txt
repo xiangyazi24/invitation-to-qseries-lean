@@ -1,0 +1,182 @@
+Channel: research (explicit; tmux window: research)
+Task a0ca7bdb [#3] submitted, pipe waiting (timeout 1190s)...
+I’ll rank the decompositions by reliability for Lean, then give a concrete skeleton that avoids expanding the full degree-8 identity.
+
+Ranking: (1) best, but use it as a telescoping contiguous step, not as “multiply the n=7 theorem and hope ring closes”; (3) second for the local step lemmas; (2) weakest because opaque degree-4 blocks will not satisfy the needed algebraic relations unless you also prove extra block identities.
+
+Let
+
+lean
+b  := a*q/(ρ₁*ρ₂)
+D8 := (1 - a*q^8/ρ₁) * (1 - a*q^8/ρ₂)
+
+Define T n k to be the k-th common-denominator summand after the ratio rewrite, including endpoints:
+
+lean
+T n k =
+  qPoch ρ₁ q k * qPoch ρ₂ q k * b^k *
+  qPoch b q (n-k) *
+  (qPochhammer q n * qPoch (a*q) q n /
+    (qPochhammer q k *
+     qPochhammer q (n-k) *
+     qPoch (a*q) q k))
+
+Then for k = 0,…,7,
+
+lean
+T 8 k = C k * T 7 k
+
+where
+
+lean
+C 0 = (1 - a*q^8) * (1 - b*q^7)
+
+C k =
+  ((1 - q^8) * (1 - a*q^8) / (1 - q^(8-k))) *
+  (1 - b*q^(7-k))        -- for k = 1,...,7
+
+and
+
+lean
+RHS8 = D8 * RHS7
+
+So the real step is
+
+lean
+LHS8 - D8 * LHS7
+  = ∑ k = 0..7, (C k - D8) * T 7 k
+    + T 8 8.
+
+Use the telescoping certificate
+
+lean
+Y i =
+  - q^(8-i) *
+    (1 - a*q^i) *
+    (1 - b*q^(7-i)) *
+    (1 - q^i) /
+    (1 - q^(8-i))       -- i = 1,...,7
+
+W 0 = 0
+W i = T 7 i * Y i       -- i = 1,...,7
+W 8 = - T 8 8
+
+Then prove the eight small identities
+
+lean
+W 1 - W 0 = (C 0 - D8) * T 7 0
+W 2 - W 1 = (C 1 - D8) * T 7 1
+...
+W 8 - W 7 = (C 7 - D8) * T 7 7
+
+Each one is a small local field_simp; ring, not the full n=8 polynomial.
+
+Skeleton:
+
+lean
+  rw [ratio8_1, ratio8_2, ratio8_3, ratio8_4,
+      ratio8_5, ratio8_6, ratio8_7]
+
+  have hρ1 : ρ₁ ≠ 0 := left_ne_zero_of_mul hρ
+  have hρ2 : ρ₂ ≠ 0 := right_ne_zero_of_mul hρ
+
+  set b : R := a*q/(ρ₁*ρ₂)
+  set D8 : R := (1 - a*q^8/ρ₁) * (1 - a*q^8/ρ₂)
+
+  -- n = 7 theorem, kept unexpanded
+  have h7 :=
+    BaileyTransform_seven_alpha_zero_common_denominator_identity
+      (R := R) (a := a) (q := q) (ρ₁ := ρ₁) (ρ₂ := ρ₂)
+      hρ hq1 hq2 hq3 hq4 hq5 hq6
+      haq1 haq2 haq3 haq4 haq5 haq6
+
+  -- RHS shift
+  have hRHS8 :
+      RHS8 = D8 * RHS7 := by
+    simp [D8, qPoch_succ, qPochhammer_succ, b]
+    field_simp [hρ, hρ1, hρ2]
+    ring
+
+  -- term-shift identities T8 k = C k * T7 k
+  have hT0 : T80 = C0 * T70 := by
+    simp [T80, T70, C0, qPoch_succ, qPochhammer_succ, b]
+    field_simp [hρ, hρ1, hρ2]
+    ring
+
+  have hT1 : T81 = C1 * T71 := by
+    simp [T81, T71, C1, qPoch_succ, qPochhammer_succ, b]
+    field_simp [hρ, hρ1, hρ2, hq7]
+    ring
+
+  -- similarly hT2 ... hT7
+
+  -- telescoping certificates
+  set Y1 : R :=
+    - q^7 * (1 - a*q) * (1 - b*q^6) * (1 - q) / (1 - q^7)
+
+  set Y2 : R :=
+    - q^6 * (1 - a*q^2) * (1 - b*q^5) * (1 - q^2) / (1 - q^6)
+
+  -- ...
+
+  set Y7 : R :=
+    - q * (1 - a*q^7) * (1 - b) * (1 - q^7) / (1 - q)
+
+  set W0 : R := 0
+  set W1 : R := T71 * Y1
+  set W2 : R := T72 * Y2
+  -- ...
+  set W7 : R := T77 * Y7
+  set W8 : R := -T88
+
+  have htel0 : W1 - W0 = (C0 - D8) * T70 := by
+    simp [W0, W1, Y1, C0, D8, b]
+    field_simp [hρ, hρ1, hρ2, hq7]
+    ring
+
+  have htel1 : W2 - W1 = (C1 - D8) * T71 := by
+    simp [W1, W2, Y1, Y2, C1, D8, b]
+    field_simp [hρ, hρ1, hρ2, hq6, hq7]
+    ring
+
+  -- similarly htel2 ... htel7
+
+  have hstep : LHS8 = D8 * LHS7 := by
+    calc
+      LHS8 - D8 * LHS7
+          =
+            (C0 - D8) * T70
+          + (C1 - D8) * T71
+          + (C2 - D8) * T72
+          + (C3 - D8) * T73
+          + (C4 - D8) * T74
+          + (C5 - D8) * T75
+          + (C6 - D8) * T76
+          + (C7 - D8) * T77
+          + T88 := by
+              rw [hT0, hT1, hT2, hT3, hT4, hT5, hT6, hT7]
+              ring
+      _ =
+            (W1 - W0)
+          + (W2 - W1)
+          + (W3 - W2)
+          + (W4 - W3)
+          + (W5 - W4)
+          + (W6 - W5)
+          + (W7 - W6)
+          + (W8 - W7)
+          + T88 := by
+              rw [htel0, htel1, htel2, htel3,
+                  htel4, htel5, htel6, htel7]
+      _ = 0 := by
+              simp [W0, W8]
+              ring
+    exact sub_eq_zero.mp this
+
+  calc
+    LHS8 = D8 * LHS7 := hstep
+    _ = D8 * RHS7 := by rw [h7]
+    _ = RHS8 := by rw [hRHS8]
+
+The key point is that ring only sees identities such as htel3, whose degree is tiny after T73 is treated as an atom; it never normalizes the full degree-8 polynomial.
+EXIT=0

@@ -1,0 +1,110 @@
+import QseriesFormalization.Chapter01_PartitionCount40
+
+/-! # Chapter 1 — `partitionCount 41 = 44583` -/
+
+namespace QseriesFormalization
+namespace Ch01
+
+open QseriesFormalization.PartIV.Ch19
+
+private theorem pentagonalSign_at_13_to_41 :
+    QseriesFormalization.PartI.Ch05.pentagonalSign 13 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 14 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 15 = -1 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 16 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 17 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 18 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 19 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 20 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 21 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 22 = 1 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 23 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 24 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 25 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 26 = 1 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 27 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 28 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 29 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 30 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 31 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 32 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 33 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 34 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 35 = -1 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 36 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 37 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 38 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 39 = 0 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 40 = -1 ∧
+    QseriesFormalization.PartI.Ch05.pentagonalSign 41 = 0 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
+          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> decide
+
+theorem partitionCount_fortyone : partitionCount 41 = 44583 := by
+  have h := partitionCount_pentagonalSign_convolution_pos
+    (n := 41) (by omega)
+  rw [show (Finset.antidiagonal 41 :
+      Finset (ℕ × ℕ)) =
+        {(0, 41), (1, 40), (2, 39), (3, 38), (4, 37), (5, 36), (6, 35),
+         (7, 34), (8, 33), (9, 32), (10, 31), (11, 30), (12, 29), (13, 28),
+         (14, 27), (15, 26), (16, 25), (17, 24), (18, 23), (19, 22), (20, 21),
+         (21, 20), (22, 19), (23, 18), (24, 17), (25, 16), (26, 15), (27, 14),
+         (28, 13), (29, 12), (30, 11), (31, 10), (32, 9), (33, 8), (34, 7),
+         (35, 6), (36, 5), (37, 4), (38, 3), (39, 2), (40, 1), (41, 0)}
+        from by decide] at h
+  rw [Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide),
+      Finset.sum_singleton] at h
+  simp only [Prod.fst, Prod.snd] at h
+  obtain ⟨s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12⟩ :=
+    pentagonalSign_values
+  obtain ⟨s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23, s24, s25, s26,
+          s27, s28, s29, s30, s31, s32, s33, s34, s35, s36, s37, s38, s39,
+          s40, s41⟩ := pentagonalSign_at_13_to_41
+  rw [s41, s40, s39, s38, s37, s36, s35, s34, s33, s32, s31, s30, s29, s28,
+      s27, s26, s25, s24, s23, s22, s21, s20, s19, s18, s17, s16, s15, s14,
+      s13, s12, s11, s10, s9, s8, s7, s6, s5, s4, s3, s2, s1, s0,
+      partitionCount_zero, partitionCount_one, partitionCount_two,
+      partitionCount_three, partitionCount_four, partitionCount_five,
+      partitionCount_six, partitionCount_seven, partitionCount_eight,
+      partitionCount_nine, partitionCount_ten, partitionCount_eleven,
+      partitionCount_twelve, partitionCount_thirteen,
+      partitionCount_fourteen, partitionCount_fifteen,
+      partitionCount_sixteen, partitionCount_seventeen,
+      partitionCount_eighteen, partitionCount_nineteen,
+      partitionCount_twenty, partitionCount_twentyone,
+      partitionCount_twentytwo, partitionCount_twentythree,
+      partitionCount_twentyfour, partitionCount_twentyfive,
+      partitionCount_twentysix, partitionCount_twentyseven,
+      partitionCount_twentyeight, partitionCount_twentynine,
+      partitionCount_thirty, partitionCount_thirtyone,
+      partitionCount_thirtytwo, partitionCount_thirtythree,
+      partitionCount_thirtyfour, partitionCount_thirtyfive,
+      partitionCount_thirtysix, partitionCount_thirtyseven,
+      partitionCount_thirtyeight, partitionCount_thirtynine,
+      partitionCount_forty] at h
+  ring_nf at h
+  have h_int : (partitionCount 41 : ℤ) = 44583 := by linarith
+  exact_mod_cast h_int
+
+end Ch01
+end QseriesFormalization

@@ -1,0 +1,1 @@
+Completed Task 76: Replaced `deepIdentityTrunc` with `deepIdentityLHSTrunc` and its $N=0,1$ boundary theorems, and renamed the old placeholder to `deepIdentityRHSTrunc_placeholder` in `Chapter13.lean`. Build verified.
