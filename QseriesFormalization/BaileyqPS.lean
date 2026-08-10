@@ -472,7 +472,8 @@ theorem tgt_shift_div (a q ρ₁ ρ₂ : R) (n j : Nat) (hj : j < n)
   have hD : (a * q) * (1 - ρ₁ * q ^ j) * (1 - ρ₂ * q ^ j) * (1 - q ^ (n - j)) ≠ 0 :=
     mul_ne_zero (mul_ne_zero (mul_ne_zero hAq hR₁) hR₂) hQnj
   rw [div_mul_eq_mul_div, eq_div_iff hD, mul_comm]
-  exact tgt_shift_cleared a q ρ₁ ρ₂ n j hj hρ₁ hρ₂ hDj hDj1
+  simpa only [mul_assoc, mul_comm, mul_left_comm] using
+    tgt_shift_cleared a q ρ₁ ρ₂ n j hj hρ₁ hρ₂ hDj hDj1
 
 /-! ### Assembly: from (A),(B) to unconditional general q-PS
 
@@ -507,16 +508,31 @@ theorem Wbs_bot_eq_head (a q ρ₁ ρ₂ : R) (n j : Nat) (hj : j < n)
           * (1 - a * q * q ^ (2 * j)))
       = baileyTransformCoeff a q ρ₁ ρ₂ n j / qPoch (a * q) q (2 * j) := by
   rw [qPochhammer_zero, one_mul]
-  field_simp [hR₁, hR₂, hQnj, hA2j]
+  have hDen :
+      ((1 - ρ₁ * q ^ j) * (1 - ρ₂ * q ^ j) * (1 - q ^ (n - j))
+          * (1 - a * q * q ^ (2 * j))) ≠ 0 :=
+    mul_ne_zero (mul_ne_zero (mul_ne_zero hR₁ hR₂) hQnj) hA2j
+  rw [div_eq_iff hDen]
   ring
 
-/-- **Bridge lemma**: the ordinary W form at k equals the boundary-safe W form at k.
-Uses the COEFF recurrence: `C(k)·(1-bq^{n-k}) = C(k-1)·(1-ρ₁q^{k-1})(1-ρ₂q^{k-1})·b·(1-q^{n+1-k})`.
-After replacing C(k) via COEFF, C(k-1) cancels from both sides → ring identity.
+/-- The elementary cancellation underlying the bridge between the two forms
+of the q-WZ certificate.  Its variables stand for whole q-Pochhammer and
+linear factors, so the identity records only the multiplicative structure. -/
+private theorem word_algebra
+    (C P Q x y r s t z h B u v w : R)
+    (hP : P ≠ 0) (hQ : Q ≠ 0) (hx : x ≠ 0) (hy : y ≠ 0)
+    (hh : h ≠ 0) (hB : B ≠ 0) (hu : u ≠ 0) (hv : v ≠ 0)
+    (hw : w ≠ 0) :
+    (C * r * s * B * z / h) / (P * x * (Q * y)) * (x * t * h) /
+          (B * u * v * w) =
+      C / (P * Q) * (r * s * t * z) / (u * v * w * y) := by
+  field_simp [hP, hQ, hx, hy, hh, hB, hu, hv, hw]
 
-Strategy: rewrite LHS's `C(j+1+d)` using COEFF identity to get `C(j+d)·(factors)`,
-then both sides share the same `C(j+d)` atom → field_simp cancels it → ring closes. -/
 set_option maxHeartbeats 0 in
+/-- **Bridge lemma**: the ordinary certificate at `k` equals its boundary-safe
+form.  Write `k = j + 1 + d` and `n = k + e`.  The consecutive-coefficient
+identity replaces `C(k)` by `C(k-1)` times the four new factors; the two
+q-Pochhammer recurrences expose precisely the factors that cancel. -/
 theorem Word_eq_Wbs (a q ρ₁ ρ₂ : R) (n k j : Nat)
     (hjk : j + 1 ≤ k) (hkn : k ≤ n)
     (hρ₁ : ρ₁ ≠ 0) (hρ₂ : ρ₂ ≠ 0) (ha : a ≠ 0) (hq : q ≠ 0)
@@ -551,22 +567,16 @@ theorem Word_eq_Wbs (a q ρ₁ ρ₂ : R) (n k j : Nat)
   subst hd; subst he
   -- Normalize indices (all Nat subtraction → sums)
   simp only [show j + 1 + d - j = d + 1 from by omega,
-             show j + 1 + d - j - 1 = d from by omega,
              show j + 1 + d + j = 2 * j + 1 + d from by omega,
-             show j + 1 + d - 1 - j = d from by omega,
-             show j + 1 + d - 1 + j = 2 * j + d from by omega,
              show j + 1 + d - 1 = j + d from by omega,
-             show j + (j + 1 + d - 1) = 2 * j + d from by omega,
              show j + 1 + d + e - j = d + 1 + e from by omega,
              show j + 1 + d + e - (j + 1 + d) = e from by omega,
-             show j + 1 + d + e + 1 - (j + 1 + d) = e + 1 from by omega,
-             show j + 1 + d + e - (j + 1 + d) + 1 = e + 1 from by omega,
-             show 2 * (j + 1 + d) = 2 * j + 2 + 2 * d from by omega] at *
+             show j + 1 + d + e + 1 - (j + 1 + d) = e + 1 from by omega] at *
   -- Use COEFF at index j+d to replace C(j+1+d) with C(j+d)·(factors)/(1-bq^e)
   have hPnk' : qPochhammer q ((j + 1 + d + e) - (j + d) - 1) ≠ 0 := by
-    convert hPnk using 2; omega
+    simpa only [show (j + 1 + d + e) - (j + d) - 1 = e by omega] using hPnk
   have hQnk1' : (1 : R) - q ^ ((j + 1 + d + e) - (j + d)) ≠ 0 := by
-    convert hQnk1 using 2; omega
+    simpa only [show (j + 1 + d + e) - (j + d) = e + 1 by omega] using hQnk1
   have hcoeff := baileyTransformCoeff_succ_k a q ρ₁ ρ₂ (j + 1 + d + e) (j + d)
     (by omega : j + d < j + 1 + d + e) hρ₁ hρ₂ hE₁ hE₂ hPnk' hQnk1'
   -- hcoeff : C(j+d+1) * (1-b·q^e) = C(j+d) * (1-ρ₁q^{j+d})(1-ρ₂q^{j+d}) * b * (1-q^{e+1})
@@ -585,7 +595,13 @@ theorem Word_eq_Wbs (a q ρ₁ ρ₂ : R) (n k j : Nat)
     -- From hcoeff: C(j+d+1) * X = C(j+d) * Y, so C(j+d+1) = C(j+d)*Y/X
     rw [eq_div_iff hBne]
     linear_combination hcoeff
-  rw [show j + 1 + d = j + d + 1 from by omega, hC_eq]
+  have hC_eq' : baileyTransformCoeff a q ρ₁ ρ₂ (j + d + 1 + e) (j + d + 1)
+      = baileyTransformCoeff a q ρ₁ ρ₂ (j + d + 1 + e) (j + d)
+        * ((1 - ρ₁ * q ^ (j + d)) * (1 - ρ₂ * q ^ (j + d))
+            * (a * q / (ρ₁ * ρ₂)) * (1 - q ^ (e + 1)))
+        / (1 - (a * q / (ρ₁ * ρ₂)) * q ^ e) := by
+    simpa only [show j + 1 + d + e = j + d + 1 + e by omega] using hC_eq
+  rw [show j + 1 + d = j + d + 1 from by omega, hC_eq']
   -- Recurrences to align P/Q indices
   have hP : qPochhammer q (d + 1) = qPochhammer q d * (1 - q ^ (d + 1)) := by
     rw [show d + 1 = d + 1 from rfl, qPochhammer_succ]
@@ -593,13 +609,31 @@ theorem Word_eq_Wbs (a q ρ₁ ρ₂ : R) (n k j : Nat)
       = qPoch (a * q) q (2 * j + d) * (1 - a * q * q ^ (2 * j + d)) := by
     rw [show 2 * j + 1 + d = (2 * j + d) + 1 from by omega, qPoch_succ]
   rw [hP, hQ]
-  -- Now both sides have `baileyTransformCoeff ... (j+d)` as the sole opaque atom.
-  -- field_simp clears denominators; ring closes the polynomial identity (~6 min).
-  field_simp [hPm1, hQkj, hQk1j, hR₁, hR₂, hQnj, hkj, hAjk1,
-    hρ₁, hρ₂, ha, hq, hBne]
-  simp only [pow_add, pow_succ, pow_zero, one_mul, pow_mul, pow_one,
-    two_mul, Nat.add_eq, Nat.add_zero]
-  ring
+  have hPm1' : qPochhammer q d ≠ 0 := by
+    simpa only using hPm1
+  have hQk1j' : qPoch (a * q) q (2 * j + d) ≠ 0 := by
+    simpa only [show j + d + j = 2 * j + d by omega] using hQk1j
+  have hAjk1' : (1 : R) - a * q * q ^ (2 * j + d) ≠ 0 := by
+    simpa only [show j + (j + d) = 2 * j + d by omega] using hAjk1
+  have hB : a * q / (ρ₁ * ρ₂) ≠ 0 :=
+    div_ne_zero (mul_ne_zero ha hq) (mul_ne_zero hρ₁ hρ₂)
+  -- Regard each q-Pochhammer and linear factor as one atom.  The bridge is
+  -- then exactly the cancellation pattern isolated in `word_algebra`.
+  simpa only [show j + d - j = d by omega,
+      show j + d + j = 2 * j + d by omega,
+      show j + (j + d) = 2 * j + d by omega,
+      mul_assoc, mul_comm, mul_left_comm] using
+    (word_algebra
+      (C := baileyTransformCoeff a q ρ₁ ρ₂ (j + d + 1 + e) (j + d))
+      (P := qPochhammer q d) (Q := qPoch (a * q) q (2 * j + d))
+      (x := 1 - q ^ (d + 1)) (y := 1 - a * q * q ^ (2 * j + d))
+      (r := 1 - ρ₁ * q ^ (j + d)) (s := 1 - ρ₂ * q ^ (j + d))
+      (t := 1 - a * q * q ^ (2 * j)) (z := 1 - q ^ (e + 1))
+      (h := 1 - (a * q / (ρ₁ * ρ₂)) * q ^ e)
+      (B := a * q / (ρ₁ * ρ₂))
+      (u := 1 - ρ₁ * q ^ j) (v := 1 - ρ₂ * q ^ j)
+      (w := 1 - q ^ (d + 1 + e))
+      hPm1' hQk1j' hkj hAjk1' hBne hB hR₁ hR₂ hQnj)
 
 /-! ### Final assembly: unconditional general q-Pfaff–Saalschütz
 
@@ -677,19 +711,20 @@ theorem baileyKernelSum_eq_target_general (a q ρ₁ ρ₂ : R) (n : Nat)
       (hBq (n - k) (by omega))
     -- Rewrite Word(k) → Wbs(k) in hpt, then exact
     rw [hbridge] at hpt
-    exact hpt
+    simpa only [Nat.add_sub_cancel, Nat.add_sub_cancel_left,
+      Nat.add_sub_cancel_right,
+      show n + 1 - (k + 1) = n - k by omega] using hpt
   -- (2) hWtop: Wf j (n+1) = 0 (factor 1-q^0 = 0)
   case hWtop =>
     simp [Nat.sub_self, sub_self, mul_zero, zero_mul, zero_div]
   -- (3) hWbot: Wf(j,j+1) = coeff/qPoch (factors cancel), from Wbs_bot_eq_head
   case hWbot =>
-    simp only [show j + 1 - 1 = j from by omega,
-               show j + 1 - 1 - j = 0 from by omega,
-               show j + 1 - 1 + j = 2 * j from by omega,
-               show n + 1 - (j + 1) = n - j from by omega]
-    exact Wbs_bot_eq_head a q ρ₁ ρ₂ n j hj
-      (hR₁ j hj) (hR₂ j hj) (hQm (n - j) (by omega) (by omega))
-      (hAQ (2 * j) (by omega))
+    simpa only [show j + 1 - 1 = j from by omega,
+        Nat.sub_self, show n + 1 - (j + 1) = n - j from by omega,
+        two_mul] using
+      Wbs_bot_eq_head a q ρ₁ ρ₂ n j hj
+        (hR₁ j hj) (hR₂ j hj) (hQm (n - j) (by omega) (by omega))
+        (hAQ (2 * j) (by omega))
   -- (4) hB: KTgt(n,j) = Gf(j) · KTgt(n,j+1), from tgt_shift_div
   case hB =>
     exact tgt_shift_div a q ρ₁ ρ₂ n j hj hρ₁ hρ₂ ha hq
