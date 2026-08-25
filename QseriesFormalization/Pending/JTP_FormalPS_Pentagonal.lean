@@ -719,7 +719,7 @@ theorem pentagonal023ProductAnalytic_eq_pentagonal023Analytic
   · exact (analytic_pentagonal023_eq_mod5_product q hq hq_zero).symm
 
 lemma norm_lt_one_of_mem_emetric_unit_ball {q : ℂ}
-    (hq : q ∈ EMetric.ball (0 : ℂ) (1 : ENNReal)) :
+    (hq : q ∈ Metric.eball (0 : ℂ) (1 : ENNReal)) :
     ‖q‖ < 1 := by
   have h1 : (1 : ENNReal) = ENNReal.ofReal 1 := by simp
   have h_ball : q ∈ Metric.ball (0 : ℂ) 1 := by
