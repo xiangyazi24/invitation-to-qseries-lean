@@ -8760,6 +8760,1283 @@ theorem hm23GammaWindowDifference_eq_coordImageSum_integerCore
   intro c _hc
   exact hm23Term1_sub_Term2_CoordSummand a z0 z1 e hreg c
 
+/-- Window parameters making the shear-preimage box dominate the support of the
+integer-core summand at a given fiber `(m,p,z,N)` with cutoffs `A,B`. -/
+def hm23FiberW (z N B : ℤ) : ℕ :=
+  (2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 +
+    (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ)).toNat
+
+def hm23FiberV (z N A B : ℤ) : ℕ :=
+  ((hm23FiberW z N B : ℤ) + |A| + |B| + 2 +
+    (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ)).toNat
+
+theorem hm23FiberW_nonneg_expr (z N B : ℤ) :
+    (0 : ℤ) ≤ 2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 +
+      (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) := by
+  have := abs_nonneg z
+  have := abs_nonneg N
+  have := abs_nonneg B
+  have h1 : (0 : ℤ) ≤ (|B| + 1) * |z| :=
+    mul_nonneg (by have := abs_nonneg B; linarith) (abs_nonneg z)
+  have h2 : (0 : ℤ) ≤ (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) :=
+    Int.natCast_nonneg _
+  linarith
+
+theorem hm23FiberW_cast (z N B : ℤ) :
+    (hm23FiberW z N B : ℤ) =
+      2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 +
+        (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) := by
+  unfold hm23FiberW
+  exact Int.toNat_of_nonneg (hm23FiberW_nonneg_expr z N B)
+
+theorem hm23FiberV_cast (z N A B : ℤ) :
+    (hm23FiberV z N A B : ℤ) =
+      (hm23FiberW z N B : ℤ) + |A| + |B| + 2 +
+        (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) := by
+  unfold hm23FiberV
+  refine Int.toNat_of_nonneg ?_
+  have := abs_nonneg A
+  have := abs_nonneg B
+  have h2 : (0 : ℤ) ≤ (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) :=
+    Int.natCast_nonneg _
+  have h3 : (0 : ℤ) ≤ (hm23FiberW z N B : ℤ) := Int.natCast_nonneg _
+  linarith
+
+/-- The chosen window parameters satisfy the five shear-collapse hypotheses. -/
+theorem hm23Fiber_shear_hyps (z N A B : ℤ) :
+    Chapter10PF.thetaMulPFWindowPF N.toNat z ≤ hm23FiberW z N B ∧
+      (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) ≤ (hm23FiberV z N A B : ℤ) ∧
+      (hm23FiberW z N B : ℤ) + |A| + 1 ≤ (hm23FiberV z N A B : ℤ) ∧
+      (|B| + 1 : ℤ) ≤ (hm23FiberV z N A B : ℤ) ∧
+      (2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 : ℤ) ≤
+        (hm23FiberW z N B : ℤ) := by
+  have hW := hm23FiberW_cast z N B
+  have hV := hm23FiberV_cast z N A B
+  have hwin : (0 : ℤ) ≤ (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) :=
+    Int.natCast_nonneg _
+  have hA := abs_nonneg A
+  have hB := abs_nonneg B
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · have : (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) ≤ (hm23FiberW z N B : ℤ) := by
+      rw [hW]
+      have := abs_nonneg z; have := abs_nonneg N
+      have h1 : (0 : ℤ) ≤ (|B| + 1) * |z| :=
+        mul_nonneg (by linarith) (abs_nonneg z)
+      linarith
+    exact_mod_cast this
+  · rw [hV, hW]; have := abs_nonneg z; have := abs_nonneg N
+    have h1 : (0 : ℤ) ≤ (|B| + 1) * |z| := mul_nonneg (by linarith) (abs_nonneg z)
+    linarith
+  · rw [hV]; linarith
+  · rw [hV]; have h3 : (0 : ℤ) ≤ (hm23FiberW z N B : ℤ) := Int.natCast_nonneg _; linarith
+  · rw [hW]; linarith
+
+/-- Per-`(m,p)` fiber form of the right-hand side cube/theta coefficient.
+At `z = 0`, the guard `hm23TermOutExp a z0 z1 m p 0 N = e` forces `90 * N = resid`
+(no `(m+p)` shift), so the unified PF cube coefficient at residual `resid`
+coincides with the canonical integer-core sum `hm23IntegerCoreCanonicalSumInt N 0`
+read at `N = resid / 90`.  This identifies the RHS cube term with the `z = 0`
+canonical fiber. -/
+theorem hm23_rhs_cube_eq_canonical_z0
+    (resid : ℤ) :
+    (if (90 : ℤ) ∣ resid ∧ 0 ≤ resid then
+        ((Chapter10PF.thetaMulPFUnifiedCoeffPF (resid / 90).toNat 0 : ℤ) : ℚ)
+      else 0) =
+      (if (90 : ℤ) ∣ resid ∧ 0 ≤ resid then
+        ((hm23IntegerCoreCanonicalSumInt (resid / 90) 0 : ℤ) : ℚ)
+      else 0) := by
+  by_cases hc : (90 : ℤ) ∣ resid ∧ 0 ≤ resid
+  · rw [if_pos hc, if_pos hc]
+    obtain ⟨hdvd, hnn⟩ := hc
+    have hq_nonneg : 0 ≤ resid / 90 := Int.ediv_nonneg hnn (by norm_num)
+    conv_rhs =>
+      rw [show (resid / 90) = ((resid / 90).toNat : ℤ) from
+        (Int.toNat_of_nonneg hq_nonneg).symm,
+        hm23IntegerCoreCanonicalSumInt_of_nat (resid / 90).toNat 0,
+        hm23IntegerCoreCanonical_eq_unified (resid / 90).toNat 0]
+  · rw [if_neg hc, if_neg hc]
+
+/-- At `z = 0`, the guard `hm23TermOutExp a z0 z1 m p 0 N = e` forces the cube
+residual `e - z0 - jExp(z1−z0) m - jExp(a+z0+z1) p` to equal `90 N` exactly (no
+`(m+p)` reindex).  This is the index reconciliation between the LHS canonical
+fiber `N` and the RHS cube degree, used in the `z = 0` branch of the converse
+capture. -/
+theorem hm23_z0_guard_resid_eq_ninetyN
+    (a z0 z1 e m p N : ℤ)
+    (hg : hm23TermOutExp a z0 z1 m p 0 N = e) :
+    e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p = 90 * N := by
+  rw [jExp90_eq_hmTri, jExp90_eq_hmTri]
+  unfold hm23TermOutExp at hg
+  linarith [hg]
+
+/-! ### HM 2.3 converse-capture helper lemmas
+
+The four notation-free omega-closable window/box guard facts (blueprint §2), the
+shear inverse, and the generic support-equivalence sum identity used to extend
+two finite sums to their union and discard the added zero terms. -/
+
+theorem hm23_guard_imp_pos_h_box
+    {Lo Hi Wc E h : ℤ}
+    (hW : Wc = Hi - Lo + 1) (hLo : Lo ≤ E) (hHi : E ≤ Hi) (hh : h = E - Lo) :
+    0 ≤ h ∧ h < Wc := by omega
+
+theorem hm23_pos_h_box_imp_guard
+    {Lo Hi Wc E h : ℤ}
+    (hW : Wc = Hi - Lo + 1) (hh₀ : 0 ≤ h) (hh₁ : h < Wc) (hE : E = Lo + h) :
+    Lo ≤ E ∧ E ≤ Hi := by omega
+
+theorem hm23_guard_imp_neg_h_box
+    {Lo Hi Wc E h : ℤ}
+    (hW : Wc = Hi - Lo + 1) (hLo : Lo ≤ E) (hHi : E ≤ Hi) (hh : h = E - Hi - 1) :
+    -Wc ≤ h ∧ h ≤ -1 := by omega
+
+theorem hm23_neg_h_box_imp_guard
+    {Lo Hi Wc E h : ℤ}
+    (hW : Wc = Hi - Lo + 1) (hh₀ : -Wc ≤ h) (hh₁ : h ≤ -1) (hE : E = Hi + 1 + h) :
+    Lo ≤ E ∧ E ≤ Hi := by omega
+
+theorem hm23_shear_inv_r (m p r k : ℤ) :
+    r = (2*r + k - m - p - 1) - (r - m + k) + p + 1 := by ring
+
+theorem hm23_shear_inv_k (m p r k : ℤ) :
+    k = 2*(r - m + k) - (2*r + k - m - p - 1) + m - p - 1 := by ring
+
+/-- Two finite sums whose supports coincide (`f x ≠ 0 → (x ∈ s ↔ x ∈ t)`) have
+equal totals.  Extend both to `s ∪ t`, killing the added zero terms. -/
+theorem hm23_Finset_sum_eq_of_mem_iff_on_support
+    {α β : Type*} [DecidableEq α] [AddCommMonoid β]
+    (s t : Finset α) (f : α → β)
+    (h : ∀ x, f x ≠ 0 → (x ∈ s ↔ x ∈ t)) :
+    (∑ x ∈ s, f x) = ∑ x ∈ t, f x := by
+  classical
+  have hs : (∑ x ∈ s, f x) = ∑ x ∈ s ∪ t, f x := by
+    refine Finset.sum_subset Finset.subset_union_left ?_
+    intro x hxst hxs
+    by_contra hf
+    exact hxs ((h x hf).mpr ((Finset.mem_union.mp hxst).resolve_left hxs))
+  have ht : (∑ x ∈ t, f x) = ∑ x ∈ s ∪ t, f x := by
+    refine Finset.sum_subset Finset.subset_union_right ?_
+    intro x hxst hxt
+    by_contra hf
+    exact hxt ((h x hf).mp ((Finset.mem_union.mp hxst).resolve_right hxt))
+  rw [hs, ht]
+
+/-- The fiber `N`-coordinate equals the integer-core summand's internal
+q-exponent `triIntPF (h − z) + K·z` under the shear `h = 2r+k−m−p−1,
+K = r−m+k`.  This is the algebraic heart linking the `(r,k)` source index to
+the `(h,K)` integer-core index. -/
+theorem hm23_Ncoord_eq_shear_exp (m p z r k : ℤ) :
+    hm23Ncoord m p z r k =
+      Chapter10PF.triIntPF ((2*r + k - m - p - 1) - z) + (r - m + k) * z := by
+  unfold hm23Ncoord
+  have e2 : (2:ℤ) ≠ 0 := by norm_num
+  apply mul_left_cancel₀ e2
+  have hr  := two_mul_hmTri r
+  have hi  := two_mul_hmTri (z+p-r+1)
+  have hj  := two_mul_hmTri (r-m)
+  have hl  := two_mul_hmTri (p-r+m-k)
+  have hm' := two_mul_hmTri m
+  have hp' := two_mul_hmTri p
+  have hRHS := Chapter10PF.two_mul_triIntPF ((2*r + k - m - p - 1) - z)
+  linear_combination hr + hi + hj + hl - hm' - hp' - hRHS
+
+/-- The integer-core summand at the sheared coordinates vanishes unless
+`N = Ncoord (m,p,z,r,k)`, because its internal q-exponent condition is exactly
+`Ncoord = N` (by `hm23_Ncoord_eq_shear_exp`). -/
+theorem hm23_ICS_shear_eq_zero_of_ne
+    (N z A B m p r k : ℤ) (hne : N ≠ hm23Ncoord m p z r k) :
+    hm23IntegerCoreSummandInt N z A B
+        (2*r + k - m - p - 1) (r - m + k) = 0 := by
+  unfold hm23IntegerCoreSummandInt
+  rw [if_neg]
+  rw [hm23_Ncoord_eq_shear_exp m p z r k] at hne
+  exact fun h => hne h.symm
+
+/-- The `N = Ncoord` conjunct of the coordinate-union guard is redundant: when it
+fails the integer-core summand already vanishes, so the guarded summand equals
+the same expression guarded only by `TermOut = e` (with `N` in place of the
+forced `Ncoord`). -/
+theorem hm23_guard_collapse
+    (a z0 z1 e : ℤ) (c : HM23Coord) :
+    (if hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e ∧
+        c.N = hm23Ncoord c.m c.p c.z c.r c.k then
+      negOnePowIntQ (c.m + c.p) *
+        ((hm23IntegerCoreSummandInt (hm23Ncoord c.m c.p c.z c.r c.k) c.z
+          (c.p + (a + z1 - 1) / 90)
+          (c.z + c.p - c.m + (a + z0 - 1) / 90)
+          (2 * c.r + c.k - c.m - c.p - 1)
+          (c.r - c.m + c.k) : ℤ) : ℚ)
+    else 0) =
+    (if hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e then
+      negOnePowIntQ (c.m + c.p) *
+        ((hm23IntegerCoreSummandInt c.N c.z
+          (c.p + (a + z1 - 1) / 90)
+          (c.z + c.p - c.m + (a + z0 - 1) / 90)
+          (2 * c.r + c.k - c.m - c.p - 1)
+          (c.r - c.m + c.k) : ℤ) : ℚ)
+    else 0) := by
+  by_cases hT : hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e
+  · by_cases hN : c.N = hm23Ncoord c.m c.p c.z c.r c.k
+    · rw [if_pos ⟨hT, hN⟩, if_pos hT, hN]
+    · rw [if_neg (fun h => hN h.2), if_pos hT]
+      rw [hm23_ICS_shear_eq_zero_of_ne c.N c.z _ _ c.m c.p c.r c.k hN]
+      simp
+  · rw [if_neg (fun h => hT h.1), if_neg hT]
+
+/-! ### HM 2.3 converse capture: source-coordinate shear identities
+
+For a `Psi1` source `(r,k,i,j,l)` the coordinate fields are `m = r-j`,
+`p = j+l+k`, so the shear coordinates are `h = 2r+k-m-p-1 = r-l-1` and
+`K = r-m+k = j+k`.  For a `Psi0` source `(s,k,h,j,l)` with `m = h-j-k`,
+`p = j+l+k`, `r-field = h-k`, we get `h_shear = h-k-l-1`, `K = j+k`.  These
+identities make the support-bound `|K| ≤ |N|+|z|+1` directly available on the
+window image and are the algebraic glue for the membership argument. -/
+
+theorem hm23Psi1Coord_shear_h (x : HM23Psi1Source) :
+    2 * (hm23Psi1Coord x).r + (hm23Psi1Coord x).k -
+        (hm23Psi1Coord x).m - (hm23Psi1Coord x).p - 1 = x.r - x.l - 1 := by
+  simp only [hm23Psi1Coord, hm23Psi1_m, hm23Psi1_p]; ring
+
+theorem hm23Psi1Coord_shear_K (x : HM23Psi1Source) :
+    (hm23Psi1Coord x).r - (hm23Psi1Coord x).m + (hm23Psi1Coord x).k =
+      x.j + x.k := by
+  simp only [hm23Psi1Coord, hm23Psi1_m]; ring
+
+theorem hm23Psi0Coord_shear_h (x : HM23Psi0Source) :
+    2 * (hm23Psi0Coord x).r + (hm23Psi0Coord x).k -
+        (hm23Psi0Coord x).m - (hm23Psi0Coord x).p - 1 = x.h - x.k - x.l - 1 := by
+  simp only [hm23Psi0Coord, hm23Psi0_m, hm23Psi0_p, hm23Psi0_r]; ring
+
+theorem hm23Psi0Coord_shear_K (x : HM23Psi0Source) :
+    (hm23Psi0Coord x).r - (hm23Psi0Coord x).m + (hm23Psi0Coord x).k =
+      x.j + x.k := by
+  simp only [hm23Psi0Coord, hm23Psi0_m, hm23Psi0_r]; ring
+
+/-- The guarded coord summand `F` used in the HM 2.3 union sum:
+`if TermOut = e then sign · ICS(c.N, c.z, A(c), B(c), sheared c) else 0`
+(after the redundant `N = Ncoord` conjunct is collapsed by
+`hm23_guard_collapse`).  Packaged as a named function so the union sum and the
+per-fiber box sum are literally the same summand. -/
+def hm23CapF (a z0 z1 e : ℤ) (c : HM23Coord) : ℚ :=
+  if hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e then
+    negOnePowIntQ (c.m + c.p) *
+      ((hm23IntegerCoreSummandInt c.N c.z
+        (c.p + (a + z1 - 1) / 90)
+        (c.z + c.p - c.m + (a + z0 - 1) / 90)
+        (2 * c.r + c.k - c.m - c.p - 1)
+        (c.r - c.m + c.k) : ℤ) : ℚ)
+  else 0
+
+/-- Embedding of an `(r,k)` box point into a coordinate at a fixed fiber. -/
+def hm23CoordOfFiber (m p z N : ℤ) (rk : ℤ × ℤ) : HM23Coord :=
+  { m := m, p := p, z := z, N := N, r := rk.1, k := rk.2 }
+
+theorem hm23CoordOfFiber_injective (m p z N : ℤ) :
+    Function.Injective (hm23CoordOfFiber m p z N) := by
+  intro a b hab
+  unfold hm23CoordOfFiber at hab
+  injection hab with _ _ _ _ h1 h2
+  exact Prod.ext h1 h2
+
+/-- Per-fiber box sum of the capture summand collapses to the canonical
+integer-core sum (times the outer sign), at the fiber's general cutoffs
+`A = p + (a+z1−1)/90`, `B = z + p − m + (a+z0−1)/90`.  The guard `TermOut = e`
+is constant on the fiber and factors out; the `(r,k)`-box sum of the integer
+core summand reduces to `hm23IntegerCoreCanonicalSumInt N z` by the banked
+shear/cutoff-invariance lemma. -/
+theorem hm23CapF_box_sum_eq_canonical
+    (a z0 z1 e m p z N : ℤ) (W V : ℕ)
+    (hWc : Chapter10PF.thetaMulPFWindowPF N.toNat z ≤ W)
+    (hVc : (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) ≤ (V : ℤ))
+    (hVA : (W : ℤ) + |p + (a + z1 - 1) / 90| + 1 ≤ (V : ℤ))
+    (hVB : (|z + p - m + (a + z0 - 1) / 90| + 1 : ℤ) ≤ (V : ℤ))
+    (hWB : (2 * |z| + 2 * |N| +
+        2 * ((|z + p - m + (a + z0 - 1) / 90| + 1) * |z|) + 5 : ℤ) ≤ (W : ℤ)) :
+    (∑ rk ∈ hm23ShearPreimageBox W V m p,
+      hm23CapF a z0 z1 e (hm23CoordOfFiber m p z N rk)) =
+      (if hm23TermOutExp a z0 z1 m p z N = e then
+        negOnePowIntQ (m + p) *
+          ((hm23IntegerCoreCanonicalSumInt N z : ℤ) : ℚ)
+      else 0) := by
+  classical
+  set A : ℤ := p + (a + z1 - 1) / 90 with hA
+  set B : ℤ := z + p - m + (a + z0 - 1) / 90 with hB
+  by_cases hT : hm23TermOutExp a z0 z1 m p z N = e
+  · rw [if_pos hT]
+    have hbox :
+        (∑ rk ∈ hm23ShearPreimageBox W V m p,
+          hm23CapF a z0 z1 e (hm23CoordOfFiber m p z N rk)) =
+          ∑ rk ∈ hm23ShearPreimageBox W V m p,
+            negOnePowIntQ (m + p) *
+              ((hm23IntegerCoreSummandInt N z A B
+                (2 * rk.1 + rk.2 - m - p - 1) (rk.1 - m + rk.2) : ℤ) : ℚ) := by
+      refine Finset.sum_congr rfl ?_
+      intro rk _hrk
+      unfold hm23CapF hm23CoordOfFiber
+      simp only [hT, if_true]
+      rfl
+    rw [hbox, ← Finset.mul_sum]
+    congr 1
+    rw [← hm23ShearPreimageBox_sum_eq_canonical W V N z A B m p
+      hWc hVc hVA hVB hWB]
+    push_cast
+    rfl
+  · rw [if_neg hT]
+    refine Finset.sum_eq_zero ?_
+    intro rk _hrk
+    unfold hm23CapF hm23CoordOfFiber
+    simp only [hT, if_false]
+
+/-- Enlarged fiber box half-width, dominating both the `hm23Fiber_shear_hyps`
+lower bounds AND the support-membership bound `|h| ≤ Wbig` (numerically the
+linear majorant `|N|+2|z|+|z|(|A|+|B|+1)+2`).  The extra `|z|·(|A|+|B|+1)`
+addend over `hm23FiberW` is what guarantees forward membership for general
+cutoffs `A,B`. -/
+def hm23FiberWbig (z N A B : ℤ) : ℕ :=
+  (2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 +
+    (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) +
+    2 * (|z| * (|A| + |B| + 1)) + 2 * (|z| * |z|)).toNat
+
+def hm23FiberVbig (z N A B : ℤ) : ℕ :=
+  ((hm23FiberWbig z N A B : ℤ) + |A| + |B| + 2 +
+    (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ)).toNat
+
+theorem hm23FiberWbig_cast (z N A B : ℤ) :
+    (hm23FiberWbig z N A B : ℤ) =
+      2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 +
+        (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) +
+        2 * (|z| * (|A| + |B| + 1)) + 2 * (|z| * |z|) := by
+  unfold hm23FiberWbig
+  refine Int.toNat_of_nonneg ?_
+  have h1 : (0 : ℤ) ≤ (|B| + 1) * |z| :=
+    mul_nonneg (by have := abs_nonneg B; linarith) (abs_nonneg z)
+  have h2 : (0 : ℤ) ≤ (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) :=
+    Int.natCast_nonneg _
+  have h3 : (0 : ℤ) ≤ |z| * (|A| + |B| + 1) :=
+    mul_nonneg (abs_nonneg z) (by have := abs_nonneg A; have := abs_nonneg B; linarith)
+  have h4 : (0 : ℤ) ≤ |z| * |z| := mul_nonneg (abs_nonneg z) (abs_nonneg z)
+  have := abs_nonneg z; have := abs_nonneg N
+  linarith
+
+theorem hm23FiberVbig_cast (z N A B : ℤ) :
+    (hm23FiberVbig z N A B : ℤ) =
+      (hm23FiberWbig z N A B : ℤ) + |A| + |B| + 2 +
+        (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) := by
+  unfold hm23FiberVbig
+  refine Int.toNat_of_nonneg ?_
+  have h1 : (0 : ℤ) ≤ (hm23FiberWbig z N A B : ℤ) := Int.natCast_nonneg _
+  have h2 : (0 : ℤ) ≤ (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) :=
+    Int.natCast_nonneg _
+  have := abs_nonneg A; have := abs_nonneg B
+  linarith
+
+theorem hm23FiberBig_shear_hyps (z N A B : ℤ) :
+    Chapter10PF.thetaMulPFWindowPF N.toNat z ≤ hm23FiberWbig z N A B ∧
+      (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) ≤ (hm23FiberVbig z N A B : ℤ) ∧
+      (hm23FiberWbig z N A B : ℤ) + |A| + 1 ≤ (hm23FiberVbig z N A B : ℤ) ∧
+      (|B| + 1 : ℤ) ≤ (hm23FiberVbig z N A B : ℤ) ∧
+      (2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 : ℤ) ≤
+        (hm23FiberWbig z N A B : ℤ) := by
+  have hW := hm23FiberWbig_cast z N A B
+  have hV := hm23FiberVbig_cast z N A B
+  have hwin : (0 : ℤ) ≤ (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) :=
+    Int.natCast_nonneg _
+  have hA := abs_nonneg A
+  have hB := abs_nonneg B
+  have hzz : (0 : ℤ) ≤ |z| := abs_nonneg z
+  have hNN : (0 : ℤ) ≤ |N| := abs_nonneg N
+  have hBz : (0 : ℤ) ≤ (|B| + 1) * |z| := mul_nonneg (by linarith) hzz
+  have hABz : (0 : ℤ) ≤ |z| * (|A| + |B| + 1) := mul_nonneg hzz (by linarith)
+  have hzz2 : (0 : ℤ) ≤ |z| * |z| := mul_nonneg hzz hzz
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · have : (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) ≤ (hm23FiberWbig z N A B : ℤ) := by
+      rw [hW]; linarith
+    exact_mod_cast this
+  · rw [hV, hW]; linarith
+  · rw [hV]; linarith
+  · rw [hV]; have h3 : (0 : ℤ) ≤ (hm23FiberWbig z N A B : ℤ) := Int.natCast_nonneg _; linarith
+  · rw [hW]; linarith
+
+/-- Abstract quadratic-to-linear bound: if `u·(u+1) ≤ C + D·|u|` with `0 ≤ C`
+and `0 ≤ D`, then `|u| ≤ C + D + 1`.  Used to turn the integer-core exponent
+identity into a linear bound on the shear coordinate. -/
+theorem hm23_quad_to_linear (u C D : ℤ) (hC : 0 ≤ C) (hD : 0 ≤ D)
+    (h : u * (u + 1) ≤ C + D * |u|) :
+    |u| ≤ C + D + 1 := by
+  have hau : |u| * |u| = u * u := by
+    rw [← abs_mul, abs_mul_self]
+  have hu2 : |u| * |u| ≤ u * (u + 1) + |u| := by
+    rw [hau]
+    rcases le_total 0 u with hu0 | hu0
+    · rw [abs_of_nonneg hu0]; nlinarith
+    · rw [abs_of_nonpos hu0]; nlinarith
+  have hau0 : 0 ≤ |u| := abs_nonneg u
+  by_contra hcon
+  push_neg at hcon
+  nlinarith [hau0, hcon, hC, hD, hu2, h, mul_nonneg hau0 hau0]
+
+/-- The total source exponent of the reconstructed `Psi1` source equals the
+fiber `TermOut` exponent, on the integer-core support `N = Ncoord`. -/
+theorem hm23Term1SourceExp_sourceOfCoord (a z0 z1 : ℤ) (c : HM23Coord)
+    (hN : c.N = hm23Ncoord c.m c.p c.z c.r c.k) :
+    hm23Term1SourceExp a z0 z1 (hm23Psi1SourceOfCoord c) =
+      hm23TermOutExp a z0 z1 c.m c.p c.z c.N := by
+  cases c with
+  | mk m p z N r k =>
+    simp only at hN
+    have hExp := hm23Psi1_exponent_identity a z0 z1 r k (z + p - r + 1)
+      (r - m) (p - r + m - k)
+    -- LHS source has fields (r, k, i=z+p-r+1, j=r-m, l=p-r+m-k)
+    show hm23Term1SourceExp a z0 z1
+        ⟨r, k, z + p - r + 1, r - m, p - r + m - k⟩ =
+      hm23TermOutExp a z0 z1 m p z N
+    unfold hm23Term1SourceExp hm23TermOutExp
+    have hmm : hm23Psi1_m r (r - m) = m := by unfold hm23Psi1_m; ring
+    have hpp : hm23Psi1_p (r - m) (p - r + m - k) k = p := by
+      unfold hm23Psi1_p; ring
+    have hzz : hm23Psi1_z r (z + p - r + 1) (r - m) (p - r + m - k) k = z := by
+      unfold hm23Psi1_z; ring
+    have hNN : hm23Psi1_N r k (z + p - r + 1) (r - m) (p - r + m - k) = N := by
+      rw [hm23Psi1_N_eq_Ncoord, hmm, hpp, hzz, hN]
+    rw [show
+        90 * (hmTri r + hmTri (z + p - r + 1) + hmTri (r - m) +
+            hmTri (p - r + m - k) + k * (r - 1)) +
+          z1 * r + k * (a + z1) + z0 * (z + p - r + 1) +
+            (a + z0) * (r - m) + (a + z1) * (p - r + m - k) =
+        90 * (hmTri (hm23Psi1_m r (r - m)) +
+            hmTri (hm23Psi1_p (r - m) (p - r + m - k) k) +
+            hm23Psi1_N r k (z + p - r + 1) (r - m) (p - r + m - k)) +
+          z0 * (1 - hm23Psi1_m r (r - m) +
+            hm23Psi1_p (r - m) (p - r + m - k) k +
+            hm23Psi1_z r (z + p - r + 1) (r - m) (p - r + m - k) k) +
+          z1 * (hm23Psi1_m r (r - m) +
+            hm23Psi1_p (r - m) (p - r + m - k) k) +
+          a * hm23Psi1_p (r - m) (p - r + m - k) k
+      from hExp]
+    rw [hmm, hpp, hzz, hNN]
+
+/-- Right inverse of `hm23Psi1SourceOfCoord` on the integer-core support:
+when `c.N` equals the shear exponent `Ncoord`, reconstructing the `Psi1` source
+and re-applying `hm23Psi1Coord` returns `c`. -/
+theorem hm23Psi1Coord_sourceOfCoord (c : HM23Coord)
+    (hN : c.N = hm23Ncoord c.m c.p c.z c.r c.k) :
+    hm23Psi1Coord (hm23Psi1SourceOfCoord c) = c := by
+  cases c with
+  | mk m p z N r k =>
+    simp only at hN
+    show hm23Psi1Coord (hm23Psi1SourceOfCoord ⟨m, p, z, N, r, k⟩) = ⟨m, p, z, N, r, k⟩
+    unfold hm23Psi1SourceOfCoord hm23Psi1Coord
+    have hNc : hm23Psi1_N r k (z + p - r + 1) (r - m) (p - r + m - k) = N := by
+      rw [hm23Psi1_N_eq_Ncoord]
+      simp only [hm23Psi1_m, hm23Psi1_p, hm23Psi1_z]
+      rw [hN]; ring_nf
+    congr 1 <;>
+      first
+        | exact hNc
+        | (simp only [hm23Psi1_m, hm23Psi1_p, hm23Psi1_z]; ring)
+
+/-- Converse capture, `Γ_{z1}` branch: a coordinate `c` on the integer-core
+support (`N = Ncoord`) with `TermOut = e` and a nonzero `z1`-side `Γ` lies in
+the `Psi1` coordinate image, hence in the coordinate union.  Reconstructs the
+natural `Psi1` source and discharges the four window guards from the `TermOut`
+identity (e-sum guard) via the banked surjectivity. -/
+theorem hm23_coord_mem_Psi1Image_of_Gamma1_ne_zero
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) (c : HM23Coord)
+    (hN : c.N = hm23Ncoord c.m c.p c.z c.r c.k)
+    (hT : hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e)
+    (hG1 : hm23Gamma (appellDenomExp a z1 c.r) c.k ≠ 0) :
+    c ∈ (hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord := by
+  classical
+  -- reconstruct the Psi0 config whose Φ⁻¹ is the natural Psi1 source of c
+  set s : ℤ := c.z + c.p - c.r + 1 - c.k with hs
+  set h : ℤ := c.r + c.k with hh
+  set j : ℤ := c.r - c.m with hj
+  set l : ℤ := c.p - c.r + c.m - c.k with hl
+  set k : ℤ := c.k with hk
+  set E : ℤ := appellNumeratorExp z0 s + appellDenomExp a z0 s * k with hE
+  set E₁ : ℤ := jExp z1 90 h with hE1
+  set E₂ : ℤ := jExp (a + z0) 90 j with hE2
+  have happ : E - appellNumeratorExp z0 s = appellDenomExp a z0 s * k := by
+    rw [hE]; ring
+  have h1 : jExp z1 90 h = E₁ := by rw [hE1]
+  have h2 : jExp (a + z0) 90 j = E₂ := by rw [hE2]
+  -- e-sum guard: jExp(a+z1) l = e - E - E₁ - E₂, from Term2SourceExp = TermOut = e
+  have hterm2 : hm23Term2SourceExp a z0 z1 ⟨s, k, h, j, l⟩ = e := by
+    rw [hm23Term2SourceExp_phi_eq_term1SourceExp]
+    have hri : (h - k) = c.r := by rw [hh, hk]; ring
+    have hsk : (s + k) = c.z + c.p - c.r + 1 := by rw [hs, hk]; ring
+    -- {r:=h-k, k:=k, i:=s+k, j:=j, l:=l} = hm23Psi1SourceOfCoord c
+    have hsrc :
+        (⟨h - k, k, s + k, j, l⟩ : HM23Psi1Source) = hm23Psi1SourceOfCoord c := by
+      rw [hri, hsk]; simp only [hm23Psi1SourceOfCoord, hk, hj, hl]
+    rw [hsrc, hm23Term1SourceExp_sourceOfCoord a z0 z1 c hN, hT]
+  have h3 : jExp (a + z1) 90 l = e - E - E₁ - E₂ := by
+    have hw := hm23Term2SourceExp_eq_window_parts a z0 z1 s k h j l
+    rw [hterm2] at hw
+    rw [hE, hE1, hE2]; omega
+  have hri : (h - k) = c.r := by rw [hh, hk]; ring
+  have hG1' : hm23Gamma (appellDenomExp a z1 (h - k)) k ≠ 0 := by
+    rw [hri, hk]; exact hG1
+  have hmem :=
+    hm23Psi0_phi_mem_Psi1WindowSourceSet_of_Gamma_ne_zero
+      a z0 z1 e E E₁ E₂ l j h s k hreg happ h1 h2 h3 hG1'
+  rw [Finset.mem_image]
+  refine ⟨⟨h - k, k, s + k, j, l⟩, hmem, ?_⟩
+  have hri2 : (h - k) = c.r := by rw [hh, hk]; ring
+  have hsk : (s + k) = c.z + c.p - c.r + 1 := by rw [hs, hk]; ring
+  have hsrc :
+      (⟨h - k, k, s + k, j, l⟩ : HM23Psi1Source) = hm23Psi1SourceOfCoord c := by
+    rw [hri2, hsk]; simp only [hm23Psi1SourceOfCoord, hk, hj, hl]
+  rw [hsrc, hm23Psi1Coord_sourceOfCoord c hN]
+
+/-- Right inverse of `hm23Psi0SourceOfCoord` on the integer-core support. -/
+theorem hm23Psi0Coord_sourceOfCoord (c : HM23Coord)
+    (hN : c.N = hm23Ncoord c.m c.p c.z c.r c.k) :
+    hm23Psi0Coord (hm23Psi0SourceOfCoord c) = c := by
+  cases c with
+  | mk m p z N r k =>
+    simp only at hN
+    show hm23Psi0Coord (hm23Psi0SourceOfCoord ⟨m, p, z, N, r, k⟩) = ⟨m, p, z, N, r, k⟩
+    unfold hm23Psi0SourceOfCoord hm23Psi0Coord
+    have hNc : hm23Psi0_N (z + p - r + 1 - k) k (r + k) (r - m)
+        (p - r + m - k) = N := by
+      rw [hm23Psi0_N_eq_Ncoord]
+      simp only [hm23Psi0_m, hm23Psi0_p, hm23Psi0_z, hm23Psi0_r]
+      rw [hN]; ring_nf
+    congr 1 <;>
+      first
+        | exact hNc
+        | (simp only [hm23Psi0_m, hm23Psi0_p, hm23Psi0_z, hm23Psi0_r]; ring)
+
+/-- The total source exponent of the reconstructed `Psi0` source equals the
+fiber `TermOut` exponent, on the integer-core support. -/
+theorem hm23Term2SourceExp_sourceOfCoord (a z0 z1 : ℤ) (c : HM23Coord)
+    (hN : c.N = hm23Ncoord c.m c.p c.z c.r c.k) :
+    hm23Term2SourceExp a z0 z1 (hm23Psi0SourceOfCoord c) =
+      hm23TermOutExp a z0 z1 c.m c.p c.z c.N := by
+  cases c with
+  | mk m p z N r k =>
+    simp only at hN
+    have hExp := hm23Psi0_exponent_identity a z0 z1 (z + p - r + 1 - k) k
+      (r + k) (r - m) (p - r + m - k)
+    show hm23Term2SourceExp a z0 z1
+        ⟨z + p - r + 1 - k, k, r + k, r - m, p - r + m - k⟩ =
+      hm23TermOutExp a z0 z1 m p z N
+    unfold hm23Term2SourceExp hm23TermOutExp
+    have hmm : hm23Psi0_m (r + k) (r - m) k = m := by unfold hm23Psi0_m; ring
+    have hpp : hm23Psi0_p (r - m) (p - r + m - k) k = p := by
+      unfold hm23Psi0_p; ring
+    have hzz : hm23Psi0_z (z + p - r + 1 - k) (r + k) (r - m) (p - r + m - k) k
+        = z := by unfold hm23Psi0_z; ring
+    have hNN : hm23Psi0_N (z + p - r + 1 - k) k (r + k) (r - m) (p - r + m - k)
+        = N := by
+      rw [hm23Psi0_N_eq_Ncoord, hmm, hpp, hzz, hN]
+      simp only [hm23Psi0_m, hm23Psi0_p, hm23Psi0_z, hm23Psi0_r]; ring_nf
+    rw [show
+        90 * (hmTri (z + p - r + 1 - k) + hmTri (r + k) + hmTri (r - m) +
+            hmTri (p - r + m - k) + k * ((z + p - r + 1 - k) - 1)) +
+          z0 * (z + p - r + 1 - k) + k * (a + z0) + z1 * (r + k) +
+            (a + z0) * (r - m) + (a + z1) * (p - r + m - k) =
+        90 * (hmTri (hm23Psi0_m (r + k) (r - m) k) +
+            hmTri (hm23Psi0_p (r - m) (p - r + m - k) k) +
+            hm23Psi0_N (z + p - r + 1 - k) k (r + k) (r - m) (p - r + m - k)) +
+          z0 * (1 - hm23Psi0_m (r + k) (r - m) k +
+            hm23Psi0_p (r - m) (p - r + m - k) k +
+            hm23Psi0_z (z + p - r + 1 - k) (r + k) (r - m) (p - r + m - k) k) +
+          z1 * (hm23Psi0_m (r + k) (r - m) k +
+            hm23Psi0_p (r - m) (p - r + m - k) k) +
+          a * hm23Psi0_p (r - m) (p - r + m - k) k
+      from hExp]
+    rw [hmm, hpp, hzz, hNN]
+
+/-- Converse capture, `Γ_{z0}` branch (mirror): a coordinate on the integer-core
+support with `TermOut = e` and a nonzero `z0`-side `Γ` lies in the `Psi0`
+coordinate image. -/
+theorem hm23_coord_mem_Psi0Image_of_Gamma0_ne_zero
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) (c : HM23Coord)
+    (hN : c.N = hm23Ncoord c.m c.p c.z c.r c.k)
+    (hT : hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e)
+    (hG0 : hm23Gamma (appellDenomExp a z0 (c.z + c.p - c.r + 1 - c.k)) c.k ≠ 0) :
+    c ∈ (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord := by
+  classical
+  set i : ℤ := c.z + c.p - c.r + 1 with hi
+  set r : ℤ := c.r with hr
+  set j : ℤ := c.r - c.m with hj
+  set l : ℤ := c.p - c.r + c.m - c.k with hl
+  set k : ℤ := c.k with hk
+  set E : ℤ := appellNumeratorExp z1 r + appellDenomExp a z1 r * k with hE
+  set E₁ : ℤ := jExp z0 90 i with hE1
+  set E₂ : ℤ := jExp (a + z0) 90 j with hE2
+  have happ : E - appellNumeratorExp z1 r = appellDenomExp a z1 r * k := by
+    rw [hE]; ring
+  have h1 : jExp z0 90 i = E₁ := by rw [hE1]
+  have h2 : jExp (a + z0) 90 j = E₂ := by rw [hE2]
+  have hterm1 : hm23Term1SourceExp a z0 z1 ⟨r, k, i, j, l⟩ = e := by
+    have hsrc :
+        (⟨r, k, i, j, l⟩ : HM23Psi1Source) = hm23Psi1SourceOfCoord c := by
+      rw [hr, hk, hi, hj, hl]; rfl
+    rw [hsrc, hm23Term1SourceExp_sourceOfCoord a z0 z1 c hN, hT]
+  have h3 : jExp (a + z1) 90 l = e - E - E₁ - E₂ := by
+    have hw := hm23Term1SourceExp_eq_window_parts a z0 z1 r k i j l
+    rw [hterm1] at hw
+    rw [hE, hE1, hE2]; omega
+  have hik : (i - k) = c.z + c.p - c.r + 1 - c.k := by rw [hi, hk]
+  have hG0' : hm23Gamma (appellDenomExp a z0 (i - k)) k ≠ 0 := by
+    rw [hik, hk]; exact hG0
+  have hmem :=
+    hm23Psi1_phi_mem_Psi0WindowSourceSet_of_Gamma_ne_zero
+      a z0 z1 e E E₁ E₂ l j i r k hreg happ h1 h2 h3 hG0'
+  rw [Finset.mem_image]
+  refine ⟨⟨i - k, k, r + k, j, l⟩, hmem, ?_⟩
+  -- {s:=i-k,k:=k,h:=r+k,j:=j,l:=l} = hm23Psi0SourceOfCoord c
+  have hsrc :
+      (⟨i - k, k, r + k, j, l⟩ : HM23Psi0Source) = hm23Psi0SourceOfCoord c := by
+    rw [hik]
+    simp only [hm23Psi0SourceOfCoord, hr, hk, hj, hl]
+  rw [hsrc, hm23Psi0Coord_sourceOfCoord c hN]
+
+/-- Bound `K·z` from a one-sided box constraint, both signs of `z`.  Helper for
+the support-membership bound, isolated to keep `nlinarith` light. -/
+theorem hm23_Kz_abs_bound (z A B u K : ℤ)
+    (hzABu : -|u| ≤ u ∧ u ≤ |u|)
+    (hA : -|A| ≤ A ∧ A ≤ |A|) (hB : -|B| ≤ B ∧ B ≤ |B|) (hu0 : 0 ≤ |u|)
+    (hKr : (B + 1 ≤ K ∧ K ≤ u + z + A) ∨ (u + z + A + 1 ≤ K ∧ K ≤ B)) :
+    -(|z| * (|u| + |z| + |A| + |B| + 1)) ≤ K * z ∧
+      K * z ≤ |z| * (|u| + |z| + |A| + |B| + 1) := by
+  have hzr : -|z| ≤ z ∧ z ≤ |z| := ⟨neg_abs_le z, le_abs_self z⟩
+  have hzz : (0 : ℤ) ≤ |z| := abs_nonneg z
+  constructor <;>
+    rcases hKr with ⟨hK1, hK2⟩ | ⟨hK1, hK2⟩ <;>
+      rcases le_total 0 z with hz0 | hz0
+  · rw [abs_of_nonneg hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+  · rw [abs_of_nonpos hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+  · rw [abs_of_nonneg hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+  · rw [abs_of_nonpos hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+  · rw [abs_of_nonneg hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+  · rw [abs_of_nonpos hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+  · rw [abs_of_nonneg hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+  · rw [abs_of_nonpos hz0] at *
+    nlinarith [hK1, hK2, hzABu.1, hzABu.2, hA.1, hA.2, hB.1, hB.2, hz0, hu0, hzr.1, hzr.2]
+
+set_option maxHeartbeats 1000000 in
+/-- Support membership: a nonzero integer-core summand at general cutoffs `A,B`
+forces the `(h,K)` index into the enlarged fiber box bounds.  Forward direction
+of the converse-capture, driven purely from the support (no window guards):
+the indicator nonzero pins `K` between `B` and `h+A`, and the exponent identity
+`(h−z)(h−z+1) = 2N − 2Kz` then bounds `|h|` by the linear majorant baked into
+`hm23FiberWbig`. -/
+theorem hm23IntegerCoreSummandInt_mem_bigBox
+    (N z A B h K : ℤ)
+    (hne : hm23IntegerCoreSummandInt N z A B h K ≠ 0) :
+    -(hm23FiberWbig z N A B : ℤ) ≤ h ∧ h ≤ (hm23FiberWbig z N A B : ℤ) - 1 ∧
+      -(hm23FiberVbig z N A B : ℤ) ≤ K ∧ K ≤ (hm23FiberVbig z N A B : ℤ) := by
+  have hexp : Chapter10PF.triIntPF (h - z) + K * z = N := by
+    by_contra hc; rw [hm23IntegerCoreSummandInt, if_neg hc] at hne; exact hne rfl
+  have hind :
+      ((if K ≤ h + A then (1 : ℤ) else 0) - (if K ≤ B then (1 : ℤ) else 0)) ≠ 0 := by
+    intro h0
+    rw [hm23IntegerCoreSummandInt, if_pos hexp, h0, mul_zero] at hne; exact hne rfl
+  -- exponent identity doubled
+  have htwo := Chapter10PF.two_mul_triIntPF (h - z)
+  have e2 : (h - z) * (h - z + 1) + 2 * K * z = 2 * N := by
+    have h' : 2 * (Chapter10PF.triIntPF (h - z) + K * z) = 2 * N := by rw [hexp]
+    rw [mul_add, htwo] at h'; linarith
+  -- K pinned between B and h+A (in one of the two orders)
+  have hKrange : (B + 1 ≤ K ∧ K ≤ h + A) ∨ (h + A + 1 ≤ K ∧ K ≤ B) := by
+    by_cases hKhA : K ≤ h + A
+    · by_cases hKB : K ≤ B
+      · exact absurd (by simp only [if_pos hKhA, if_pos hKB]; ring) hind
+      · exact Or.inl ⟨by omega, hKhA⟩
+    · by_cases hKB : K ≤ B
+      · exact Or.inr ⟨by omega, hKB⟩
+      · exact absurd (by simp only [if_neg hKhA, if_neg hKB]; ring) hind
+  -- abs facts
+  have haz : -|z| ≤ z ∧ z ≤ |z| := ⟨neg_abs_le z, le_abs_self z⟩
+  have haN : -|N| ≤ N ∧ N ≤ |N| := ⟨neg_abs_le N, le_abs_self N⟩
+  have haA : -|A| ≤ A ∧ A ≤ |A| := ⟨neg_abs_le A, le_abs_self A⟩
+  have haB : -|B| ≤ B ∧ B ≤ |B| := ⟨neg_abs_le B, le_abs_self B⟩
+  have hzz : (0 : ℤ) ≤ |z| := abs_nonneg z
+  have hNN : (0 : ℤ) ≤ |N| := abs_nonneg N
+  have hAA : (0 : ℤ) ≤ |A| := abs_nonneg A
+  have hBB : (0 : ℤ) ≤ |B| := abs_nonneg B
+  have hWcast := hm23FiberWbig_cast z N A B
+  have hVcast := hm23FiberVbig_cast z N A B
+  have hwin : (0 : ℤ) ≤ (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) :=
+    Int.natCast_nonneg _
+  have hWnn : (0 : ℤ) ≤ (hm23FiberWbig z N A B : ℤ) := Int.natCast_nonneg _
+  -- The key abstraction: u = h - z satisfies u(u+1) = 2N - 2Kz, and the K-range
+  -- bounds `K*z` by `|z|*(|u| + |z| + |A| + |B| + 1)`.
+  set u : ℤ := h - z with hu
+  have hau0 : 0 ≤ |u| := abs_nonneg u
+  have hubound : -|u| ≤ u ∧ u ≤ |u| := ⟨neg_abs_le u, le_abs_self u⟩
+  -- bound K*z using the helper
+  have hKr' : (B + 1 ≤ K ∧ K ≤ u + z + A) ∨ (u + z + A + 1 ≤ K ∧ K ≤ B) := by
+    rcases hKrange with ⟨hK1, hK2⟩ | ⟨hK1, hK2⟩
+    · exact Or.inl ⟨hK1, by rw [hu]; linarith⟩
+    · exact Or.inr ⟨by rw [hu]; linarith, hK2⟩
+  obtain ⟨hKz_lb, hKz_ub⟩ := hm23_Kz_abs_bound z A B u K hubound haA haB hau0 hKr'
+  -- u(u+1) = 2N - 2Kz ≤ C + D·|u| with C = 2|N|+2|z|²+2|z|(|A|+|B|+1), D = 2|z|.
+  set C : ℤ := 2 * |N| + 2 * (|z| * |z|) + 2 * (|z| * (|A| + |B| + 1)) with hCdef
+  set D : ℤ := 2 * |z| with hDdef
+  have hCnn : 0 ≤ C := by
+    rw [hCdef]
+    have h1 : 0 ≤ |z| * |z| := mul_nonneg hzz hzz
+    have h2 : 0 ≤ |z| * (|A| + |B| + 1) := mul_nonneg hzz (by linarith)
+    linarith
+  have hDnn : 0 ≤ D := by rw [hDdef]; linarith
+  have hueq : u * (u + 1) = 2 * N - 2 * (K * z) := by rw [hu]; linarith [e2]
+  have hquad : u * (u + 1) ≤ C + D * |u| := by
+    rw [hueq, hCdef, hDdef]
+    nlinarith [hKz_lb, haN.1, haN.2, hzz, hau0]
+  have huabs : |u| ≤ C + D + 1 := hm23_quad_to_linear u C D hCnn hDnn hquad
+  -- |h| ≤ |u| + |z| ≤ C + D + 1 + |z| ≤ W0
+  have hh_abs : -(C + D + 1 + |z|) ≤ h ∧ h ≤ C + D + 1 + |z| := by
+    have hu1 := hubound.1
+    have hu2 := hubound.2
+    have hzlo := haz.1
+    have hzhi := haz.2
+    rw [hu] at hu1 hu2
+    omega
+  rw [hVcast, hWcast]
+  have hW0 : C + D + 1 + |z| + 1 ≤ 2 * |z| + 2 * |N| + 2 * ((|B| + 1) * |z|) + 5 +
+      (Chapter10PF.thetaMulPFWindowPF N.toNat z : ℤ) +
+      2 * (|z| * (|A| + |B| + 1)) + 2 * (|z| * |z|) := by
+    rw [hCdef, hDdef]
+    have hBz : |z| ≤ (|B| + 1) * |z| := by nlinarith [hzz, hBB]
+    nlinarith [hwin, hzz, hBz]
+  refine ⟨by linarith [hh_abs.1, hW0], by linarith [hh_abs.2, hW0], ?_, ?_⟩
+  · -- K lower bound
+    rcases hKrange with ⟨hK1, hK2⟩ | ⟨hK1, hK2⟩ <;>
+      nlinarith [hh_abs.1, hh_abs.2, hW0, hK1, hK2, haA.1, haA.2, haB.1, haB.2, hwin, hzz, hCnn, hDnn, hWnn]
+  · -- K upper bound
+    rcases hKrange with ⟨hK1, hK2⟩ | ⟨hK1, hK2⟩ <;>
+      nlinarith [hh_abs.1, hh_abs.2, hW0, hK1, hK2, haA.1, haA.2, haB.1, haB.2, hwin, hzz, hCnn, hDnn, hWnn]
+
+/-- On the integer-core support, `c.N` is forced to equal the shear exponent
+`Ncoord`. -/
+theorem hm23_capF_ne_zero_imp_N_eq_Ncoord (a z0 z1 e : ℤ) (c : HM23Coord)
+    (hF : hm23CapF a z0 z1 e c ≠ 0) :
+    hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e ∧
+      c.N = hm23Ncoord c.m c.p c.z c.r c.k := by
+  unfold hm23CapF at hF
+  by_cases hT : hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e
+  · refine ⟨hT, ?_⟩
+    rw [if_pos hT] at hF
+    -- ICS(c.N, ...) ≠ 0 forces the exponent guard
+    have hICS : hm23IntegerCoreSummandInt c.N c.z
+        (c.p + (a + z1 - 1) / 90)
+        (c.z + c.p - c.m + (a + z0 - 1) / 90)
+        (2 * c.r + c.k - c.m - c.p - 1) (c.r - c.m + c.k) ≠ 0 := by
+      intro h0; rw [h0] at hF; simp at hF
+    by_contra hNe
+    exact hICS (hm23_ICS_shear_eq_zero_of_ne c.N c.z _ _ c.m c.p c.r c.k hNe)
+  · rw [if_neg hT] at hF; exact absurd rfl hF
+
+/-- Forward capture: a coordinate with nonzero capture summand has its `(r,k)`
+inside the enlarged shear-preimage box of its own fiber. -/
+theorem hm23_capF_ne_zero_imp_mem_box
+    (a z0 z1 e : ℤ) (c : HM23Coord) (hF : hm23CapF a z0 z1 e c ≠ 0) :
+    (c.r, c.k) ∈ hm23ShearPreimageBox
+      (hm23FiberWbig c.z c.N (c.p + (a + z1 - 1) / 90)
+        (c.z + c.p - c.m + (a + z0 - 1) / 90))
+      (hm23FiberVbig c.z c.N (c.p + (a + z1 - 1) / 90)
+        (c.z + c.p - c.m + (a + z0 - 1) / 90)) c.m c.p := by
+  classical
+  obtain ⟨hT, _hNc⟩ := hm23_capF_ne_zero_imp_N_eq_Ncoord a z0 z1 e c hF
+  have hICS : hm23IntegerCoreSummandInt c.N c.z
+      (c.p + (a + z1 - 1) / 90)
+      (c.z + c.p - c.m + (a + z0 - 1) / 90)
+      (2 * c.r + c.k - c.m - c.p - 1) (c.r - c.m + c.k) ≠ 0 := by
+    unfold hm23CapF at hF; rw [if_pos hT] at hF
+    intro h0; rw [h0] at hF; simp at hF
+  set A : ℤ := c.p + (a + z1 - 1) / 90 with hA
+  set B : ℤ := c.z + c.p - c.m + (a + z0 - 1) / 90 with hB
+  obtain ⟨hh1, hh2, hK1, hK2⟩ :=
+    hm23IntegerCoreSummandInt_mem_bigBox c.N c.z A B
+      (2 * c.r + c.k - c.m - c.p - 1) (c.r - c.m + c.k) hICS
+  set W : ℕ := hm23FiberWbig c.z c.N A B with hW
+  set V : ℕ := hm23FiberVbig c.z c.N A B with hV
+  unfold hm23ShearPreimageBox
+  rw [Finset.mem_filter, Finset.mem_product, Finset.mem_Icc, Finset.mem_Icc]
+  have hWnn : (0 : ℤ) ≤ (W : ℤ) := Int.natCast_nonneg _
+  have hVnn : (0 : ℤ) ≤ (V : ℤ) := Int.natCast_nonneg _
+  have hma : -|c.m| ≤ c.m ∧ c.m ≤ |c.m| := ⟨neg_abs_le c.m, le_abs_self c.m⟩
+  have hpa : -|c.p| ≤ c.p ∧ c.p ≤ |c.p| := ⟨neg_abs_le c.p, le_abs_self c.p⟩
+  have hmabs : 0 ≤ |c.m| := abs_nonneg c.m
+  have hpabs : 0 ≤ |c.p| := abs_nonneg c.p
+  refine ⟨⟨⟨by omega, by omega⟩, by omega, by omega⟩, by omega, by omega, by omega, by omega⟩
+
+/-- Combined converse capture: a coordinate with nonzero capture summand lies in
+the coordinate union.  The nonzero summand forces `TermOut = e`, `N = Ncoord`,
+and (via the `Γ`-difference identity) a nonzero `z1`- or `z0`-side `Γ`, landing
+`c` in the `Psi1` resp. `Psi0` coordinate image. -/
+theorem hm23_capF_ne_zero_imp_mem_coordUnion
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) (c : HM23Coord)
+    (hF : hm23CapF a z0 z1 e c ≠ 0) :
+    c ∈ ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+      (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord) := by
+  classical
+  obtain ⟨hT, hNc⟩ := hm23_capF_ne_zero_imp_N_eq_Ncoord a z0 z1 e c hF
+  -- ICS ≠ 0, so the Γ-difference is nonzero, so one Γ is nonzero
+  have hICS : hm23IntegerCoreSummandInt c.N c.z
+      (c.p + (a + z1 - 1) / 90)
+      (c.z + c.p - c.m + (a + z0 - 1) / 90)
+      (2 * c.r + c.k - c.m - c.p - 1) (c.r - c.m + c.k) ≠ 0 := by
+    unfold hm23CapF at hF; rw [if_pos hT] at hF
+    intro h0; rw [h0] at hF; simp at hF
+  have hgamma :=
+    hm23_coord_fiber_term_eq_integerCoreSummandInt
+      a z0 z1 c.m c.p c.z c.r c.k hreg
+  -- LHS sign*(Γ_z1 - Γ_z0) = ICS(Ncoord,...) ; with hNc, Ncoord = c.N
+  have hdiff :
+      hm23Gamma (appellDenomExp a z1 c.r) c.k -
+        hm23Gamma (appellDenomExp a z0 (c.z + c.p - c.r + 1 - c.k)) c.k ≠ 0 := by
+    intro h0
+    apply hICS
+    have hrw : ((hm23IntegerCoreSummandInt (hm23Ncoord c.m c.p c.z c.r c.k) c.z
+        (c.p + (a + z1 - 1) / 90)
+        (c.z + c.p - c.m + (a + z0 - 1) / 90)
+        (2 * c.r + c.k - c.m - c.p - 1)
+        (c.r - c.m + c.k) : ℤ) : ℚ) = 0 := by
+      rw [← hgamma, h0, mul_zero]
+    rw [← hNc] at hrw
+    exact_mod_cast hrw
+  rw [Finset.mem_union]
+  by_cases hG1 : hm23Gamma (appellDenomExp a z1 c.r) c.k ≠ 0
+  · exact Or.inl
+      (hm23_coord_mem_Psi1Image_of_Gamma1_ne_zero a z0 z1 e hreg c hNc hT hG1)
+  · push_neg at hG1
+    have hG0 : hm23Gamma (appellDenomExp a z0 (c.z + c.p - c.r + 1 - c.k)) c.k ≠ 0 := by
+      intro h0; apply hdiff; rw [hG1, h0, sub_zero]
+    exact Or.inr
+      (hm23_coord_mem_Psi0Image_of_Gamma0_ne_zero a z0 z1 e hreg c hNc hT hG0)
+
+/-- The canonical integer-core sum vanishes whenever `z ≠ 0`: for `N ≥ 0` it is
+the unified PF coefficient (which vanishes off the constant `z`-slice), and for
+`N < 0` it is identically zero. -/
+theorem hm23IntegerCoreCanonicalSumInt_eq_zero_of_z_ne_zero
+    (N z : ℤ) (hz : z ≠ 0) :
+    hm23IntegerCoreCanonicalSumInt N z = 0 := by
+  rcases lt_or_ge N 0 with hN | hN
+  · exact hm23IntegerCoreCanonicalSumInt_eq_zero_of_neg hN
+  · lift N to ℕ using hN with n
+    rw [hm23IntegerCoreCanonicalSumInt_of_nat,
+      hm23IntegerCoreCanonical_eq_unified,
+      Chapter10PF.thetaMulPFUnifiedCoeffPF_nonconstant_vanish n hz]
+
+/-- Per-fiber capture.  For a fixed fiber key `(m,p,z,N)`, the capture sum over
+the coordinate-union members of that fiber equals the canonical value
+`sign · canonical(N,z)` (guarded by `TermOut = e`).  This is the converse-capture
+assembled from the forward (`…_imp_mem_box`) and converse
+(`…_imp_mem_coordUnion`) support membership directions plus the box-sum collapse
+(`hm23CapF_box_sum_eq_canonical`). -/
+theorem hm23_capF_fiber_sum_eq_canonical
+    (a z0 z1 e m p z N : ℤ) (hreg : hm23Nonsingular a z0 z1) :
+    (∑ c ∈ ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+        (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord).filter
+        (fun c => c.m = m ∧ c.p = p ∧ c.z = z ∧ c.N = N),
+      hm23CapF a z0 z1 e c) =
+      (if hm23TermOutExp a z0 z1 m p z N = e then
+        negOnePowIntQ (m + p) *
+          ((hm23IntegerCoreCanonicalSumInt N z : ℤ) : ℚ)
+      else 0) := by
+  classical
+  set A : ℤ := p + (a + z1 - 1) / 90 with hA
+  set B : ℤ := z + p - m + (a + z0 - 1) / 90 with hB
+  set U := ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+    (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord) with hU
+  set box := hm23ShearPreimageBox (hm23FiberWbig z N A B) (hm23FiberVbig z N A B)
+    m p with hbox
+  set ι := hm23CoordOfFiber m p z N with hι
+  -- Step 1: fiber sum = box.image ι sum (support equivalence)
+  have hstep1 :
+      (∑ c ∈ U.filter (fun c => c.m = m ∧ c.p = p ∧ c.z = z ∧ c.N = N),
+        hm23CapF a z0 z1 e c) =
+        ∑ c ∈ box.image ι, hm23CapF a z0 z1 e c := by
+    refine hm23_Finset_sum_eq_of_mem_iff_on_support _ _ _ ?_
+    intro x hFx
+    constructor
+    · intro hxs
+      rw [Finset.mem_filter] at hxs
+      obtain ⟨hxU, hxm, hxp, hxz, hxN⟩ := hxs
+      rw [Finset.mem_image]
+      refine ⟨(x.r, x.k), ?_, ?_⟩
+      · have hmem := hm23_capF_ne_zero_imp_mem_box a z0 z1 e x hFx
+        rw [hxm, hxp, hxz, hxN] at hmem
+        exact hmem
+      · -- ι (x.r, x.k) = x  since key x = κ
+        show hm23CoordOfFiber m p z N (x.r, x.k) = x
+        unfold hm23CoordOfFiber
+        cases x with
+        | mk xm xp xz xN xr xk =>
+          simp only at hxm hxp hxz hxN ⊢
+          rw [hxm, hxp, hxz, hxN]
+    · intro hxt
+      rw [Finset.mem_image] at hxt
+      obtain ⟨rk, hrk, hrkeq⟩ := hxt
+      rw [Finset.mem_filter]
+      have hxU : x ∈ U := by
+        subst hrkeq
+        exact hm23_capF_ne_zero_imp_mem_coordUnion a z0 z1 e hreg _ hFx
+      refine ⟨hxU, ?_, ?_, ?_, ?_⟩ <;>
+        (subst hrkeq; rfl)
+  rw [hstep1]
+  -- Step 2: box.image ι sum = box sum of F∘ι (ι injective)
+  rw [Finset.sum_image
+    (fun x _ y _ hxy => hm23CoordOfFiber_injective m p z N hxy)]
+  -- Step 3: box sum = canonical
+  obtain ⟨hWc, hVc, hVA, hVB, hWB⟩ := hm23FiberBig_shear_hyps z N A B
+  exact hm23CapF_box_sum_eq_canonical a z0 z1 e m p z N
+    (hm23FiberWbig z N A B) (hm23FiberVbig z N A B) hWc hVc hVA hVB hWB
+
+/-- Fiber key projection of a coordinate. -/
+def hm23FiberKey (c : HM23Coord) : ℤ × ℤ × ℤ × ℤ := (c.m, c.p, c.z, c.N)
+
+/-- The coordinate-union capture sum, regrouped fiber by fiber and collapsed via
+the per-fiber capture, equals the sum over the fiber keys of
+`sign · canonical(N,z)` (guarded by `TermOut = e`). -/
+theorem hm23_capF_union_sum_eq_keysum
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) :
+    (∑ c ∈ ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+        (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord),
+      hm23CapF a z0 z1 e c) =
+      ∑ κ ∈ (((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+        (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord).image hm23FiberKey),
+        (if hm23TermOutExp a z0 z1 κ.1 κ.2.1 κ.2.2.1 κ.2.2.2 = e then
+          negOnePowIntQ (κ.1 + κ.2.1) *
+            ((hm23IntegerCoreCanonicalSumInt κ.2.2.2 κ.2.2.1 : ℤ) : ℚ)
+        else 0) := by
+  classical
+  set U := ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+    (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord) with hU
+  have hmaps : ∀ c ∈ U, hm23FiberKey c ∈ U.image hm23FiberKey :=
+    fun c hc => Finset.mem_image_of_mem hm23FiberKey hc
+  rw [← Finset.sum_fiberwise_of_maps_to (t := U.image hm23FiberKey)
+    (g := hm23FiberKey) hmaps (fun c => hm23CapF a z0 z1 e c)]
+  refine Finset.sum_congr rfl ?_
+  intro κ hκ
+  -- inner fiber sum = per-fiber capture at (κ.1,κ.2.1,κ.2.2.1,κ.2.2.2)
+  obtain ⟨m, p, z, N⟩ := κ
+  have hfilt :
+      U.filter (fun c => hm23FiberKey c = (m, p, z, N)) =
+        U.filter (fun c => c.m = m ∧ c.p = p ∧ c.z = z ∧ c.N = N) := by
+    apply Finset.filter_congr
+    intro c _hc
+    simp only [hm23FiberKey, Prod.mk.injEq]
+  rw [hfilt]
+  exact hm23_capF_fiber_sum_eq_canonical a z0 z1 e m p z N hreg
+
+/-- Window completeness for the residual `(m,p)`.  When the cube residual
+`resid = e − z0 − jExp(z1−z0) m − jExp(a+z0+z1) p` is a nonnegative multiple of
+`90`, the index `(m,p)` lies in the `lcoeff_RHS_eq_correct_fiber` Icc box: the
+`m`-side uses the lower-bounded partner exponent `jExp(a+z0+z1) p ≥ jCoeffLower`,
+the `p`-side uses the actual `m`.  Pure `jExp` target-window root bounds. -/
+theorem hm23_resid_guard_imp_mp_mem (a z0 z1 e m p : ℤ)
+    (hnn : 0 ≤ e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p) :
+    m ∈ Finset.Icc
+        (-(jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90)))
+        (jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90)) ∧
+      p ∈ Finset.Icc
+        (-(jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m)))
+        (jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m)) := by
+  have hb : (0 : ℤ) < 90 := by norm_num
+  have hlowP : jCoeffLower (a + z0 + z1) 90 ≤ jExp (a + z0 + z1) 90 p :=
+    jExp_lower_bound (a + z0 + z1) 90 p hb
+  have hmle : jExp (z1 - z0) 90 m ≤ e - z0 - jCoeffLower (a + z0 + z1) 90 := by
+    omega
+  have hple : jExp (a + z0 + z1) 90 p ≤ e - z0 - jExp (z1 - z0) 90 m := by
+    omega
+  refine ⟨?_, ?_⟩
+  · rw [Finset.mem_Icc]
+    exact ⟨jExp_root_le_target_window_left (z1 - z0) 90
+        (e - z0 - jCoeffLower (a + z0 + z1) 90) m hb hmle,
+      jExp_root_le_target_window_right (z1 - z0) 90
+        (e - z0 - jCoeffLower (a + z0 + z1) 90) m hb hmle⟩
+  · rw [Finset.mem_Icc]
+    exact ⟨jExp_root_le_target_window_left (a + z0 + z1) 90
+        (e - z0 - jExp (z1 - z0) 90 m) p hb hple,
+      jExp_root_le_target_window_right (a + z0 + z1) 90
+        (e - z0 - jExp (z1 - z0) 90 m) p hb hple⟩
+
+/-- Converse of `hm23_z0_guard_resid_eq_ninetyN`: at `z = 0`, `90 N = resid`
+forces the guard `hm23TermOutExp a z0 z1 m p 0 N = e`. -/
+theorem hm23_z0_ninetyN_imp_guard (a z0 z1 e m p N : ℤ)
+    (h : e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p = 90 * N) :
+    hm23TermOutExp a z0 z1 m p 0 N = e := by
+  rw [jExp90_eq_hmTri, jExp90_eq_hmTri] at h
+  unfold hm23TermOutExp
+  linarith
+
+/-- Reconstruction.  If the RHS cube summand is nonzero at `(m,p)` (i.e. the
+residual is a nonnegative multiple of `90` and the unified coefficient at
+`(resid/90, 0)` is nonzero), then the fiber key `(m,p,0,resid/90)` belongs to the
+coordinate-union fiber-key image.  Built from the per-fiber capture: a nonzero
+canonical value plus the guard makes the fiber capture sum nonzero, hence the
+fiber is inhabited inside `U`. -/
+theorem hm23_rhs_ne_zero_imp_key_mem
+    (a z0 z1 e m p : ℤ) (hreg : hm23Nonsingular a z0 z1)
+    (hdvd : (90 : ℤ) ∣ e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p)
+    (hnn : 0 ≤ e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p)
+    (hcoeff :
+      Chapter10PF.thetaMulPFUnifiedCoeffPF
+        ((e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p) / 90).toNat 0 ≠ 0) :
+    (m, p, (0 : ℤ),
+      (e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p) / 90) ∈
+      (((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+        (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord).image hm23FiberKey) := by
+  classical
+  set resid : ℤ := e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p with hresid
+  set N : ℤ := resid / 90 with hN
+  have hN_nonneg : 0 ≤ N := Int.ediv_nonneg hnn (by norm_num)
+  have h90N : 90 * N = resid := by
+    rw [hN]; exact Int.mul_ediv_cancel' hdvd
+  -- canonical(N,0) ≠ 0
+  have hcanon : hm23IntegerCoreCanonicalSumInt N 0 ≠ 0 := by
+    have hNnat : N = ((N.toNat : ℤ)) := (Int.toNat_of_nonneg hN_nonneg).symm
+    rw [hNnat, hm23IntegerCoreCanonicalSumInt_of_nat,
+      hm23IntegerCoreCanonical_eq_unified]
+    -- hcoeff : unified ((resid/90).toNat) 0 ≠ 0, and resid/90 = N
+    exact hcoeff
+  -- guard holds: TermOut = e
+  have hguard : hm23TermOutExp a z0 z1 m p 0 N = e :=
+    hm23_z0_ninetyN_imp_guard a z0 z1 e m p N (by rw [← hresid]; exact h90N.symm)
+  -- per-fiber capture sum at (m,p,0,N) is nonzero
+  have hfibersum :
+      (∑ c ∈ ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+          (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord).filter
+          (fun c => c.m = m ∧ c.p = p ∧ c.z = 0 ∧ c.N = N),
+        hm23CapF a z0 z1 e c) ≠ 0 := by
+    rw [hm23_capF_fiber_sum_eq_canonical a z0 z1 e m p 0 N hreg, if_pos hguard]
+    intro h0
+    apply hcanon
+    have : ((hm23IntegerCoreCanonicalSumInt N 0 : ℤ) : ℚ) = 0 := by
+      rcases mul_eq_zero.mp h0 with h | h
+      · exact absurd h (by unfold negOnePowIntQ; exact pow_ne_zero _ (by norm_num))
+      · exact h
+    exact_mod_cast this
+  -- a nonzero sum ⇒ the filter set has a member coord
+  obtain ⟨c, hc, _hcF⟩ := Finset.exists_ne_zero_of_sum_ne_zero hfibersum
+  rw [Finset.mem_filter] at hc
+  obtain ⟨hcU, hcm, hcp, hcz, hcN⟩ := hc
+  rw [Finset.mem_image]
+  refine ⟨c, hcU, ?_⟩
+  rw [hm23FiberKey, hcm, hcp, hcz, hcN]
+
+/-- Final `e`-level reconciliation bridge for HM 2.3.  The fiber-key canonical sum
+(LHS) and the `lcoeff_RHS_eq_correct_fiber` double `(m,p)` sum (RHS) agree.  Both
+equal the `(m,p)`-plane sum of
+`G(m,p) = sign(m+p)·(if 90∣resid ∧ 0≤resid then unified(resid/90,0) else 0)`:
+on the LHS the `z≠0`/`N<0` keys vanish and surviving `z=0,N≥0` keys carry
+`G(m,p)` with the `(m,p)`-projection injective; on the RHS the cube coefficient
+is `G(m,p)` and its support sits in the `jCoeffWindow` box (window completeness),
+while every nonzero `G(m,p)` reconstructs a surviving fiber key (reconstruction).
+-/
+theorem hm23_keysum_eq_RHS_doublesum
+    (hPF :
+      Chapter10PF.thetaMulPFSeriesCoeffPF =
+        Chapter10PF.qPochInfPSCubeUPowerCoeffPF)
+    (a z0 z1 e : ℤ) (hreg : hm23Nonsingular a z0 z1) :
+    (∑ κ ∈ (((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+        (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord).image hm23FiberKey),
+      (if hm23TermOutExp a z0 z1 κ.1 κ.2.1 κ.2.2.1 κ.2.2.2 = e then
+        negOnePowIntQ (κ.1 + κ.2.1) *
+          ((hm23IntegerCoreCanonicalSumInt κ.2.2.2 κ.2.2.1 : ℤ) : ℚ)
+      else 0)) =
+      ∑ m ∈ Finset.Icc
+          (-(jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90)))
+          (jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90)),
+        ∑ p ∈ Finset.Icc
+            (-(jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m)))
+            (jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m)),
+          negOnePowIntQ (m + p) *
+            (if (90 : ℤ) ∣ e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p ∧
+                0 ≤ e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p then
+              ((Chapter10PF.thetaMulPFUnifiedCoeffPF
+                ((e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p) / 90).toNat 0 : ℤ) : ℚ)
+            else 0) := by
+  classical
+  set U := ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+    (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord) with hU
+  -- the (m,p)-plane summand
+  set G : ℤ × ℤ → ℚ := fun mp =>
+    negOnePowIntQ (mp.1 + mp.2) *
+      (if (90 : ℤ) ∣ e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2 ∧
+          0 ≤ e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2 then
+        ((Chapter10PF.thetaMulPFUnifiedCoeffPF
+          ((e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2) / 90).toNat 0 : ℤ) : ℚ)
+      else 0) with hG
+  -- the key-indexed summand
+  set L : ℤ × ℤ × ℤ × ℤ → ℚ := fun κ =>
+    (if hm23TermOutExp a z0 z1 κ.1 κ.2.1 κ.2.2.1 κ.2.2.2 = e then
+      negOnePowIntQ (κ.1 + κ.2.1) *
+        ((hm23IntegerCoreCanonicalSumInt κ.2.2.2 κ.2.2.1 : ℤ) : ℚ)
+    else 0) with hL
+  -- the dependent RHS box, flattened to a single Finset of (m,p)
+  set D : Finset (ℤ × ℤ) :=
+    (Finset.Icc
+        (-(jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90)))
+        (jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90))).biUnion
+      (fun m => (Finset.Icc
+          (-(jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m)))
+          (jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m))).map
+        ⟨fun p => (m, p), fun p q h => (Prod.mk.injEq _ _ _ _ ▸ h).2⟩) with hD
+  -- RHS double sum = ∑_{D} G
+  have hRHS : (∑ m ∈ Finset.Icc
+        (-(jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90)))
+        (jCoeffWindow (z1 - z0) 90 (e - z0 - jCoeffLower (a + z0 + z1) 90)),
+      ∑ p ∈ Finset.Icc
+          (-(jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m)))
+          (jCoeffWindow (a + z0 + z1) 90 (e - z0 - jExp (z1 - z0) 90 m)),
+        negOnePowIntQ (m + p) *
+          (if (90 : ℤ) ∣ e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p ∧
+              0 ≤ e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p then
+            ((Chapter10PF.thetaMulPFUnifiedCoeffPF
+              ((e - z0 - jExp (z1 - z0) 90 m - jExp (a + z0 + z1) 90 p) / 90).toNat 0 : ℤ) : ℚ)
+          else 0)) = ∑ mp ∈ D, G mp := by
+    rw [hD, Finset.sum_biUnion]
+    · refine Finset.sum_congr rfl ?_
+      intro m _hm
+      rw [Finset.sum_map]
+      refine Finset.sum_congr rfl ?_
+      intro p _hp
+      simp only [Function.Embedding.coeFn_mk, hG]
+    · -- disjointness of the (m)-fibers (distinct first coordinate)
+      intro m₁ _ m₂ _ hne
+      simp only [Function.onFun, Finset.disjoint_left, Finset.mem_map,
+        Function.Embedding.coeFn_mk]
+      rintro x ⟨p₁, _, rfl⟩ ⟨p₂, _, h2⟩
+      exact hne (congrArg Prod.fst h2).symm
+  rw [hRHS]
+  -- LHS keysum = ∑_{D} G via support-iff between the projected surviving keys and D
+  set proj : ℤ × ℤ × ℤ × ℤ → ℤ × ℤ := fun κ => (κ.1, κ.2.1) with hproj
+  set Ukeys := U.image hm23FiberKey with hUkeys
+  -- drop the L-zero keys, restrict to those with nonzero summand
+  have hkeysum_filter :
+      (∑ κ ∈ Ukeys, L κ) = ∑ κ ∈ Ukeys.filter (fun κ => L κ ≠ 0), L κ := by
+    rw [Finset.sum_filter_ne_zero]
+  -- on the nonzero-L filter, L κ = G (proj κ)
+  have hLG : ∀ κ ∈ Ukeys.filter (fun κ => L κ ≠ 0), L κ = G (proj κ) := by
+    intro κ hκ
+    rw [Finset.mem_filter] at hκ
+    obtain ⟨_hκU, hLne⟩ := hκ
+    -- L κ ≠ 0 ⇒ TermOut = e and canonical ≠ 0
+    have hT : hm23TermOutExp a z0 z1 κ.1 κ.2.1 κ.2.2.1 κ.2.2.2 = e := by
+      by_contra h; simp only [hL, if_neg h] at hLne; exact hLne rfl
+    have hcanon_ne : hm23IntegerCoreCanonicalSumInt κ.2.2.2 κ.2.2.1 ≠ 0 := by
+      intro h0; apply hLne; simp only [hL, if_pos hT, h0]; norm_num
+    -- canonical ≠ 0 ⇒ z = 0 and N ≥ 0
+    have hz0 : κ.2.2.1 = 0 := by
+      by_contra hz
+      exact hcanon_ne (hm23IntegerCoreCanonicalSumInt_eq_zero_of_z_ne_zero _ _ hz)
+    have hNnn : 0 ≤ κ.2.2.2 := by
+      by_contra hN; push_neg at hN
+      exact hcanon_ne (hm23IntegerCoreCanonicalSumInt_eq_zero_of_neg hN)
+    -- guard at z=0 ⇒ 90 N = resid
+    have hresid : e - z0 - jExp (z1 - z0) 90 κ.1 - jExp (a + z0 + z1) 90 κ.2.1 =
+        90 * κ.2.2.2 := by
+      have := hm23_z0_guard_resid_eq_ninetyN a z0 z1 e κ.1 κ.2.1 κ.2.2.2 (by rw [← hz0]; exact hT)
+      exact this
+    have hdvd : (90 : ℤ) ∣ e - z0 - jExp (z1 - z0) 90 κ.1 - jExp (a + z0 + z1) 90 κ.2.1 := by
+      rw [hresid]; exact Dvd.intro _ rfl
+    have hnn : 0 ≤ e - z0 - jExp (z1 - z0) 90 κ.1 - jExp (a + z0 + z1) 90 κ.2.1 := by
+      rw [hresid]; positivity
+    -- compute both sides
+    simp only [hL, hG, hproj, if_pos hT]
+    have hidx : (e - z0 - jExp (z1 - z0) 90 κ.1 - jExp (a + z0 + z1) 90 κ.2.1) / 90 = κ.2.2.2 := by
+      rw [hresid]; rw [Int.mul_ediv_cancel_left _ (by norm_num : (90:ℤ) ≠ 0)]
+    rw [if_pos ⟨hdvd, hnn⟩, hz0]
+    congr 1
+    -- canonical(N,0) = unified(N.toNat,0) = unified((resid/90).toNat,0)
+    have hNcast : κ.2.2.2 = ((κ.2.2.2.toNat : ℤ)) := (Int.toNat_of_nonneg hNnn).symm
+    rw [hNcast, hm23IntegerCoreCanonicalSumInt_of_nat, hm23IntegerCoreCanonical_eq_unified]
+    rw [hidx]
+  rw [hkeysum_filter, Finset.sum_congr rfl hLG]
+  -- ∑ over filter of G∘proj = ∑ over (filter.image proj) of G  (proj injective on filter)
+  have hinj : Set.InjOn proj (Ukeys.filter (fun κ => L κ ≠ 0)) := by
+    intro κ hκ κ' hκ' hpp
+    rw [Finset.coe_filter, Set.mem_setOf_eq] at hκ hκ'
+    obtain ⟨_, hLne⟩ := hκ; obtain ⟨_, hLne'⟩ := hκ'
+    -- both surviving: z=0, TermOut=e, 90N=resid determined by (m,p)=proj
+    have hTz : ∀ x : ℤ × ℤ × ℤ × ℤ, L x ≠ 0 →
+        hm23TermOutExp a z0 z1 x.1 x.2.1 x.2.2.1 x.2.2.2 = e ∧ x.2.2.1 = 0 ∧
+          e - z0 - jExp (z1 - z0) 90 x.1 - jExp (a + z0 + z1) 90 x.2.1 = 90 * x.2.2.2 := by
+      intro x hx
+      have hT : hm23TermOutExp a z0 z1 x.1 x.2.1 x.2.2.1 x.2.2.2 = e := by
+        by_contra h; simp only [hL, if_neg h] at hx; exact hx rfl
+      have hcn : hm23IntegerCoreCanonicalSumInt x.2.2.2 x.2.2.1 ≠ 0 := by
+        intro h0; apply hx; simp only [hL, if_pos hT, h0]; norm_num
+      have hxz : x.2.2.1 = 0 := by
+        by_contra hz; exact hcn (hm23IntegerCoreCanonicalSumInt_eq_zero_of_z_ne_zero _ _ hz)
+      exact ⟨hT, hxz, hm23_z0_guard_resid_eq_ninetyN a z0 z1 e x.1 x.2.1 x.2.2.2
+        (by rw [← hxz]; exact hT)⟩
+    obtain ⟨_, hz, hr⟩ := hTz κ hLne
+    obtain ⟨_, hz', hr'⟩ := hTz κ' hLne'
+    simp only [hproj, Prod.mk.injEq] at hpp
+    obtain ⟨hm, hp⟩ := hpp
+    have hN : κ.2.2.2 = κ'.2.2.2 := by
+      have : (90 : ℤ) * κ.2.2.2 = 90 * κ'.2.2.2 := by rw [← hr, ← hr', hm, hp]
+      omega
+    -- reconstruct full equality
+    obtain ⟨m1, p1, z1', N1⟩ := κ
+    obtain ⟨m2, p2, z2', N2⟩ := κ'
+    simp only at hm hp hz hz' hN
+    rw [hm, hp, hz, hz', hN]
+  rw [← Finset.sum_image (fun κ hκ κ' hκ' h => hinj (by exact_mod_cast hκ) (by exact_mod_cast hκ') h)]
+  -- now both sides are ∑ over a Finset of (m,p), of G ; match supports with D
+  refine hm23_Finset_sum_eq_of_mem_iff_on_support _ _ G ?_
+  intro mp hGne
+  -- G mp ≠ 0 ⇒ 90 ∣ resid ∧ 0 ≤ resid ∧ unified ≠ 0
+  have hguard : (90 : ℤ) ∣ e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2 ∧
+      0 ≤ e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2 := by
+    by_contra h; simp only [hG, if_neg h, mul_zero] at hGne; exact hGne rfl
+  obtain ⟨hdvd, hnn⟩ := hguard
+  have hcoeff : Chapter10PF.thetaMulPFUnifiedCoeffPF
+      ((e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2) / 90).toNat 0 ≠ 0 := by
+    intro h0; apply hGne; simp only [hG, h0, Int.cast_zero, ite_self, mul_zero]
+  constructor
+  · -- mp ∈ (filter.image proj) ⇒ mp ∈ D : window completeness
+    intro _
+    rw [hD, Finset.mem_biUnion]
+    obtain ⟨hmem_m, hmem_p⟩ := hm23_resid_guard_imp_mp_mem a z0 z1 e mp.1 mp.2 hnn
+    refine ⟨mp.1, hmem_m, ?_⟩
+    rw [Finset.mem_map]
+    exact ⟨mp.2, hmem_p, by simp [Function.Embedding.coeFn_mk]⟩
+  · -- mp ∈ D ⇒ mp ∈ (filter.image proj) : reconstruct the surviving key
+    intro _
+    rw [Finset.mem_image]
+    refine ⟨(mp.1, mp.2, 0, (e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2) / 90), ?_, ?_⟩
+    · rw [Finset.mem_filter]
+      refine ⟨?_, ?_⟩
+      · rw [hUkeys, hU]
+        exact hm23_rhs_ne_zero_imp_key_mem a z0 z1 e mp.1 mp.2 hreg hdvd hnn hcoeff
+      · -- L of this key ≠ 0
+        set N0 := (e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2) / 90 with hN0
+        have h90 : 90 * N0 = e - z0 - jExp (z1 - z0) 90 mp.1 - jExp (a + z0 + z1) 90 mp.2 := by
+          rw [hN0]; exact Int.mul_ediv_cancel' hdvd
+        have hgrd : hm23TermOutExp a z0 z1 mp.1 mp.2 0 N0 = e :=
+          hm23_z0_ninetyN_imp_guard a z0 z1 e mp.1 mp.2 N0 h90.symm
+        have hNnn : 0 ≤ N0 := Int.ediv_nonneg hnn (by norm_num)
+        simp only [hL, if_pos hgrd]
+        intro hzero
+        apply hcoeff
+        have hcanon0 : (hm23IntegerCoreCanonicalSumInt N0 0 : ℤ) = 0 := by
+          rcases mul_eq_zero.mp hzero with h | h
+          · exact absurd h (by unfold negOnePowIntQ; exact pow_ne_zero _ (by norm_num))
+          · exact_mod_cast h
+        have hNcast : N0 = ((N0.toNat : ℤ)) := (Int.toNat_of_nonneg hNnn).symm
+        rw [hNcast, hm23IntegerCoreCanonicalSumInt_of_nat,
+          hm23IntegerCoreCanonical_eq_unified] at hcanon0
+        exact hcanon0
+    · simp only [hproj]
+
+
 /-- ISOLATED REMAINING GAP (HM 2.3 piece C + piece B stage 2 + final match).
 
 After piece A, the Γ-window difference equals the coordinate-union sum of the
@@ -8865,7 +10142,49 @@ theorem hm23CoordUnion_integerCore_eq_lcoeff_RHS
       else 0)) =
       lcoeff (Qpow z0 * JOneLaurent ^ 3 * jLaurent (z1 - z0) 90 *
         jLaurent (a + z0 + z1) 90) e := by
-  sorry
+  classical
+  -- ===== LHS side: collapse the redundant `N = Ncoord` guard, then regroup the
+  -- coordinate-union capture sum fiber by fiber into the fiber-key sum of
+  -- `sign · canonical(N,z)` (converse capture, now fully banked). =====
+  have hcollapse :
+      (∑ c ∈
+          ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+            (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord),
+        (if hm23TermOutExp a z0 z1 c.m c.p c.z c.N = e ∧
+            c.N = hm23Ncoord c.m c.p c.z c.r c.k then
+          negOnePowIntQ (c.m + c.p) *
+            ((hm23IntegerCoreSummandInt (hm23Ncoord c.m c.p c.z c.r c.k) c.z
+              (c.p + (a + z1 - 1) / 90)
+              (c.z + c.p - c.m + (a + z0 - 1) / 90)
+              (2 * c.r + c.k - c.m - c.p - 1)
+              (c.r - c.m + c.k) : ℤ) : ℚ)
+        else 0)) =
+      ∑ c ∈
+          ((hm23Psi1WindowSourceSet a z0 z1 e).image hm23Psi1Coord ∪
+            (hm23Psi0WindowSourceSet a z0 z1 e).image hm23Psi0Coord),
+        hm23CapF a z0 z1 e c := by
+    refine Finset.sum_congr rfl ?_
+    intro c _hc
+    rw [hm23_guard_collapse a z0 z1 e c]
+    rfl
+  rw [hcollapse, hm23_capF_union_sum_eq_keysum a z0 z1 e hreg]
+  -- ===== RHS side: rewrite as the double (m,p) fiber sum with the unified coeff =====
+  rw [lcoeff_RHS_eq_correct_fiber a z0 z1 e]
+  simp only [lcoeff_JOneLaurent_pow_three_eq_ite_unified hPF]
+  -- REMAINING e-LEVEL RECONCILIATION.  LHS is now the fiber-key sum
+  --   `∑_{(m,p,z,N) ∈ U.image key} [TermOut=e] · sign(m+p) · canonical(N,z)`;
+  -- the `z ≠ 0` and `N < 0` keys vanish
+  -- (`hm23IntegerCoreCanonicalSumInt_eq_zero_of_{z_ne_zero,neg}`), and on the
+  -- surviving `z = 0, N ≥ 0` keys `TermOut = e` forces `90 N = resid(m,p)`
+  -- (`hm23_z0_guard_resid_eq_ninetyN`) with `canonical(N,0) = unified(N,0)`
+  -- (`hm23IntegerCoreCanonical_eq_unified`).  The RHS is the `(m,p)`-window double
+  -- sum of `sign(m+p) · (if 90 | resid ∧ 0 ≤ resid then unified(resid/90,0) else 0)`
+  -- (`hm23_rhs_cube_eq_canonical_z0`).  Both equal
+  --   `∑_{(m,p)} sign(m+p) · unified(resid(m,p)/90, 0) · [90 | resid ∧ 0 ≤ resid]`;
+  -- matching the two `(m,p)` index ranges is the residual theta-window symmetry
+  -- (the surviving fiber keys' `(m,p)` projection vs. the `jCoeffWindow` Icc
+  -- ranges), reconciled only at the `e`-level total, not term by term.
+  exact hm23_keysum_eq_RHS_doublesum hPF a z0 z1 e hreg
 
 theorem hm23GammaWindowDifference_residual
     (hPF :
@@ -9414,85 +10733,18 @@ theorem thetaCorrectionNormalizedP30_term30_totalDegree :
     1 + 2 + 1 + 3 + 1 + 1 + 2 + 1 + 1 + 1 + 1 + 0 + 2 + 2 + 0 = 19 := by
   norm_num
 
-/--
-Remaining denominator-cleared finite theta-product residual.  The multiplier
-is the raw product of the four mod-90 denominator factors for each nonzero
-HM 2.3 correction term, in the order recorded by the `T_ij` table.
+/-! ## Elementary Appell cancellation algebra
 
-The already-expanded core is the level-90 identity recorded by
-`thetaCorrectionNormalizedLHSRedJ` and the table
-`thetaCorrectionNormalizedP30Rows`.
-The previous explicit `K^0`/`K^48` split is only a presentation artifact:
-`jLaurent_eq_JOne_mul_redJ` rewrites every `J_a` as `K * redJ a`; the left
-exponent sum is `67`, and every `P30` term has exponent sum `19`, so the
-right side has `K^(48+19) = K^67`.  Since `K` is a unit
-(`jLaurent_90_270_isUnit`), the residual reduces to the normalized `redJ`
-identity with no explicit `K` obstruction.
-
-A sparse search over normalized `M=90` Riemann relations found 1394 unique
-base relations; direct anchored Macaulay and bounded reachable-closure
-systems did not produce a certificate.  The AP-product evaluation of the
-normalized identity vanishes through `Q^300`, so the remaining gap is the
-formal normalized additive identity, not the old `K` grading.
--/
-theorem theta_correction_denominator_cleared_residual :
-    thetaCorrectionMod90DenominatorProduct *
-      (E6Laurent ^ 2 * thetaCorrectionLaurent + E3Laurent ^ 5 * jLaurent 12 15) = 0 := by
-  sorry
-
-/-- The single remaining cleared theta-product collapse after substituting the
-HM 2.3 corrections into Chan's `H`-combination.  This is the exact finite
-`j`-product/eta-product identity left to prove by `j` symmetry, `j` shifts, JTP
-product algebra, and ring normalization. -/
-theorem theta_correction_cleared_product_identity :
-    E6Laurent ^ 2 * thetaCorrectionLaurent =
-      -(E3Laurent ^ 5) * jLaurent 12 15 := by
-  have hcore :
-      E6Laurent ^ 2 * thetaCorrectionLaurent + E3Laurent ^ 5 * jLaurent 12 15 = 0 := by
-    exact (mul_eq_zero.mp theta_correction_denominator_cleared_residual).resolve_left
-      thetaCorrectionMod90DenominatorProduct_ne_zero
-  linear_combination hcore
-
-/-- Split package of the three classical theta bridges used by Chapter 10. -/
-theorem ch10_classical_theta_bridge :
-    (∀ a z0 z1 : ℤ,
-        hm23Nonsingular a z0 z1 →
-        hm23ClearedThetaLHS a z0 z1 = hm23ClearedThetaRHS a z0 z1) ∧
-      thetaOneLaurent = thetaNineLaurent - 2 * Qpow 1 * jLaurent 3 18 ∧
-        (E6Laurent ^ 2 ≠ 0 ∧
-          E6Laurent ^ 2 * thetaCorrectionLaurent =
-            -(E3Laurent ^ 5) * jLaurent 12 15) := by
-  exact ⟨hm23ClearedThetaIdentity, thetaOneLaurent_dissection,
-    E6Laurent_sq_ne_zero, theta_correction_cleared_product_identity⟩
-
-/-- Theta-product collapse in the original quotient form. -/
-theorem theta_correction_product_identity :
-    thetaCorrectionLaurent =
-      -(E3Laurent ^ 5) * (E6Laurent ^ 2)⁻¹ * jLaurent 12 15 := by
-  calc
-    thetaCorrectionLaurent =
-        (E6Laurent ^ 2)⁻¹ * (E6Laurent ^ 2 * thetaCorrectionLaurent) := by
-          rw [← mul_assoc, inv_mul_cancel₀ E6Laurent_sq_ne_zero, one_mul]
-    _ = -(E3Laurent ^ 5) * (E6Laurent ^ 2)⁻¹ * jLaurent 12 15 := by
-          rw [theta_correction_cleared_product_identity]
-          ring
-
-/-- Final theta-correction evaluation requested for Chan Eq. (10.15). -/
-theorem theta_correction_eval :
-    thetaCorrectionLaurent =
-      -(E3Laurent ^ 5) * (E6Laurent ^ 2)⁻¹ * jLaurent 12 15 :=
-  theta_correction_product_identity
-
-/-- Laurent-level assembly once the concrete HM table has been rewritten as
-the Appell-cancelling base plus `thetaCorrectionLaurent`. -/
-theorem chan1015_hm_laurent
-    (hHM : chan1015HCombinationLaurent = thetaCorrectionLaurent) :
-    chan1015HCombinationLaurent =
-      -(E3Laurent ^ 5) * (E6Laurent ^ 2)⁻¹ * jLaurent 12 15 := by
-  rw [hHM]
-  exact theta_correction_eval
-
-/-! ## Elementary Appell cancellation algebra -/
+**Note:** This file used to end the second (HM) route with the open residual
+`theta_correction_denominator_cleared_residual`
+(`denomProd * (E6^2 * tc + E3^5 * j(12,15)) = 0`) and five consumers
+(`theta_correction_cleared_product_identity`, `ch10_classical_theta_bridge`,
+`theta_correction_product_identity`, `theta_correction_eval`,
+`chan1015_hm_laurent`).  None of them is used by the book's Eq. (10.15)
+(`Ch10Bridge.chan1015`), and no no-axiom proof of the residual exists yet, so
+they are removed rather than left as `sorry`.  The identity is true
+numerically through `Q^1066`; reintroduce the chain only with a no-axiom proof.
+The bodies are recoverable from git history (`5df34b2`). -/
 
 /--
 Raw coefficient of the common Appell base `M(-9,18)` after the HM 2.3
