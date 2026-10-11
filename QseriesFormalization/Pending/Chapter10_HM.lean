@@ -10742,7 +10742,7 @@ theorem thetaCorrectionNormalizedP30_term30_totalDegree :
 `theta_correction_product_identity`, `theta_correction_eval`,
 `chan1015_hm_laurent`).  None of them is used by the book's Eq. (10.15)
 (`Ch10Bridge.chan1015`), and no no-axiom proof of the residual exists yet, so
-they are removed rather than left as `sorry`.  The identity is true
+they are removed rather than left unproved.  The identity is true
 numerically through `Q^1066`; reintroduce the chain only with a no-axiom proof.
 The bodies are recoverable from git history (`5df34b2`). -/
 
