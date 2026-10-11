@@ -1,47 +1,41 @@
 /-
   Audit file for the Q-series formalization project.
 
-  ⚠️  PARTIAL AUDIT — DOES NOT CONSTITUTE "PLAYBOOK PASS".
+  This file runs `#print axioms` on the listed declarations.  A line is clean when
+  it reports only `propext`, `Classical.choice`, `Quot.sound`.  Lines that
+  report `Lean.ofReduceBool` (a `native_decide` dependency) are marked in the
+  comments next to them; the release build log records the exact list.
+  `AuditExercises.lean` (imported here) adds one line per theorem of
+  `Exercises.lean`.
 
-  This file runs `#print axioms` on listed theorems to verify they use only
-  the core three axioms (propext, Classical.choice, Quot.sound).  This covers
-  **only points 1, 2, 10** of the playbook's 11-point Phase 3 audit (Chapter
-  3.1 of `formalization-playbook.md`):
+  What this file does NOT establish:
+    * It does not show that a listed theorem is the chapter-main result of the
+      book, or that its statement matches the book.  Statement fidelity is a
+      separate review: see the "Scope of the formalized results" section of
+      README.md for the claims that are narrower than the book (Ch11 and Ch12
+      concern formal series / the product form of R(q), Ch15 the Lambert-series
+      form of the differential equation, Ch18 and Ch20 are partial).
+    * A clean line says nothing about vacuity or about hypotheses carried by the
+      statement; it only reports the axioms the proof depends on.
+    * Listing a theorem from a file with a historical name (e.g.
+      `Ch04Franklin.franklinInv_*`) attests only the axiom set.
 
-    1. 0 sorry         ✓ (grep-checked)
-    2. 0 custom axiom  ✓ (grep-checked)
-   10. #print axioms   ✓ (this file)
-    5. full build      ✓ (CI build)
-
-  The following points are **NOT** verified by this file:
-
-    3. 0 assumption-structure evasion
-    4. 0 trivially-true conclusions  (Ch12 `ramanujanRRCFValue := α⁻¹ + β`
-        with `_placeholder_zero` proving it `= 0` is a known violation;
-        not yet cleaned up.)
-    6. 0 Prop-assumption evasion
-    7. end-to-end definability of statement from raw mathematical inputs
-    8. minimal-interface check (derivable assumptions not exposed)
-    9. counter-example checks for long-standing sorries
-   11. honest conditional/unconditional classification per theorem
-
-  Furthermore, this file lists theorems by name only; it does NOT certify
-  that each listed theorem is **the chapter's main result** in Chan's book.
-  After cross-checking with Chan's PDF TOC (PLAYBOOK_AUDIT.md 2026-05-22):
-
-    PASS  (chapter content + main thm proved):   Ch01 Ch02 Ch03 Ch04 Ch07
-                                                  Ch18 Ch19
-    AUX   (real content, main result partial):    Ch08 Ch09 Ch11 Ch14 Ch17
-                                                  Ch20
-    SHADOW (only trunc_N boilerplate):            Ch10 Ch12 Ch13 Ch16
-    (File names were normalized to content-true names in the 2026-06 release.)
-
-  Listing a theorem from a MISLABELED file (e.g. Ch04Franklin.franklinInv_*) below
-  attests only that its axiom set is clean; it does NOT attest that the
-  theorem is the chapter-main result for that chapter number.  Several
-  entries below carry explicit comments to this effect.
+  Absence of `sorry`, `admit` and custom `axiom` in the library is checked
+  separately (comment-aware scan; see README.md).  `native_decide` does occur
+  in the library; whether a given result depends on it is exactly what the
+  `#print axioms` lines decide.
 -/
 
+import QseriesFormalization.Pending.Chan_Theorem_11_1
+import QseriesFormalization.Pending.Chapter11_Thm111
+import QseriesFormalization.Pending.Chan_Theorem_11_4
+import QseriesFormalization.Pending.Chapter13_DeepIdentity
+import QseriesFormalization.Pending.Chapter15_Hirschhorn
+import QseriesFormalization.Chapter20_Ono
+import QseriesFormalization.Pending.Sylvester_TripleSum
+import QseriesFormalization.Pending.Chapter17_Ramanujan11_PartialDecide
+import QseriesFormalization.Exercises
+import QseriesFormalization.AuditExercises
 import QseriesFormalization.Chapter01_GenFun
 import QseriesFormalization.Chapter19_Section5
 import QseriesFormalization.Chapter17_SectionBridge
@@ -219,7 +213,9 @@ open QseriesFormalization.PartIV.Ch20
 
 -- B2 HEADLINE (closed 2026-05-23 via analytic-formal Taylor uniqueness)
 #print axioms QseriesFormalization.Pending.JacobiCubeAnalyticToFormal.qPochInfPS_pow_three_eq_jacobiThetaPS_complex
+-- resolves to Pending/JacobiCubeAnalyticToFormal.lean (a same-named lemma in namespace Pending.Ch19B2 is a different declaration)
 #print axioms QseriesFormalization.Pending.JacobiCubeAnalyticToFormal.qPochInfPS_pow_three_eq_jacobiThetaPS_int
+-- resolves to Pending/JacobiCubeAnalyticToFormal.lean (a same-named lemma in namespace Pending.Ch19B2 is a different declaration)
 #print axioms QseriesFormalization.Pending.JacobiCubeAnalyticToFormal.qPochInfPS_pow_three_eq_jacobiThetaPS
 #print axioms QseriesFormalization.PartIV.Ch19.eulerPentagonalInfiniteProduct_eq_tsum_pentagonalSign
 #print axioms QseriesFormalization.PartIV.Ch19.pentagonalSign_pentagonalIndex_eq
@@ -227,6 +223,7 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.Pending.Ch19B2.pentagonalSign_cube_convolution_eq_jacobiTripleSign
 
 -- Ramanujan ∀n 5∣p(5n+4) — chapter-main result for Ch17
+-- resolves to Pending/Chapter17_Ramanujan5Conditional.lean (namespace PartIV.Ch17); the ASD route is Pending.ASDMod5
 #print axioms QseriesFormalization.PartIV.Ch17.ramanujan_5_dvd_p_5n_plus_4
 
 -- Ramanujan ∀n 7∣p(7n+5) — second congruence (2026-05-23)
@@ -381,6 +378,7 @@ open QseriesFormalization.PartIV.Ch20
 
 -- Ch01 chapter-main: Euler generating function for p(n) (added 2026-05-22
 -- via Chapter01_GenFun.lean re-export from Ch19's formal-PS framework)
+-- resolves to Chapter01_GenFun.lean (namespace Ch01, coefficients in ℤ); the ring-general version is PartIV.Ch19.coeff_partitionGenFun
 #print axioms QseriesFormalization.Ch01.coeff_partitionGenFun
 #print axioms QseriesFormalization.Ch01.partitionGenFun_eq_euler_product
 #print axioms QseriesFormalization.Ch01.euler_factor_geometric
@@ -512,6 +510,7 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.Pending.Hirschhorn11.ramanujan_11_dvd_p_11n_plus_6
 
 -- Ch20: Ramanujan's tau parity theorem (2026-05-24)
+-- resolves to Pending/Chapter20_TauParity.lean (namespace Pending.TauParity, over ZMod 2, m ≥ 1); PartIV.Ch20 (Chapter20.lean) has a differently stated lemma of the same short name
 #print axioms QseriesFormalization.Pending.TauParity.ramanujanTau_odd_iff_odd_square
 -- Ch20 τ values τ(9)..τ(13) + multiplicativity τ(10)=τ(2)τ(5) (consolidated in Chapter20.lean)
 #print axioms QseriesFormalization.PartIV.Ch20.ramanujanTau_thirteen
@@ -557,6 +556,7 @@ open QseriesFormalization.PartIV.Ch20
 
 -- Parallel codex wave 1 (2026-05-24): ASD mod-5/7, Ch08 finite RR, MBI partial
 #print axioms QseriesFormalization.Pending.ASDMod5.qPochInfPS_cube_decompose_mod_5
+-- resolves to Pending/Chapter17_ASD_Mod5.lean (namespace Pending.ASDMod5)
 #print axioms QseriesFormalization.Pending.ASDMod5.ramanujan_5_dvd_p_5n_plus_4
 #print axioms QseriesFormalization.Pending.Hirschhorn7.qPochInfPS_cube_decompose_mod_7
 #print axioms QseriesFormalization.PartII.Ch08.EFinite_recurrence
@@ -594,7 +594,9 @@ open QseriesFormalization.PartIV.Ch20
 #print axioms QseriesFormalization.Pending.ASDEtaProducts.asd5GProductPS_eq_asd5GSeriesPS_complex
 -- ASD mod-5 UNCONDITIONAL eta-quotient congruences (Hirschhorn 3.6.7): A0=F, A1=-3qG over ZMod 5
 #print axioms QseriesFormalization.Pending.ASDEtaProducts.A0_eq_asd5FProductPS_zmod5
+-- resolves to Pending/ASD_EtaProducts.lean (mod-5 sections); the mod-7 file has its own in Pending.ASDMod7EtaQuotient
 #print axioms QseriesFormalization.Pending.ASDEtaProducts.partition_section_0_eq_eta_product
+-- resolves to Pending/ASD_EtaProducts.lean (mod-5 sections); the mod-7 file has its own in Pending.ASDMod7EtaQuotient
 #print axioms QseriesFormalization.Pending.ASDEtaProducts.partition_section_3_eq_eta_product
 -- mod-7 keystone + H,J,K eta-products (Hirschhorn 3.7.2) + ASD-7 eta-quotient congruences (3.7)
 #print axioms QseriesFormalization.Pending.JTPFormalPSMod7.asd7HProductPS_eq_asd7HSeriesPS_complex
@@ -730,6 +732,7 @@ open QseriesFormalization.PartIV.Ch20
 -- Dobbie's identity (the deep crux): pentagonal Wronskian coeff = Jacobi-theta-square coeff.
 #print axioms QseriesFormalization.Pending.Ch15WronskianIndependent.pentagonalWronskianCoeff_eq_jacobiThetaSquareCoeff
 -- Unconditional Wronskian = (q;q)_∞^6  (= Jacobi Θ², via the proved Dobbie identity).
+-- resolves to Pending/Chapter15_WronskianIndependent.lean; Pending/Chapter15_WronskianBridge.lean has a same-named lemma in Pending.Ch15WronskianBridge
 #print axioms QseriesFormalization.Pending.Ch15WronskianIndependent.wronskian_at_pentagonal_level
 -- Chapter-main content: the quintuple-product logarithmic-derivative factor equals
 -- (q;q)_∞^5 / (q^5;q^5)_∞, i.e. Chan Eq. 15.8 / Thm 11.7 (the RRCF differential equation).
@@ -746,3 +749,48 @@ end QseriesFormalization.Audit
 #print axioms QseriesFormalization.Ch10TwoVar.chan_eq_10_15_CTxy
 #print axioms QseriesFormalization.Ch10TwoVar.zwegers_lemma_10_1_x
 #print axioms QseriesFormalization.Ch10TwoVar.hickerson_mul
+
+-- ============================================================================
+-- Wired in the release-preparation pass (2026-10-11): previously orphaned modules.
+-- Each line states what the result is; see the doc of the named module for what it
+-- does NOT prove.
+-- ============================================================================
+
+-- Ch11 Thm 11.1, FORMAL power series form: X-adic limit of the continued-fraction
+-- convergents = product r(q).  No analytic (|q|<1) statement.
+#print axioms QseriesFormalization.Pending.ChanTheorem111.chan_theorem_11_1
+#print axioms QseriesFormalization.Pending.chan_theorem_11_1
+#print axioms QseriesFormalization.Pending.ChanTheorem111.rrcf_r_via_CF_eq_rrHPS_mul_rrGPS_inv
+-- Ch11 Thm 11.1, coefficients 0..20 only (superseded by the line above).
+#print axioms QseriesFormalization.Pending.Ch11Thm111.trunc_rrcf_r_eq_rrcf_r_via_CF_through_twenty
+#print axioms QseriesFormalization.Pending.Ch11Thm111.X_pow_twentyone_dvd_rrcf_r_sub_rrcf_r_via_CF
+-- Ch12 Thm 11.4: value at e^{-2π} of the PRODUCT form of R (not of the continued fraction).
+#print axioms QseriesFormalization.Pending.ChanTheorem114.chan_theorem_11_4
+#print axioms QseriesFormalization.Pending.ChanTheorem114.chan_theorem_11_4_closed_form
+#print axioms QseriesFormalization.Pending.ChanTheorem114.eq_special_value_of_eta_equation
+-- Ch13 Thm 11.5: R(q)^5 vs R(q^5) identity for the product form, formal power series over ℚ.
+#print axioms QseriesFormalization.Pending.Ch13DeepIdentity.chan_theorem_11_5
+-- Ch15 Thm 11.7 (Eq. 15.8, Lambert-series form): restatements in Chapter15_Hirschhorn.
+#print axioms QseriesFormalization.Pending.Ch15Hirschhorn.chan_theorem_11_7_new
+#print axioms QseriesFormalization.Pending.Ch15Hirschhorn.chan_theorem_11_7_rat
+#print axioms QseriesFormalization.Pending.Ch15Hirschhorn.chan_theorem_11_7_zmod5
+
+-- In the main closure but previously without an audit line.
+-- Ch20 Ono-style theorem 20.1 for m = 5, 7, 11 (not Ono's theorem for all primes m >= 5).
+#print axioms QseriesFormalization.PartIV.Ch20.theorem20_1_mod_5
+#print axioms QseriesFormalization.PartIV.Ch20.theorem20_1_mod_7
+#print axioms QseriesFormalization.PartIV.Ch20.theorem20_1_mod_11
+#print axioms QseriesFormalization.PartIV.Ch20.theorem20_1_for_ramanujan_primes
+#print axioms QseriesFormalization.PartIV.Ch20.infinitelyManyPartitionAPCongruences_of_base
+-- Pending/Sylvester_TripleSum (the `_le_*` finite checks use native_decide: expect Lean.ofReduceBool).
+#print axioms QseriesFormalization.Pending.Sylvester.cubeConvolution_eq_jacobiTripleSign_le_200
+#print axioms QseriesFormalization.Pending.Sylvester.cubeConvolution_eq_jacobiTripleSign_le_ten
+#print axioms QseriesFormalization.Pending.Sylvester.signedStrictTripleCount_eq_cubeConvolution
+#print axioms QseriesFormalization.Pending.Sylvester.sylvesterInv_involutive
+#print axioms QseriesFormalization.Pending.Sylvester.signedStrictTripleCount_eq_jacobiTripleSign
+#print axioms QseriesFormalization.Pending.Sylvester.cubeConvolution_eq_jacobiTripleSign
+-- Pending/Chapter17_Ramanujan11_PartialDecide (native_decide; expect Lean.ofReduceBool).
+#print axioms QseriesFormalization.Pending.Ch17p11.jts_cubed_qPoch_conv_zero_mod_11_le_twenty
+#print axioms QseriesFormalization.Pending.Ch17p11.jts_cubed_qPoch_conv_zero_mod_11_le_ten
+
+-- Exercises.lean: one `#print axioms` line per theorem, in AuditExercises.lean (imported above).

@@ -23,7 +23,10 @@ The Chan §12 chapter-main is the equality
 3. The Ramanujan special-value evaluation itself (multi-step modular
    theory).
 
-This file establishes the **target value**; closing the equality is open.
+This file establishes the **target value**.  The evaluation of the *product form*
+of `R` at `e^{-2π}` is proved in `Pending/Chan_Theorem_11_4.lean`; the link
+between the product form and the analytic continued fraction (item 2) is
+still open.
 -/
 
 namespace QseriesFormalization

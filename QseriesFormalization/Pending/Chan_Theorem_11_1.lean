@@ -1,11 +1,23 @@
 import QseriesFormalization.Pending.RR_FinalAssembly
 
 /-!
-# Chan Theorem 11.1
+# Chan Theorem 11.1 (formal power series form)
 
-This file closes the formal-power-series version of Chan's Theorem 11.1:
-the Rogers-Ramanujan continued-fraction limit agrees with the product-form
-Rogers-Ramanujan ratio.
+**What is proved.**  In `ℚ⟦X⟧`, the power series `rrcf_r_via_CF` whose `k`-th
+coefficient is the `k`-th coefficient of the `k`-th convergent
+`B_k / A_k` of the Rogers-Ramanujan continued fraction
+`1/(1 + X/(1 + X^2/(1 + ...)))` (the convergents are stable coefficientwise,
+so this is the X-adic limit) equals the product-form series
+`rrcf_r = (X, X^4, X^5; X^5)_inf / (X^2, X^3, X^5; X^5)_inf`, itself built from
+the formal pentagonal series.  The proof goes through the formal
+Rogers-Ramanujan identities and the shifted functional equation
+`J_m = J_{m+1} + X^{m+1} J_{m+2}` for the shifted series
+`J_m = sum_n X^(n^2 + m n)/(X;X)_n`.
+
+**What is not proved.**  Nothing here concerns a complex number `q` with
+`|q| < 1`: there is no statement that the continued fraction converges
+analytically, nor that its value is the analytic product.  This is the formal
+(X-adic) version of the book's Theorem 11.1, not the analytic one.
 -/
 
 namespace QseriesFormalization

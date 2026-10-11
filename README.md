@@ -11,13 +11,32 @@ mock theta identity that closes the book's hardest chapter.
 
 | | |
 |---|---|
-| Lean source | **255,073 lines** across 173 files |
-| Theorems and lemmas | 26,504 |
-| Definitions | 1,151 |
-| Audit | `QseriesFormalization/Audit.lean`: 8,012 modules compile with zero errors, **351 `#print axioms` checks** |
-| Axiom discipline | **every** audited theorem depends only on `[propext, Classical.choice, Quot.sound]` |
+| Lean source | **258,052 lines** across 174 files (`QseriesFormalization/`) |
+| Theorems and lemmas | about 27,600 (line-initial `theorem`/`lemma` declarations) |
+| Audit | `QseriesFormalization/Audit.lean` (374 `#print axioms` lines) and `QseriesFormalization/AuditExercises.lean` (957 lines, one per theorem of `Exercises.lean`); both are imported by the root module and run by the full build |
+| Axiom discipline | each `#print axioms` line reports `[propext, Classical.choice, Quot.sound]` except the lines that depend on `native_decide` (see the next row and the release notes) |
+| `sorry`, `admit`, custom `axiom` | none in the library (comment-aware scan of all 174 files) |
+| `native_decide` | **264 tokens** in the library: 228 in modules imported by the root, 36 in modules outside it. Of the 228, 48 sit in `example`s (which do not enter any axiom set) and 180 in `theorem`s; the audit decides which results depend on it (`Lean.ofReduceBool` in the `#print axioms` output) |
 
-No `sorry`, no custom axioms, no `native_decide` in any audited result.
+## Scope of the formalized results
+
+Several results are narrower than the corresponding statement in the book. Each
+is wired into the root module and the audit, and each is described here exactly.
+
+| Book item | What the Lean result proves | Not proved |
+|---|---|---|
+| Thm 11.1 (continued fraction equals product) | `Pending/Chan_Theorem_11_1.lean`: in `ℚ⟦X⟧`, the X-adic limit of the convergents of `1/(1+X/(1+X^2/(1+…)))` equals `(X,X^4,X^5;X^5)_∞ / (X^2,X^3,X^5;X^5)_∞` | any statement for a complex `q` with `|q| < 1`: convergence of the continued fraction and its identification with the analytic product |
+| Thm 11.4 (`R(e^{-2π})`) | `Pending/Chan_Theorem_11_4.lean`: the product quotient `q·P₀₁₄(q⁵)/P₀₂₃(q⁵)` at `q = e^{-2π/5}` equals `√((5+√5)/2) − (1+√5)/2` | that this product is the value of the continued fraction (needs the analytic form of Thm 11.1) |
+| Thm 11.5 (`R(q)^5` vs `R(q^5)`) | `Pending/Chapter13_DeepIdentity.lean`: `r^5·(1+3v+4v²+2v³+v⁴) = r(q⁵)·(1−2v+4v²−3v³+v⁴)` in `ℚ⟦X⟧`, with `r = R·q^{-1/5}` the product form and `v = X·r(q⁵)` | an analytic statement, or one about the continued fraction function |
+| Thm 11.7 (differential equation) | `Pending/Chapter15_R_ODE.lean`: Eq. 15.8, `1 − 5Σ(n\|5) n qⁿ/(1−qⁿ)` times `(q⁵;q⁵)_∞` equals `(q;q)_∞⁵`, as formal series over any commutative ring | the differential equation `5q·d/dq·ln R(q) = η⁵(τ)/η(5τ)` for the function `R(q)` |
+| Ch18 | hook-length and staircase-partition framework | Thm 18.1 (characterization of t-cores) |
+| Ch20 Thm 20.1 (Ono) | the cases `m = 5, 7, 11` (from Ramanujan's congruences), plus τ-function values, parity and small Hecke instances | Ono's theorem for all primes `m ≥ 5` |
+| Ch6 | Macdonald identity for `t = 2` (the case the book proves) | general odd `t` (stated, not proved, in the book) |
+
+`Pending/Chapter11_Thm111.lean` is an earlier check of the same Thm 11.1 identity
+through degree 20 and is superseded by `Chan_Theorem_11_1.lean`.
+`Exercises.lean` collects exercise-style wrappers of chapter theorems; it is not a
+claim that every exercise of the book is formalized.
 
 ## Quick start
 
@@ -26,7 +45,7 @@ installed automatically).
 
 ```bash
 lake exe cache get        # fetch prebuilt Mathlib oleans
-lake build QseriesFormalization.Audit   # builds everything + runs all #print axioms checks
+lake build QseriesFormalization   # builds everything, including the audit modules, which print all axiom sets
 ```
 
 The audit output lists, for every headline theorem, the exact axioms it depends on.
@@ -46,30 +65,34 @@ import QseriesFormalization.Pending.Chapter10_Bridge
 | Euler's pentagonal number theorem | combinatorial (Franklin's involution) **and** formal-power-series proofs | `Chapter04_FranklinPentagonal.lean`, `Pending/JTP_FormalPS_Pentagonal.lean` |
 | Jacobi triple product | analytic over ℂ and as a formal Laurent identity via AP-Pochhammer products | `Chapter03/04`, `Pending/Chapter10_HM.lean` (`jLaurent_eq_tripleProductInf`) |
 | Rogers–Ramanujan identities | both identities, Schur's 1917 proof | `Chapter07*` |
-| Rogers–Ramanujan continued fraction | golden-ratio values; the differential equation via **Dobbie's identity** (Gaussian-integer strings over ℤ[i]) | `Chapter11.lean`, `Pending/Chapter15_WronskianIndependent.lean`, `Pending/Chapter15_R_ODE.lean` |
+| Rogers–Ramanujan continued fraction | golden-ratio values; the Lambert-series form (Eq. 15.8) of the differential equation via **Dobbie's identity** (Gaussian-integer strings over ℤ[i]); formal-series continued fraction = product (Thm 11.1); the identity for `R(q)^5` and the value at `e^{-2π}` for the product form (see the scope table) | `Chapter11.lean`, `Pending/Chapter15_WronskianIndependent.lean`, `Pending/Chapter15_R_ODE.lean` |
 | Ramanujan congruences, ∀n | `5∣p(5n+4)`, `7∣p(7n+5)`, `11∣p(11n+6)` via a k-section operator over `(ZMod p)⟦X⟧`; Ono-style infinite families | `Chapter17*`, `Chapter20_Ono.lean` |
-| Ramanujan's τ | initial values, multiplicativity instances, parity, mod-691 | `Chapter20*` |
+| Ramanujan's τ | initial values, multiplicativity instances, parity | `Chapter20*` |
 | t-cores, hook lengths | staircase partition theory | `Chapter18*` |
 | **Tenth-order mock theta identity** (Chan Eq. 10.15) | `chan1015`, proved by the book's own route: constant-term decoupling + Zwegers' lemma + Hickerson's lemma + diagonal collapse, on a two-variable Hahn-series foundation ordered q-adically first | `Pending/Chapter10_TwoVar.lean`, `Pending/Chapter10_Bridge.lean` |
 
-A second, independent route to the mock theta identity via Hickerson–Mortenson Appell–Lerch
-reductions is ~80% complete in `Pending/Chapter10_HM.lean` (the formal JTP, the Riemann theta
-relation, cross-modulus bridges, and a fully formal partial-fraction expansion are finished and
-audited; the final Finset assembly of the change-of-z theorem is documented and numerically
-verified but not yet closed).
+A second, independent route to the mock theta identity, via Hickerson–Mortenson
+Appell–Lerch reductions, is in `Pending/Chapter10_HM.lean`. It formalizes the formal JTP, the
+Riemann theta relation, cross-modulus bridges, the partial-fraction expansion and the
+change-of-z theorem (`hm23ChangeZIdentity`, now closed with a core-axioms proof). The last
+step of that route, which would re-derive Eq. 10.15 from the Appell–Lerch side, is **not**
+formalized: the theta-correction cleared residual was removed from the library rather than
+proved, and `chan1015` does not use it. Eq. 10.15 is therefore proved by the primary route
+only.
 
 ## Repository structure
 
 - `QseriesFormalization/ChapterNN*.lean` — per-chapter developments.
 - `QseriesFormalization/Pending/` — large self-contained campaigns (the Chapter 10 mock theta
   files, the Chapter 15 Dobbie/Wronskian files, analytic-to-formal bridges).
-- `QseriesFormalization/Audit.lean` — the single source of truth for what is verified: imports
-  every audited module and runs `#print axioms` on each headline.
+- `QseriesFormalization/Audit.lean`, `QseriesFormalization/AuditExercises.lean` — import the
+  audited modules and run `#print axioms` on each listed declaration. They report axioms only;
+  statement fidelity is the table "Scope of the formalized results" above.
 - `docs/chatgpt-designs-*/` — the mathematical design documents produced during the
   formalization (kept as a record of the method).
 - `HANDOFF/` — working artifacts of the multi-agent formalization process (dispatch notes and
   reports), kept for provenance.
-- `PLAYBOOK_AUDIT.md` — audit conventions and known file-labeling caveats.
+- `PLAYBOOK_AUDIT.md` — per-chapter status against the book.
 
 ## Notes
 

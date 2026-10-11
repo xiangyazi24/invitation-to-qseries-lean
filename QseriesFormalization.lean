@@ -121,5 +121,10 @@ import QseriesFormalization.Chapter14_CrankN29  -- crank surjectivity mod 5, n=5
 import QseriesFormalization.Chapter14_CrankN34  -- crank surjectivity mod 5, n=6 (partitions of 34)
 import QseriesFormalization.Chapter14_CrankGenFun  -- crank genfun infra + Andrews-Garvan at z=1
 import QseriesFormalization.Chapter14_Thm116  -- Thm 11.6 partial: LHS reduction via JTP-at-ζ; RR-product blocker isolated
+import QseriesFormalization.Pending.Chan_Theorem_11_1  -- Ch11 Thm 11.1, formal power series form: CF limit = product r(q)
+import QseriesFormalization.Pending.Chapter11_Thm111  -- Ch11 Thm 11.1: earlier degree-by-degree check through X^20 (superseded by Chan_Theorem_11_1)
+import QseriesFormalization.Pending.Chan_Theorem_11_4  -- Ch12 Thm 11.4: value of the PRODUCT form of R at e^{-2pi}
+import QseriesFormalization.Pending.Chapter13_DeepIdentity  -- Ch13 Thm 11.5: R(q)^5 vs R(q^5) identity, product form, formal power series
+import QseriesFormalization.Pending.Chapter15_Hirschhorn  -- Ch15 Thm 11.7 (Lambert series form, Eq. 15.8): ring-general restatements
 import QseriesFormalization.Exercises
 import QseriesFormalization.Audit

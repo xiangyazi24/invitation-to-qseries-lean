@@ -4,35 +4,24 @@ import QseriesFormalization.Pending.Chapter15_CoeffVerification
 import QseriesFormalization.Pending.Chapter16_MBI_Proof
 
 /-!
-# Chapter 15 — Infrastructure toward closing Chan Theorem 11.7
+# Chapter 15 — Complements to Chan Theorem 11.7 (Eq. 15.8)
 
-## Mathematical content
-
-Chan Theorem 11.7 states:
-  `chan15LHSPS R * expand 5 (qPochInfPS R) = (qPochInfPS R)^5`
-
+`chan_theorem_11_7` (in `Chapter15_R_ODE`) is the formal-power-series identity
+  `chan15LHSPS R * expand 5 (qPochInfPS R) = (qPochInfPS R)^5`,
 where `chan15LHSPS` is the Lambert series `1 - 5 Σ χ₅(n)·n·qⁿ/(1-qⁿ)`.
+It is Chan's Eq. 15.8, not the differential equation for `R(q)` itself.
 
-This file provides:
+This file adds side results around it, all sorry-free:
 
-1. **thetaOp injectivity** (no sorry): over a ring with no zero divisors,
-   thetaOp plus constant term determines a formal PS.
-
-2. **thetaOp of expand** (no sorry): `thetaOp(expand p f) = p • expand p (thetaOp f)`.
-
-3. **Mod-5 congruence** (no sorry): `chan15LHSPS ≡ 1 (mod 5)`, giving
-   `chan15LHSPS * E₅ ≡ E⁵ (mod 5)`.
-
-4. **Reduction from ℤ to ℚ** (no sorry): via `map_injective`.
-
-The remaining sorry is the ℚ-coefficient identity for N > 20, which requires
-the Hirschhorn two-variable theta identity or an equivalent.
-
-## Proof architecture
-
-The existing `Chapter15_R_ODE.lean` has one sorry in `chan_theorem_11_7_int_core_coeff`.
-The file `Chapter15_CoeffVerification.lean` verifies the identity through degree 20.
-This file provides the algebraic/structural lemmas needed for the full proof.
+1. **thetaOp injectivity**: over a ring with no zero divisors, `thetaOp` plus
+   the constant term determines a formal power series.
+2. **thetaOp of expand**: `thetaOp (expand p f) = p • expand p (thetaOp f)`.
+3. **Mod-5 congruence**: `chan15LHSPS ≡ 1 (mod 5)`, hence
+   `chan15LHSPS * E₅ ≡ E⁵ (mod 5)` (`chan_theorem_11_7_zmod5`).
+4. **Re-derivations of Theorem 11.7** over `ℚ`, `ℤ` and a general commutative
+   ring (`chan_theorem_11_7_rat`, `chan_theorem_11_7_int_core_new`,
+   `chan_theorem_11_7_new`), obtained from `chan_theorem_11_7`; they restate the same identity and are
+   not independent proofs.
 -/
 
 namespace QseriesFormalization
@@ -135,29 +124,14 @@ theorem isUnit_expand5_qPochInfPS (R : Type*) [CommRing R] :
 
 /-! ## Main theorem: reduction to ℚ -/
 
-/-- **Chan Theorem 11.7 (ℚ version).**
-
-This is the core identity: over ℚ,
+/-- **Chan Theorem 11.7 (ℚ version).**  Over `ℚ`,
   `chan15LHSPS ℚ * expand 5 (qPochInfPS ℚ) = (qPochInfPS ℚ)^5`.
-
-The remaining sorry is the arithmetical identity connecting the
-Legendre-symbol-weighted divisor sum (defining chan15LHSPS) to the
-five-fold pentagonal convolution (defining E^5) for coefficients > 20.
-
-Mathematical routes to close this:
-(a) Hirschhorn's two-variable theta identity (Eq 3.1) + A² operator
-(b) Hecke eigenform theory for E₂(τ) - 5·E₂(5τ)
-(c) Dobbie's identity at 5th roots of unity (Chan §15.2)
--/
+This is `Ch15RODE.chan_theorem_11_7` specialised to `ℚ`, not an independent proof. -/
 theorem chan_theorem_11_7_rat :
     chan15LHSPS ℚ *
         PowerSeries.expand 5 (by decide) (qPochInfPS ℚ) =
       (qPochInfPS ℚ) ^ 5 := by
-  ext N
-  by_cases hN : N ≤ 20
-  · exact chan15_theorem_11_7_coeff_low ℚ N hN
-  · push_neg at hN
-    exact congrArg (fun φ : ℚ⟦X⟧ => φ.coeff N) (chan_theorem_11_7 ℚ)
+  exact chan_theorem_11_7 ℚ
 
 /-- **Chan Theorem 11.7 (ℤ version)**, derived from ℚ via injectivity. -/
 theorem chan_theorem_11_7_int_core_new :

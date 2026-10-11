@@ -1618,7 +1618,7 @@ private lemma zeta_sq_three_sub_eq_one_sub_pow_four_mul_alpha
     _ = ζ + ζ ^ 4 - ζ ^ 9 - ζ ^ 12 := by rw [h9, h12]; ring
     _ = (1 - (ζ ^ 2) ^ 4) * (ζ + ζ ^ 4) := by ring
 
-private theorem section83JTPProductAnalytic_eq_rhs_pair14_eval
+theorem section83JTPProductAnalytic_eq_rhs_pair14_eval
     {ζ q : ℂ} (hζ : IsPrimitiveRoot ζ 5) (hq : ‖q‖ < 1) :
     section83JTPProductAnalytic ζ q =
       pentagonal023Analytic (q ^ 5) +
@@ -1655,7 +1655,7 @@ private theorem section83JTPProductAnalytic_eq_rhs_pair14_eval
           (pentagonal023Analytic (q ^ 5) +
             quinticPeriodBeta ζ * q * pentagonal014Analytic (q ^ 5)) := by ring
 
-private theorem section83JTPProductAnalytic_eq_rhs_pair23_eval
+theorem section83JTPProductAnalytic_eq_rhs_pair23_eval
     {ζ q : ℂ} (hζ : IsPrimitiveRoot ζ 5) (hq : ‖q‖ < 1) :
     section83JTPProductAnalytic (ζ ^ 2) q =
       pentagonal023Analytic (q ^ 5) +

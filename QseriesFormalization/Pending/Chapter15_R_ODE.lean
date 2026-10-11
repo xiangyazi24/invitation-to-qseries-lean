@@ -5,10 +5,6 @@ import QseriesFormalization.Pending.Chapter15_WronskianIndependent
 /-!
 # Chapter 15 — Differential equation for `R(q)` (Chan §15 / Theorem 11.7)
 
-⚠️ **Resolves MISLABELED status of Chan §15.** Adds the precise Chan §15 chapter-main
-result statement, replacing the q-Taylor infrastructure (which remains useful as
-*background* in `Chapter15.lean` but is not the actual §15 content).
-
 Chan Theorem 11.7 (proved in §15) is the differential equation
   `5q · d/dq · ln R(q) = η⁵(τ) / η(5τ)`
 
@@ -22,23 +18,20 @@ where `(n|5)` denotes the Legendre symbol modulo `5`:
   -1 if n ≡ ±2 (mod 5),
    0 if n ≡  0 (mod 5).
 
-In our formal-PS setting `etaPS R := qPochInfPS R` (no `q^{1/24}` prefactor),
-so `η⁵/η(5τ)` translates to `(qPochInfPS R)⁵ / PowerSeries.expand 5 (qPochInfPS R)`.
-The denominator has constant coefficient `1`, so the division is well-defined
-in `R⟦X⟧` and we state the identity as a *multiplicative* equality below to
-avoid `Inv` typeclass issues over a general `CommRing R`.
+**What is proved here.**  `chan_theorem_11_7` is Eq 15.8 as a statement about
+formal power series over an arbitrary commutative ring `R`:
+`chan15LHSPS R * expand 5 (qPochInfPS R) = (qPochInfPS R)^5`, with
+`etaPS R := qPochInfPS R` (no `q^{1/24}` prefactor).  The identity is stated
+multiplicatively to avoid inverses over a general ring.  The proof goes through
+Dobbie's identity (Chan §15.2, Eq. 15.1) at fifth roots of unity, formalised in
+`Chapter15_WronskianIndependent`.
 
-## Open closure path (Chan §15)
-
-Chan's proof in §15.2 uses **Dobbie's identity (1955)**, Eq. 15.1:
-  `(x-z)(1-xz) / ((1-x)²(1-z)²) · [JTP-products] = LHS as a 2-variable Laurent series`
-
-Specializing to `x = e^{2πi/5}, z = x²` collapses by Gaussian-period algebra
-(`θ := β + β⁻¹` for the Golden ratio β) to Eq. 15.5, and the `qPochInfPS`
-prefactor cancels by Eq. 14.35 (the 5-th root JTP infinite-product identity).
-
-Modern proof (Milas 2004): vertex operator algebra / Zhu's theorem; out of
-scope for this formalization without a Mathlib VOA module.
+**What is not proved here.**  The differential equation itself, for the
+continued-fraction function `R(q)` with `|q| < 1`, is not stated: neither the
+derivative `q d/dq ln R(q)` nor a link from the Lambert series to `R(q)`
+(which needs the analytic form of Theorem 11.1) appears in this file.  The
+result is the Lambert-series identity (Eq 15.8) that the book derives the
+differential equation from.
 -/
 
 namespace QseriesFormalization

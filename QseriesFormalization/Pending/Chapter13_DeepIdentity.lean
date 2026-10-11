@@ -29,17 +29,18 @@ Then the identity becomes the *formal-power-series* identity:
 
   `r(q)⁵ · (1 + 3v + 4v² + 2v³ + v⁴) = r(q⁵) · (1 − 2v + 4v² − 3v³ + v⁴)`.
 
+This file proves the identity for the *product form* `r` (a quotient of
+pentagonal theta series), as an identity of formal power series over `ℚ`.
+It does not mention the continued fraction itself; combined with the formal
+Theorem 11.1 (`Pending/Chan_Theorem_11_1.lean`) it is an identity for the
+X-adic limit of the continued-fraction convergents, and it says nothing about
+convergence for `|q| < 1`.
+
 Both denominators on the RHS / LHS are units in `ℚ⟦X⟧` (proved as
 `Ch13RRCF.isUnit_rrcfDenomLHS` and `Ch13RRCF.isUnit_rrcfDenomRHS`), so the
 quotient form `r(q)⁵ = r(q⁵)·N(v)/D(v)` is valid as a multiplicative
 inverse identity in `ℚ⟦X⟧`; we state the **multiplicative form** below to
 avoid any division.
-
-## Numerical evidence
-
-The identity has been verified term-by-term in `ℚ⟦X⟧` up to degree 60 by a
-Sage/Python script; the residual difference at every degree is `0` (see
-the Hirschhorn §9.2 derivation for the analytic reason).
 
 The proof below follows Watson's algebraic route: Theorem 11.3 and Eq. 12.37
 put `X * r(q)^5` and `v = X * r(q^5)` on the same quadratic branch, and
@@ -565,11 +566,11 @@ private theorem y_eq_watson_Z :
 /-- **Chan's Theorem 11.5 ("difficult and deep" identity), formal-PS form
 with cleared denominators.**
 
-This is the precise Lean target for Ch13's chapter-main result.  Both
+This is the full proof (no `sorry`) of Ch13's chapter-main result.  Both
 sides are formal power series in `ℚ⟦X⟧`; equality is in the sense of
 `PowerSeries.ext` (coefficient-wise).
 
-After closing this theorem, the standard form
+The standard form
 `R(q)⁵ = R(q⁵) · (1−2R(q⁵)+4R(q⁵)²−3R(q⁵)³+R(q⁵)⁴) /
                  (1+3R(q⁵)+4R(q⁵)²+2R(q⁵)³+R(q⁵)⁴)`
 follows by `mul_left_cancel₀ isUnit_rrcfDenomLHS.ne_zero` and by

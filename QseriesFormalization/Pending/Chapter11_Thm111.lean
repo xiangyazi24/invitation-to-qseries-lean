@@ -3,26 +3,20 @@ import QseriesFormalization.Pending.Chapter13_RRCF_RForm
 import QseriesFormalization.Pending.Chapter16_MBI_Proof
 
 /-!
-# Chapter 11 Theorem 11.1 — `rrcf_r_via_CF = rrcf_r`
+# Chapter 11 Theorem 11.1: early degree-by-degree check
 
-## Current status
+Historical development file.  It proves, with no further hypotheses, that
+`rrcf_r` (the product form) and `rrcf_r_via_CF` (the X-adic limit of the
+continued-fraction convergents) agree in every coefficient of degree `0` to
+`20` (`trunc_rrcf_r_eq_rrcf_r_via_CF_through_twenty`,
+`X_pow_twentyone_dvd_rrcf_r_sub_rrcf_r_via_CF`), together with many
+equivalent reformulations of that finite statement.  Pentagonal-series
+coefficients are computed directly.
 
-**Coefficient matches proved at degrees 0–20** from both sides independently:
-- CF side: `rrcf_r_via_CF.coeff k` (from convergent stabilization)
-- Product side: `rrcf_r.coeff k` (from pentagonal014/pentagonal023 Cauchy product)
-
-These are unconditional verifications. The full theorem (∀ k) remains open.
-
-## What's needed for the full proof
-
-The Rogers-Ramanujan identity as a formal power series:
-`∑_{n≥0} X^{n²}/(X;X)_n = 1/pentagonal023SeriesPS` (G(q) side)
-`∑_{n≥0} X^{n(n+1)}/(X;X)_n = 1/pentagonal014SeriesPS` (H(q) side)
-
-This connects the analytic series (which generates the CF via functional
-equations, cf. Ch07 `rrJInf`) to the product form (pentagonal series).
-The repo has the Bailey pair machinery (Ch09 unconditional Bailey lemma)
-and JTP (Ch02/03), but the formal-PS RR identity is not yet assembled.
+The full statement `rrcf_r = rrcf_r_via_CF` (all degrees) is proved in
+`Pending/Chan_Theorem_11_1.lean` (`chan_theorem_11_1`), which supersedes this
+file; this file is kept only because its small-degree statements are
+independent finite checks.  Everything here is formal power series over `ℚ`.
 -/
 
 namespace QseriesFormalization

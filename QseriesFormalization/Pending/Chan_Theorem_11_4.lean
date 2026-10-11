@@ -4,11 +4,29 @@ import QseriesFormalization.Pending.RamanujanQuinticJTP
 import Mathlib.Analysis.SpecialFunctions.Log.Summable
 
 /-!
-# Chan Theorem 11.4
+# Chan Theorem 11.4 (value of the product form of `R` at `e^{-2π}`)
 
-This file packages the analytic Rogers-Ramanujan continued-fraction product
-value at `q = exp (-2π)` and proves the final quadratic algebra used in
-Chan's Theorem 11.4.
+**What is proved.**  Let `r(q) = (q, q^4; q^5)_inf / (q^2, q^3; q^5)_inf`,
+written through the analytic pentagonal theta series
+`pentagonal014Analytic`, `pentagonal023Analytic` (the shared factor
+`(q^5; q^5)_inf` cancels).  With `q = exp(-2π/5)`, so `q^5 = exp(-2π)`, the
+complex number
+
+  `rrcfR_exp_neg_two_pi = q * pentagonal014Analytic(q^5) / pentagonal023Analytic(q^5)`
+
+equals `sqrt((5 + sqrt 5)/2) - (1 + sqrt 5)/2` (`chan_theorem_11_4`,
+`chan_theorem_11_4_closed_form`).  The proof uses the Euler product form of
+the two theta series, the Dedekind-eta transformation between `τ = i/5` and `τ = 5i` obtained from
+the theta-constant `S`-transformation (`EtaSTransform`), and a final quadratic
+equation.
+
+**What is not proved.**  `rrcfR_exp_neg_two_pi` is *defined* as this product
+quotient.  The theorem does not say that the Rogers-Ramanujan continued fraction
+`q^{1/5}/(1 + q/(1 + q^2/(1 + ...)))` converges at `q = e^{-2π}`, nor that its
+value is the product quotient; that bridge (the analytic form of Theorem 11.1)
+is not in the library.  The result is therefore the value of the *product form*
+of `R(e^{-2π})`, which is the classical value of `R(e^{-2π})` only once that
+bridge is supplied.
 -/
 
 namespace QseriesFormalization
